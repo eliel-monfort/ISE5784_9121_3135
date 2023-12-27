@@ -3,14 +3,14 @@ package primitives;
 public class Vector extends Point {
     public Vector(double x, double y, double z){
         super(x, y, z);
-        if(this.xyz == Double3.ZERO) {
+        if(this.xyz.equals(Double3.ZERO)) {
             throw new IllegalArgumentException("the zero vector not ok");
         }
     }
 
     public Vector(Double3 new_xyz){
         super(new_xyz.d1, new_xyz.d2, new_xyz.d3);
-        if(new_xyz == Double3.ZERO){
+        if(new_xyz.equals(Double3.ZERO)){
             throw new IllegalArgumentException("The zero vector is Illegal");
         }
     }
@@ -47,5 +47,16 @@ public class Vector extends Point {
 
     public Vector normalize(){
         return new Vector(this.xyz.reduce(this.length()));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        return (obj instanceof Vector other) && this.xyz.equals(other.xyz);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }
