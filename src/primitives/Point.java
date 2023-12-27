@@ -12,6 +12,16 @@ public class Point {
         this.xyz = new Double3(_new_obj.d1, _new_obj.d2, _new_obj.d3);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        return (obj instanceof Point other) && this.xyz.equals(other.xyz);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
     public Vector subtract(Point A){
         return new Vector(this.xyz.subtract(A.xyz));
     }
@@ -28,16 +38,5 @@ public class Point {
 
     public double distance(Point A){
         return Math.sqrt(distanceSquared(A));
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        return (obj instanceof Point other) && this.xyz.equals(other.xyz);
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
     }
 }
