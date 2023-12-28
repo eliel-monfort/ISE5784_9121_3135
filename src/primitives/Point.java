@@ -13,7 +13,7 @@ public class Point {
     /**
      * The three-dimensional coordinates of the point.
      */
-    final protected Double3 xyz;
+    protected final Double3 xyz;
 
     /**
      * Constructs a new Point with the specified x, y, and z coordinates.
@@ -59,11 +59,11 @@ public class Point {
     /**
      * Computes a new Point by adding a vector to this Point.
      *
-     * @param v The vector to add to this Point.
+     * @param another_vector The vector to add to this Point.
      * @return A new Point resulting from the addition of the vector.
      */
-    public Point add(Vector v){
-        return new Point(this.xyz.add(v.xyz));
+    public Point add(Vector another_vector){
+        return new Point(this.xyz.add(another_vector.xyz));
     }
 
     /**

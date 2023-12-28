@@ -3,17 +3,18 @@ package primitives;
 /**
  * A class that represents a ray in three-dimensional space,
  * defined by a starting point (head) and a direction vector.
+ * The class use a Point object and a Vector object.
  */
 public class Ray {
     /**
      * The starting point of the ray.
      */
-    final Point head;
+    private final Point head;
 
     /**
      * The direction vector of the ray, normalized to have unit length.
      */
-    final Vector direction;
+    private final Vector direction;
 
     /**
      * Constructs a new Ray with the specified head (starting point) and direction vector.

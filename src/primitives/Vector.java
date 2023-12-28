@@ -2,7 +2,7 @@ package primitives;
 
 /**
  * A class that represents a three-dimensional vector with x, y, and z components.
- * The class inherits from the Point class/
+ * The class inherits from the Point class.
  */
 public class Vector extends Point {
     /**
