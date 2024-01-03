@@ -1,4 +1,6 @@
-Done
+Thing we need to complete:
+ - Add all the TC ( = Test Case) in the comments
+
 
 Eliel Monfort
 328269121
