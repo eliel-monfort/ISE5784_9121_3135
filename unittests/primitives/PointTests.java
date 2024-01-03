@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Yossi CohenA
  */
 public class PointTests {
-
     private final double DELTA = 0.000001;
 
     /**
