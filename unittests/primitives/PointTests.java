@@ -3,10 +3,11 @@ package primitives;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 /**
  * Unit tests for primitives.Point class
- * @author Yossi CohenA
+ * @author Ariel Atias
  */
 public class PointTests {
     private final double DELTA = 0.000001;
@@ -17,13 +18,15 @@ public class PointTests {
      */
     @Test
     void testSubtract() {
-        Point p1 = new Point(1, 2, 3);
-        Point p2 = new Point(2, 4, 6);
+        Point p1 = new Point(-1, 2, 3);
+        Point p2 = new Point(2, -4, 6);
 
         // ============ Equivalence Partitions Tests ==============
+        // Test subtracting a point from another, expecting not to throw an IllegalArgumentException.
+        assertDoesNotThrow(()-> p1.subtract(p2), "ERROR: (point2 - point1) throws wrong exception");
+
         //Test subtracting one point from another with different coordinates.
-        assertEquals(new Vector(1, 2, 3), p2.subtract(p1), "ERROR: (point2 - point1) does not work correctly");
-        assertEquals(new Vector(-1, -2, -3), p1.subtract(p2), "ERROR: (point2 - point1) does not work correctly");
+        assertEquals(new Vector(3, -6, 3), p2.subtract(p1), "ERROR: (point2 - point1) does not work correctly");
 
         // =============== Boundary Values Tests ==================
         // Test subtracting a point from itself, expecting an IllegalArgumentException.
@@ -36,16 +39,19 @@ public class PointTests {
      */
     @Test
     void testAdd() {
-        Point p = new Point(1, 2, 3);
-        Vector v1 = new Vector(3, 2, 1);
-        Vector v2 = new Vector(-3, -2, -1);
+        Point p = new Point(1, 2, -3);
+        Vector v1 = new Vector(6, -4, 7);
+        Vector v2 = new Vector(-1, -2, 3);
 
         // ============ Equivalence Partitions Tests ==============
-        // Test adding a vector to a point, resulting in another point.
-        assertEquals(new Point(4, 4, 4), p.add(v1), "ERROR: (point + vector) = other point does not work correctly");
+        // Test adding a vector to a point, expecting not to throw an IllegalArgumentException.
+        assertDoesNotThrow(()-> p.add(v1), "ERROR: (point + vector) throws wrong exception");
 
-        // Test adding a vector to a point, resulting in the center of coordinates.
-        assertEquals(new Point(-2, 0, 2), p.add(v2), "ERROR: (point + vector) = center of coordinates does not work correctly");
+        // Test adding a vector to a point, resulting in another point.
+        assertEquals(new Point(7, -2, 4), p.add(v1), "ERROR: (point + vector) = other point does not work correctly");
+
+        // Test adding a vector to a point, testing the center of coordinates.
+        assertEquals(Point.ZERO, p.add(v2), "ERROR: (point + vector) = center of coordinates does not work correctly");
     }
 
     /**
@@ -54,13 +60,15 @@ public class PointTests {
      */
     @Test
     void testDistanceSquared() {
-        Point p1 = new Point(3, 2, 6);
-        Point p2 = new Point(6, 7, 9);
+        Point p1 = new Point(-3, 2, 6);
+        Point p2 = new Point(6, 7, -9);
 
         // ============ Equivalence Partitions Tests ==============
+        // Test squared distance between two points, expecting not to throw an IllegalArgumentException.
+        assertDoesNotThrow(()-> p1.distanceSquared(p1), "ERROR: squared distance between points throws wrong exception");
+
         // Test calculating the squared distance between two different points.
-        assertEquals(43, p2.distanceSquared(p1), DELTA, "ERROR: squared distance between points is wrong");
-        assertEquals(43, p1.distanceSquared(p2), DELTA, "ERROR: squared distance between points is wrong");
+        assertEquals(331, p2.distanceSquared(p1), DELTA, "ERROR: squared distance between points is wrong");
 
         // =============== Boundary Values Tests ==================
         // Test calculating the squared distance between a point and itself, expecting a zero squared distance.
@@ -77,6 +85,9 @@ public class PointTests {
         Point p2 = new Point(9, 4, 7);
 
         // ============ Equivalence Partitions Tests ==============
+        // Test distance between two points, expecting not to throw an IllegalArgumentException.
+        assertDoesNotThrow(()-> p1.distance(p1), "ERROR: distance between points throws wrong exception");
+
         // Test calculating the distance between two different points.
         assertEquals(6, p2.distance(p1), DELTA, "ERROR: distance between points to itself is wrong");
         assertEquals(6, p1.distance(p2), DELTA, "ERROR: distance between points to itself is wrong");
