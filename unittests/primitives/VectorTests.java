@@ -69,7 +69,6 @@ class VectorTests {
         Vector v3 = new Vector(-1, 3, 0);
 
         // ============ Equivalence Partitions Tests ==============
-
         // Test computing the dot product of two vectors. Expects no exceptions to be thrown.
         assertDoesNotThrow(() -> v1.dotProduct(v2), "ERROR: DotProduct() throws wrong exception");
 
@@ -77,7 +76,6 @@ class VectorTests {
         assertEquals(-35, v1.dotProduct(v2), "ERROR: DotProduct() wrong value");
 
         // =============== Boundary Values Tests ==================
-
         // Test computing the dot product of orthogonal vectors. Expects the result to be zero.
         assertEquals(0, v1.dotProduct(v3), DELTA, "ERROR: dotProduct() for orthogonal vectors is not zero");
     }
@@ -126,7 +124,6 @@ class VectorTests {
         Vector vr = v1.crossProduct(v2);
 
         // ============ Equivalence Partitions Tests ==============
-
         // TC01: Test that length of cross-product is proper (orthogonal vectors taken for simplicity)
         assertEquals(v1.length() * v2.length(), vr.length(), DELTA, "ERROR: crossProduct() wrong result length");
 
