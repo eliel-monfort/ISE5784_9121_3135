@@ -1,8 +1,9 @@
 Thing we need to complete:
  - Add all the TC ( = Test Case) in the comments
- - Add assertThrows for an boundary case that shouldn't return an exception, but does
- - Go through all the methods and add tests that are not in the main
-
+ - Check if you need to add tests for the constructor - if so, which ones
+In constructors:
+   - check if they make an exception
+   - Check if everything in the triangle needs to be written again like the polygon
 
 Eliel Monfort
 328269121
