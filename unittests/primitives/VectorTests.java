@@ -17,23 +17,22 @@ class VectorTests {
      */
     @Test
     void testAdd() {
-        // Create vectors for testing
         Vector v1 = new Vector(3, -4, 5);
         Vector v1_opposite = new Vector(-3, 4, -5);
         Vector v2 = new Vector(-1, 7, 6);
 
         // ============ Equivalence Partitions Tests ==============
-        // Test adding two different vectors. Expects no exceptions to be thrown.
+        // TC01: Test adding two different vectors. Expects no exceptions to be thrown.
         assertDoesNotThrow(() -> v1.add(v2), "ERROR: Vector + vector throws wrong exception");
 
-        // Test adding a vector to itself. Expects no exceptions to be thrown.
+        // TC02: Test adding a vector to itself. Expects no exceptions to be thrown.
         assertDoesNotThrow(() -> v1.add(v1), "ERROR: Vector + itself throws wrong exception");
 
-        // Test vector addition with different vectors. Expects the result to be the sum of the two vectors.
+        // TC03: Test vector addition with different vectors. Expects the result to be the sum of the two vectors.
         assertEquals(new Vector(2, 3, 11), v1.add(v2), "ERROR: Vector + Vector does not work correctly");
 
         // =============== Boundary Values Tests ==================
-        // Test adding a vector to its opposite. Expects an IllegalArgumentException to be thrown, the result is the zero vector.
+        // TC10: Test adding a vector to its opposite. Expects an IllegalArgumentException to be thrown, the result is the zero vector.
         assertThrows(IllegalArgumentException.class, () -> v1.add(v1_opposite), "ERROR: Vector + -itself does not throw an exception");
     }
 
@@ -43,18 +42,17 @@ class VectorTests {
      */
     @Test
     void testScale() {
-        // Create a vector for testing
         Vector v = new Vector(4, -3, 9);
 
         // ============ Equivalence Partitions Tests ==============
-        // Test scaling a vector by a positive factor. Expects no exceptions to be thrown.
+        // TC01: Test scaling a vector by a positive factor. Expects no exceptions to be thrown.
         assertDoesNotThrow(() -> v.scale(3), "ERROR: scale vector throws wrong exception");
 
-        // Test scaling a vector by a positive factor. Expects the result to be the vector multiplied by the scaling factor.
+        // TC02: Test scaling a vector by a positive factor. Expects the result to be the vector multiplied by the scaling factor.
         assertEquals(new Vector(12, -9, 27), v.scale(3), "ERROR: scale vector does not work correctly");
 
         // =============== Boundary Values Tests ==================
-        // Test scaling a vector by zero. Expects an IllegalArgumentException to be thrown, as scaling by zero is undefined.
+        // TC10: Test scaling a vector by zero. Expects an IllegalArgumentException to be thrown, as scaling by zero is undefined.
         assertThrows(IllegalArgumentException.class, () -> v.scale(0), "ERROR: scale vector does not throw an exception");
     }
 
@@ -69,14 +67,14 @@ class VectorTests {
         Vector v3 = new Vector(-1, 3, 0);
 
         // ============ Equivalence Partitions Tests ==============
-        // Test computing the dot product of two vectors. Expects no exceptions to be thrown.
+        // TC01: Test computing the dot product of two vectors. Expects no exceptions to be thrown.
         assertDoesNotThrow(() -> v1.dotProduct(v2), "ERROR: DotProduct() throws wrong exception");
 
-        // Test computing the dot product of two vectors. Expects the result to be the correct dot product value.
+        // TC02: Test computing the dot product of two vectors. Expects the result to be the correct dot product value.
         assertEquals(-35, v1.dotProduct(v2), "ERROR: DotProduct() wrong value");
 
         // =============== Boundary Values Tests ==================
-        // Test computing the dot product of orthogonal vectors. Expects the result to be zero.
+        // TC10: Test computing the dot product of orthogonal vectors. Expects the result to be zero.
         assertEquals(0, v1.dotProduct(v3), DELTA, "ERROR: dotProduct() for orthogonal vectors is not zero");
     }
 
@@ -89,10 +87,10 @@ class VectorTests {
         Vector v = new Vector(4, 2, -4);
 
         // ============ Equivalence Partitions Tests ==============
-        // Test computing the length of the vector. Expects no exceptions to be thrown.
+        // TC01: Test computing the length of the vector. Expects no exceptions to be thrown.
         assertDoesNotThrow(() -> v.length(), "ERROR: length() throws wrong exception");
 
-        // Test computing the length of the vector. Expects the result to be the correct length value.
+        // TC02: Test computing the length of the vector. Expects the result to be the correct length value.
         assertEquals(6, v.length(), DELTA, "ERROR: length() wrong value");
     }
 
@@ -105,10 +103,10 @@ class VectorTests {
         Vector v = new Vector(4, 2, -4);
 
         // ============ Equivalence Partitions Tests ==============
-        // Test computing the length squared of the vector. Expects no exceptions to be thrown.
+        // TC01: Test computing the length squared of the vector. Expects no exceptions to be thrown.
         assertDoesNotThrow(() -> v.lengthSquared(), "ERROR: lengthSquared() throws wrong exception");
 
-        // Test computing the length squared of the vector. Expects the result to be the correct length value.
+        // TC02: Test computing the length squared of the vector. Expects the result to be the correct length value.
         assertEquals(36, v.lengthSquared(), DELTA, "ERROR: lengthSquared() wrong value");
     }
 
@@ -146,16 +144,16 @@ class VectorTests {
         Vector u = v.normalize();
 
         // ============ Equivalence Partitions Tests ==============
-        // Test normalizing a vector. Expects no exceptions to be thrown.
+        // TC01: Test normalizing a vector. Expects no exceptions to be thrown.
         assertDoesNotThrow(() -> v.normalize(), "ERROR: normalize() throws wrong exception");
 
-        // Test that the length of the normalized vector is approximately 1 (within a small delta).
+        // TC02: Test that the length of the normalized vector is approximately 1 (within a small delta).
         assertEquals(1, u.length(), 0.00000001, "ERROR: the normalized vector is not a unit vector");
 
-        // Test that the normalized vector is parallel to the original vector.
+        // TC03: Test that the normalized vector is parallel to the original vector.
         assertThrows(IllegalArgumentException.class, ()->v.crossProduct(u), "Error: The normalized vector is not parallel to the original one");
 
-        // Test that the dot product of the original and normalized vectors is positive.
+        // TC04: Test that the dot product of the original and normalized vectors is positive.
         assertTrue(v.dotProduct(u) > 0, "ERROR: the normalized vector is opposite to the original one");
     }
 }

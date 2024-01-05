@@ -8,5 +8,6 @@ class SphereTests {
 
     @Test
     void testGetNormal() {
+
     }
 }

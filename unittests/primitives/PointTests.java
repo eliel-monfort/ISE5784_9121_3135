@@ -22,14 +22,14 @@ public class PointTests {
         Point p2 = new Point(2, -4, 6);
 
         // ============ Equivalence Partitions Tests ==============
-        // Test subtracting a point from another, expecting not to throw an IllegalArgumentException.
+        // TC01: Test subtracting a point from another, expecting not to throw an IllegalArgumentException.
         assertDoesNotThrow(()-> p1.subtract(p2), "ERROR: (point2 - point1) throws wrong exception");
 
-        //Test subtracting one point from another with different coordinates.
+        // TC02: Test subtracting one point from another with different coordinates.
         assertEquals(new Vector(3, -6, 3), p2.subtract(p1), "ERROR: (point2 - point1) does not work correctly");
 
         // =============== Boundary Values Tests ==================
-        // Test subtracting a point from itself, expecting an IllegalArgumentException.
+        // TC10: Test subtracting a point from itself, expecting an IllegalArgumentException.
         assertThrows(IllegalArgumentException.class, ()-> p1.subtract(p1), "ERROR: (point - itself) does not throw an exception");
     }
 
@@ -44,13 +44,13 @@ public class PointTests {
         Vector v2 = new Vector(-1, -2, 3);
 
         // ============ Equivalence Partitions Tests ==============
-        // Test adding a vector to a point, expecting not to throw an IllegalArgumentException.
+        // TC01: Test adding a vector to a point, expecting not to throw an IllegalArgumentException.
         assertDoesNotThrow(()-> p.add(v1), "ERROR: (point + vector) throws wrong exception");
 
-        // Test adding a vector to a point, resulting in another point.
+        // TC02: Test adding a vector to a point, resulting in another point.
         assertEquals(new Point(7, -2, 4), p.add(v1), "ERROR: (point + vector) = other point does not work correctly");
 
-        // Test adding a vector to a point, testing the center of coordinates.
+        // TC03: Test adding a vector to a point, testing the center of coordinates.
         assertEquals(Point.ZERO, p.add(v2), "ERROR: (point + vector) = center of coordinates does not work correctly");
     }
 
@@ -64,14 +64,14 @@ public class PointTests {
         Point p2 = new Point(6, 7, -9);
 
         // ============ Equivalence Partitions Tests ==============
-        // Test squared distance between two points, expecting not to throw an IllegalArgumentException.
+        // TC01: Test squared distance between two points, expecting not to throw an IllegalArgumentException.
         assertDoesNotThrow(()-> p1.distanceSquared(p1), "ERROR: squared distance between points throws wrong exception");
 
-        // Test calculating the squared distance between two different points.
+        // TC02: Test calculating the squared distance between two different points.
         assertEquals(331, p2.distanceSquared(p1), DELTA, "ERROR: squared distance between points is wrong");
 
         // =============== Boundary Values Tests ==================
-        // Test calculating the squared distance between a point and itself, expecting a zero squared distance.
+        // TC10: Test calculating the squared distance between a point and itself, expecting a zero squared distance.
         assertEquals(0, p1.distanceSquared(p1), DELTA, "ERROR: point squared distance to itself is not zero");
     }
 
@@ -85,15 +85,15 @@ public class PointTests {
         Point p2 = new Point(9, 4, 7);
 
         // ============ Equivalence Partitions Tests ==============
-        // Test distance between two points, expecting not to throw an IllegalArgumentException.
+        // TC01: Test distance between two points, expecting not to throw an IllegalArgumentException.
         assertDoesNotThrow(()-> p1.distance(p1), "ERROR: distance between points throws wrong exception");
 
-        // Test calculating the distance between two different points.
+        // TC02: Test calculating the distance between two different points.
         assertEquals(6, p2.distance(p1), DELTA, "ERROR: distance between points to itself is wrong");
         assertEquals(6, p1.distance(p2), DELTA, "ERROR: distance between points to itself is wrong");
 
         // =============== Boundary Values Tests ==================
-        // Test calculating the distance between a point and itself, expecting a zero distance.
+        // TC10: Test calculating the distance between a point and itself, expecting a zero distance.
         assertEquals(0, p1.distance(p1), DELTA, "ERROR: point distance to itself is not zero");
     }
 }

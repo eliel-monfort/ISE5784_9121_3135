@@ -38,7 +38,8 @@ public class Point {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        return (obj instanceof Point other) && this.xyz.equals(other.xyz);
+        return (obj instanceof Point other)
+                && this.xyz.equals(other.xyz);
     }
 
     @Override
