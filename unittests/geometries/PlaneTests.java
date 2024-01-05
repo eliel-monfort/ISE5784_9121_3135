@@ -20,13 +20,16 @@ class PlaneTests {
      */
     @Test
     void testConstructor() {
-        Plane plane = new Plane(new Point(0,0,0), new Point(0,1,0), new Point(0,0,1));
+        Plane plane1 = new Plane(new Point(0,0,0), new Point(0,1,0), new Point(0,0,1));
 
         // ============ Equivalence Partitions Tests ==============
-        // TC01: Checks normal vector length and correctness for non-collinear points.
-        assertEquals(1, plane.getNormal().length(), "ERROR: Plane constructor create wrong normal vector length");
-        assertTrue(isZero(plane.getNormal().dotProduct(new Vector(0,1,0))), "Plane constructor: wrong normal vector");
-        assertTrue(isZero(plane.getNormal().dotProduct(new Vector(0,0,1))), "Plane constructor: wrong normal vector");
+        // TC01: All three points are the same. Expects exceptions to be thrown.
+        assertThrows(IllegalArgumentException.class, ()-> new Plane(new Point(1,2,3), new Point(1,2,3), new Point(1,2,3)));
+
+        // TC02: Checks normal vector length and correctness for non-collinear points.
+        assertEquals(1, plane1.getNormal().length(), "ERROR: Plane constructor create wrong normal vector length");
+        assertTrue(isZero(plane1.getNormal().dotProduct(new Vector(0,1,0))), "Plane constructor: wrong normal vector");
+        assertTrue(isZero(plane1.getNormal().dotProduct(new Vector(0,0,1))), "Plane constructor: wrong normal vector");
 
         // =============== Boundary Values Tests ==================
         // TC10: Checks if an exception is thrown when two points are the same.
