@@ -10,6 +10,10 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
  * @author Ariel Atias
  */
 public class PointTests {
+    /**
+     * Delta value for accuracy when comparing the numbers of type 'double' in
+     * assertEquals
+     */
     private final double DELTA = 0.000001;
 
     /**
@@ -26,11 +30,13 @@ public class PointTests {
         assertDoesNotThrow(()-> p1.subtract(p2), "ERROR: (point2 - point1) throws wrong exception");
 
         // TC02: Test subtracting one point from another with different coordinates.
-        assertEquals(new Vector(3, -6, 3), p2.subtract(p1), "ERROR: (point2 - point1) does not work correctly");
+        assertEquals(new Vector(3, -6, 3), p2.subtract(p1),
+                "ERROR: (point2 - point1) does not work correctly");
 
         // =============== Boundary Values Tests ==================
         // TC10: Test subtracting a point from itself, expecting an IllegalArgumentException.
-        assertThrows(IllegalArgumentException.class, ()-> p1.subtract(p1), "ERROR: (point - itself) does not throw an exception");
+        assertThrows(IllegalArgumentException.class, ()-> p1.subtract(p1),
+                "ERROR: (point - itself) does not throw an exception");
     }
 
     /**
@@ -48,10 +54,12 @@ public class PointTests {
         assertDoesNotThrow(()-> p.add(v1), "ERROR: (point + vector) throws wrong exception");
 
         // TC02: Test adding a vector to a point, resulting in another point.
-        assertEquals(new Point(7, -2, 4), p.add(v1), "ERROR: (point + vector) = other point does not work correctly");
+        assertEquals(new Point(7, -2, 4), p.add(v1),
+                "ERROR: (point + vector) = other point does not work correctly");
 
         // TC03: Test adding a vector to a point, testing the center of coordinates.
-        assertEquals(Point.ZERO, p.add(v2), "ERROR: (point + vector) = center of coordinates does not work correctly");
+        assertEquals(Point.ZERO, p.add(v2),
+                "ERROR: (point + vector) = center of coordinates does not work correctly");
     }
 
     /**
@@ -65,14 +73,17 @@ public class PointTests {
 
         // ============ Equivalence Partitions Tests ==============
         // TC01: Test squared distance between two points, expecting not to throw an IllegalArgumentException.
-        assertDoesNotThrow(()-> p1.distanceSquared(p1), "ERROR: squared distance between points throws wrong exception");
+        assertDoesNotThrow(()-> p1.distanceSquared(p1),
+                "ERROR: squared distance between points throws wrong exception");
 
         // TC02: Test calculating the squared distance between two different points.
-        assertEquals(331, p2.distanceSquared(p1), DELTA, "ERROR: squared distance between points is wrong");
+        assertEquals(331, p2.distanceSquared(p1), DELTA,
+                "ERROR: squared distance between points is wrong");
 
         // =============== Boundary Values Tests ==================
         // TC10: Test calculating the squared distance between a point and itself, expecting a zero squared distance.
-        assertEquals(0, p1.distanceSquared(p1), DELTA, "ERROR: point squared distance to itself is not zero");
+        assertEquals(0, p1.distanceSquared(p1), DELTA,
+                "ERROR: point squared distance to itself is not zero");
     }
 
     /**

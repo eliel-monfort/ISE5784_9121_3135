@@ -9,6 +9,10 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Eliel Monfort
  */
 class VectorTests {
+    /**
+     * Delta value for accuracy when comparing the numbers of type 'double' in
+     * assertEquals
+     */
     private final double DELTA = 0.000001;
 
     /**
@@ -29,11 +33,14 @@ class VectorTests {
         assertDoesNotThrow(() -> v1.add(v1), "ERROR: Vector + itself throws wrong exception");
 
         // TC03: Test vector addition with different vectors. Expects the result to be the sum of the two vectors.
-        assertEquals(new Vector(2, 3, 11), v1.add(v2), "ERROR: Vector + Vector does not work correctly");
+        assertEquals(new Vector(2, 3, 11), v1.add(v2),
+                "ERROR: Vector + Vector does not work correctly");
 
         // =============== Boundary Values Tests ==================
-        // TC10: Test adding a vector to its opposite. Expects an IllegalArgumentException to be thrown, the result is the zero vector.
-        assertThrows(IllegalArgumentException.class, () -> v1.add(v1_opposite), "ERROR: Vector + -itself does not throw an exception");
+        // TC10: Test adding a vector to its opposite.
+        // Expects an IllegalArgumentException to be thrown, the result is the zero vector.
+        assertThrows(IllegalArgumentException.class, () -> v1.add(v1_opposite),
+                "ERROR: Vector + -itself does not throw an exception");
     }
 
     /**
@@ -48,12 +55,16 @@ class VectorTests {
         // TC01: Test scaling a vector by a positive factor. Expects no exceptions to be thrown.
         assertDoesNotThrow(() -> v.scale(3), "ERROR: scale vector throws wrong exception");
 
-        // TC02: Test scaling a vector by a positive factor. Expects the result to be the vector multiplied by the scaling factor.
-        assertEquals(new Vector(12, -9, 27), v.scale(3), "ERROR: scale vector does not work correctly");
+        // TC02: Test scaling a vector by a positive factor.
+        // Expects the result to be the vector multiplied by the scaling factor.
+        assertEquals(new Vector(12, -9, 27), v.scale(3),
+                "ERROR: scale vector does not work correctly");
 
         // =============== Boundary Values Tests ==================
-        // TC10: Test scaling a vector by zero. Expects an IllegalArgumentException to be thrown, as scaling by zero is undefined.
-        assertThrows(IllegalArgumentException.class, () -> v.scale(0), "ERROR: scale vector does not throw an exception");
+        // TC10: Test scaling a vector by zero.
+        // Expects an IllegalArgumentException to be thrown, as scaling by zero is undefined.
+        assertThrows(IllegalArgumentException.class, () -> v.scale(0),
+                "ERROR: scale vector does not throw an exception");
     }
 
     /**
@@ -70,12 +81,14 @@ class VectorTests {
         // TC01: Test computing the dot product of two vectors. Expects no exceptions to be thrown.
         assertDoesNotThrow(() -> v1.dotProduct(v2), "ERROR: DotProduct() throws wrong exception");
 
-        // TC02: Test computing the dot product of two vectors. Expects the result to be the correct dot product value.
+        // TC02: Test computing the dot product of two vectors.
+        // Expects the result to be the correct dot product value.
         assertEquals(-35, v1.dotProduct(v2), "ERROR: DotProduct() wrong value");
 
         // =============== Boundary Values Tests ==================
         // TC10: Test computing the dot product of orthogonal vectors. Expects the result to be zero.
-        assertEquals(0, v1.dotProduct(v3), DELTA, "ERROR: dotProduct() for orthogonal vectors is not zero");
+        assertEquals(0, v1.dotProduct(v3), DELTA,
+                "ERROR: dotProduct() for orthogonal vectors is not zero");
     }
 
     /**
@@ -123,15 +136,19 @@ class VectorTests {
 
         // ============ Equivalence Partitions Tests ==============
         // TC01: Test that length of cross-product is proper (orthogonal vectors taken for simplicity)
-        assertEquals(v1.length() * v2.length(), vr.length(), DELTA, "ERROR: crossProduct() wrong result length");
+        assertEquals(v1.length() * v2.length(), vr.length(), DELTA,
+                "ERROR: crossProduct() wrong result length");
 
         // TC02: Test cross-product result orthogonality to its operands
-        assertEquals(0, vr.dotProduct(v1), "ERROR: crossProduct() result is not orthogonal to 1st operand");
-        assertEquals(0, vr.dotProduct(v2), "ERROR: crossProduct() result is not orthogonal to 2nd operand");
+        assertEquals(0, vr.dotProduct(v1),
+                "ERROR: crossProduct() result is not orthogonal to 1st operand");
+        assertEquals(0, vr.dotProduct(v2),
+                "ERROR: crossProduct() result is not orthogonal to 2nd operand");
 
         // =============== Boundary Values Tests ==================
         // TC11: test zero vector from cross-product of parallel vectors
-        assertThrows(IllegalArgumentException.class, ()-> v1.crossProduct(v3), "ERROR: crossProduct() for parallel vectors does not throw an exception");
+        assertThrows(IllegalArgumentException.class, ()-> v1.crossProduct(v3),
+                "ERROR: crossProduct() for parallel vectors does not throw an exception");
     }
 
     /**
@@ -148,12 +165,15 @@ class VectorTests {
         assertDoesNotThrow(() -> v.normalize(), "ERROR: normalize() throws wrong exception");
 
         // TC02: Test that the length of the normalized vector is approximately 1 (within a small delta).
-        assertEquals(1, u.length(), 0.00000001, "ERROR: the normalized vector is not a unit vector");
+        assertEquals(1, u.length(), DELTA,
+                "ERROR: the normalized vector is not a unit vector");
 
         // TC03: Test that the normalized vector is parallel to the original vector.
-        assertThrows(IllegalArgumentException.class, ()->v.crossProduct(u), "Error: The normalized vector is not parallel to the original one");
+        assertThrows(IllegalArgumentException.class, ()->v.crossProduct(u),
+                "Error: The normalized vector is not parallel to the original one");
 
         // TC04: Test that the dot product of the original and normalized vectors is positive.
-        assertTrue(v.dotProduct(u) > 0, "ERROR: the normalized vector is opposite to the original one");
+        assertTrue(v.dotProduct(u) > 0,
+                "ERROR: the normalized vector is opposite to the original one");
     }
 }

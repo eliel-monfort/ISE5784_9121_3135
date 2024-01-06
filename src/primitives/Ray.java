@@ -40,4 +40,22 @@ public class Ray {
     public String toString() {
         return super.toString();
     }
+
+    /**
+     * Retrieves the direction vector of the Ray.
+     *
+     * @return The direction vector of the Ray.
+     */
+    public Vector getDirection() {
+        return direction;
+    }
+
+    /**
+     * Retrieves the head point of the Ray.
+     *
+     * @return The head point of the Ray.
+     */
+    public Point getHead() {
+        return head;
+    }
 }
