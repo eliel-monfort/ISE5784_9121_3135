@@ -1,8 +1,3 @@
-Thing we need to complete:
- - Sphere + testSphere
- - Tube + testTube
- - Cylinder + testCylinder
-
 Eliel Monfort
 328269121
 elielmonf@gmail.com
