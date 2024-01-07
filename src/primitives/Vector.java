@@ -66,11 +66,11 @@ public class Vector extends Point {
     /**
      * Adds another vector to this vector.
      *
-     * @param another_vector The vector to add.
+     * @param other The vector to add.
      * @return A new vector representing the sum of this vector and the given vector.
      */
-    public Vector add(Vector another_vector) {
-        return new Vector(this.xyz.add(another_vector.xyz));
+    public Vector add(Vector other) {
+        return new Vector(this.xyz.add(other.xyz));
     }
 
     /**
@@ -86,11 +86,11 @@ public class Vector extends Point {
     /**
      * Computes the dot product of this vector and another vector.
      *
-     * @param another_vector The other vector.
+     * @param other The other vector.
      * @return The dot product of this vector and the other vector.
      */
-    public double dotProduct(Vector another_vector){
-        return (this.xyz.d1 * another_vector.xyz.d1) + (this.xyz.d2 * another_vector.xyz.d2) + (this.xyz.d3 * another_vector.xyz.d3);
+    public double dotProduct(Vector other){
+        return (this.xyz.d1 * other.xyz.d1) + (this.xyz.d2 * other.xyz.d2) + (this.xyz.d3 * other.xyz.d3);
     }
 
     /**
@@ -99,13 +99,13 @@ public class Vector extends Point {
      * @param another_vector The other vector.
      * @return A new vector representing the cross product of this vector and the other vector.
      */
-    public Vector crossProduct(Vector another_vector){
+    public Vector crossProduct(Vector other){
         double THIS_x = this.xyz.d1;
         double THIS_y = this.xyz.d2;
         double THIS_z = this.xyz.d3;
-        double V_x = another_vector.xyz.d1;
-        double V_y = another_vector.xyz.d2;
-        double V_z = another_vector.xyz.d3;
+        double V_x = other.xyz.d1;
+        double V_y = other.xyz.d2;
+        double V_z = other.xyz.d3;
         return new Vector((THIS_y * V_z) - (THIS_z * V_y), (THIS_z * V_x) - (THIS_x * V_z), (THIS_x * V_y) - (THIS_y * V_x));
     }
 

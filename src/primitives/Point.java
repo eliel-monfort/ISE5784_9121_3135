@@ -53,8 +53,8 @@ public class Point {
      * @param another_point The Point to subtract from this Point.
      * @return The vector representing the subtraction of points.
      */
-    public Vector subtract(Point another_point){
-        return new Vector(this.xyz.subtract(another_point.xyz));
+    public Vector subtract(Point other){
+        return new Vector(this.xyz.subtract(other.xyz));
     }
 
     /**
@@ -63,8 +63,8 @@ public class Point {
      * @param another_vector The vector to add to this Point.
      * @return A new Point resulting from the addition of the vector.
      */
-    public Point add(Vector another_vector){
-        return new Point(this.xyz.add(another_vector.xyz));
+    public Point add(Vector vector){
+        return new Point(this.xyz.add(vector.xyz));
     }
 
     /**
@@ -73,10 +73,10 @@ public class Point {
      * @param another_point The other Point to compute the squared distance.
      * @return The squared distance between this Point and the other Point.
      */
-    public double distanceSquared(Point another_point){
-        return (this.xyz.d1 - another_point.xyz.d1) * (this.xyz.d1 - another_point.xyz.d1)
-                + (this.xyz.d2 - another_point.xyz.d2) * (this.xyz.d2 - another_point.xyz.d2)
-                + (this.xyz.d3 - another_point.xyz.d3) * (this.xyz.d3 - another_point.xyz.d3);
+    public double distanceSquared(Point other){
+        return (this.xyz.d1 - other.xyz.d1) * (this.xyz.d1 - other.xyz.d1)
+                + (this.xyz.d2 - other.xyz.d2) * (this.xyz.d2 - other.xyz.d2)
+                + (this.xyz.d3 - other.xyz.d3) * (this.xyz.d3 - other.xyz.d3);
     }
 
     /**
@@ -85,7 +85,7 @@ public class Point {
      * @param another_point The other Point to compute the distance.
      * @return The distance between this Point and the other Point.
      */
-    public double distance(Point another_point){
-        return Math.sqrt(distanceSquared(another_point));
+    public double distance(Point other){
+        return Math.sqrt(distanceSquared(other));
     }
 }
