@@ -96,7 +96,7 @@ public class Vector extends Point {
     /**
      * Computes the cross product of this vector and another vector.
      *
-     * @param another_vector The other vector.
+     * @param other The other vector.
      * @return A new vector representing the cross product of this vector and the other vector.
      */
     public Vector crossProduct(Vector other){

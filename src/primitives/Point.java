@@ -50,7 +50,7 @@ public class Point {
     /**
      * Computes the vector obtained by subtracting another Point from this Point.
      *
-     * @param another_point The Point to subtract from this Point.
+     * @param other The Point to subtract from this Point.
      * @return The vector representing the subtraction of points.
      */
     public Vector subtract(Point other){
@@ -60,7 +60,7 @@ public class Point {
     /**
      * Computes a new Point by adding a vector to this Point.
      *
-     * @param another_vector The vector to add to this Point.
+     * @param vector The vector to add to this Point.
      * @return A new Point resulting from the addition of the vector.
      */
     public Point add(Vector vector){
@@ -70,7 +70,7 @@ public class Point {
     /**
      * Computes the squared distance between this Point and another Point.
      *
-     * @param another_point The other Point to compute the squared distance.
+     * @param other The other Point to compute the squared distance.
      * @return The squared distance between this Point and the other Point.
      */
     public double distanceSquared(Point other){
@@ -82,7 +82,7 @@ public class Point {
     /**
      * Computes the distance between this Point and another Point.
      *
-     * @param another_point The other Point to compute the distance.
+     * @param other The other Point to compute the distance.
      * @return The distance between this Point and the other Point.
      */
     public double distance(Point other){
