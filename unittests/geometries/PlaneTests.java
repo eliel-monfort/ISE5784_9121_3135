@@ -71,4 +71,15 @@ class PlaneTests {
         assertEquals(new Vector(0.7071067811865475, 0, -0.7071067811865475), _normal,
                 "ERROR: Plane's getNormal does not work correctly");
     }
+
+    //#############################################################################
+    /**
+     * Test case for the
+     * {@link geometries.Plane#findIntsersections (geometries.Plane)}.
+     */
+    @Test
+    void testfindIntsersections() {
+
+    }
+    //#############################################################################
 }

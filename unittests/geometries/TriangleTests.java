@@ -33,4 +33,15 @@ class TriangleTests {
                     "ERROR: Triangle's normal is not orthogonal to one of the edges");
         }
     }
+
+    //###########################################################################
+    /**
+     * Test case for the
+     * {@link geometries.Triangle#findIntsersections (geometries.Triangle)}.
+     */
+    @Test
+    void testfindIntsersections() {
+
+    }
+    //###########################################################################
 }

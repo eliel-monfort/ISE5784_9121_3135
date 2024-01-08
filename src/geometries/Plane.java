@@ -1,13 +1,16 @@
 package geometries;
 
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
+
+import java.util.List;
 
 /**
  * A class that represents a plane in three-dimensional space defined by a point on the plane (q) and a normal vector.
  * The class inherits from the Geometry class.
  */
-public class Plane extends Geometry{
+public class Plane implements Geometry{
     /**
      * A point on the plane.
      */
@@ -56,4 +59,11 @@ public class Plane extends Geometry{
     public Vector getNormal(Point point_on_body) {
         return this.normal;
     }
+
+    //#############################################################################
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        return null;
+    }
+    //#############################################################################
 }

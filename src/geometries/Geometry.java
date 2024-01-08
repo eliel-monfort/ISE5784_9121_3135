@@ -4,9 +4,9 @@ import primitives.Point;
 import primitives.Vector;
 
 /**
- * Abstract class representing a generic geometry in three-dimensional space.
+ *  The Geometry interface representing a generic geometry in three-dimensional space.
  */
-abstract public class Geometry {
+public interface Geometry extends Intersectable {
     /**
      * Abstract method to retrieve the normal vector to the geometry at a specified point on its surface.
      *

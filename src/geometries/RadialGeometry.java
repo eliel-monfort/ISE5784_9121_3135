@@ -5,7 +5,7 @@ package geometries;
  * Radial geometries are characterized by a radius value.
  * The class inherits from Geometry class.
  */
-abstract public class RadialGeometry extends Geometry {
+abstract public class RadialGeometry implements Geometry {
     /**
      * The radius of the radial geometry.
      */
