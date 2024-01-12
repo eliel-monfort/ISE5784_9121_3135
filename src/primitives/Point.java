@@ -44,7 +44,7 @@ public class Point {
 
     @Override
     public String toString() {
-        return super.toString();
+        return ("(" + this.xyz.d1 + "," + this.xyz.d2 + "," + this.xyz.d3 + ")");
     }
 
     /**
