@@ -66,12 +66,16 @@ public class Plane implements Geometry{
     //#############################################################################
     @Override
     public List<Point> findIntersections(Ray ray) {
-        double t = alignZero((this.normal.dotProduct(this.q.subtract(ray.getHead())))/(this.normal.dotProduct(ray.getDirection())));
-        if (this.q.equals(ray.getHead()) || isZero(this.normal.dotProduct(q.subtract(ray.getHead()))) || t <= 0){
+        double nv = this.normal.dotProduct(ray.getDirection());
+        if (isZero(nv) || this.q.equals(ray.getHead())){
             return null;
         }
-        Point P  = ray.getHead().add(ray.getDirection().scale(t));
-        return List.of(P);
+        double nQMinusP0 = this.normal.dotProduct(this.q.subtract(ray.getHead()));
+        double t = alignZero(nQMinusP0 / nv);
+        if (t > 0){
+            return List.of(ray.getHead().add(ray.getDirection().scale(t)));
+        }
+        return null;
     }
     //#############################################################################
 }
