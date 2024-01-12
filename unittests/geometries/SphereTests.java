@@ -78,10 +78,10 @@ class SphereTests {
         // TC03: Ray starts inside the sphere (1 point)
         var result2 = sphere.findIntersections(new Ray(new Point(0.8151530771650466,0.605051025721682,0), v310));
         assertEquals(1, result2.size(), "Wrong number of points");
-        assertEquals(List.of(gp2), result2, "Ray crosses sphere");
+        assertEquals(List.of(gp2), result2, "ERROR: When Ray that start in sphere (not center), findIntersections() does not work correctly");
 
         // TC04: Ray starts after the sphere (0 points)
-        assertNull(sphere.findIntersections(new Ray(new Point(1.83484692283495,0.944948974278318,0), v310)));
+        assertNull(sphere.findIntersections(new Ray(new Point(1.83484692283495,0.944948974278318,0), v310)), "");
 
         // =============== Boundary Values Tests ==================
         // **** Group: Ray's line crosses the sphere (but not the center)
