@@ -42,7 +42,7 @@ class TriangleTests {
      */
     @Test
     void testfindIntsersections() {
-
+        
     }
     //###########################################################################
 }
