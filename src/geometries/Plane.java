@@ -63,7 +63,15 @@ public class Plane implements Geometry{
     //#############################################################################
     @Override
     public List<Point> findIntersections(Ray ray) {
-        return null;
+        double t = (this.normal.dotProduct(this.q.subtract(ray.getHead())))/(this.normal.dotProduct(ray.getDirection()));
+
+
+
+        if (t <= 0){
+            return null;
+        }
+        Point P  = ray.getHead().add(ray.getDirection().scale(t));
+        return List.of(P);
     }
     //#############################################################################
 }
