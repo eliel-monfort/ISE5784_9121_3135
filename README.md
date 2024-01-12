@@ -1,3 +1,6 @@
+things we need to do:
+  - change the uotput of the sphere tests
+
 Eliel Monfort
 328269121
 elielmonf@gmail.com
