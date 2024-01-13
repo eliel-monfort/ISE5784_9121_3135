@@ -1,6 +1,4 @@
 things we need to do:
-  - change the uotput of the sphere tests
-  - correct the tests - tests without the ZERO point (plane + sphere)
 
 Eliel Monfort
 328269121

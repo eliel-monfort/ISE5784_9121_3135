@@ -75,7 +75,6 @@ class PlaneTests {
                 "ERROR: Plane's getNormal does not work correctly");
     }
 
-    //#############################################################################
     /**
      * Test case for the
      * {@link geometries.Plane#findIntersections (geometries.Plane)}.
@@ -86,17 +85,18 @@ class PlaneTests {
 
         // ============ Equivalence Partitions Tests ==============
         // TC01: Ray intersect the plane -  orthogonal to the plane (1 point).
-        var result = plane.findIntersections(new Ray(Point.ZERO, new Vector(0.1306288015575493, 0.676894698980028, 0.7243960813645914)));
-        assertEquals(List.of(new Point(0.274573402905091,1.4227894514172892,1.5226343252009589)), result,
+        var result = plane.findIntersections(new Ray(new Point(1, 1, 1), new Vector(11,57,61)));
+        assertEquals(List.of(new Point(1.0744605838386687,1.3858412071640107,1.4129177831053448)), result,
                 "ERROR: Intersections with orthogonal ray does not work correctly");
 
         // TC01: Ray does not intersect the plane -  parallel to the plane (0 points).
-        assertNull(plane.findIntersections(new Ray(Point.ZERO, new Vector(7, 4, -5))),
+        assertNull(plane.findIntersections(new Ray(new Point(3, 6, 1), new Vector(7, 4, -5))),
                 "ERROR: Intersections with parallel ray does not work correctly");
 
         // =============== Boundary Values Tests ==================
+        // **** Group: Ray's line does not cross the plane. parallel.
         // TC10: parallel to the plane but not included in the plane (0 points).
-        assertNull(plane.findIntersections(new Ray(Point.ZERO, new Vector(10, -3, 1))),
+        assertNull(plane.findIntersections(new Ray(new Point(1, 2, 3), new Vector(10, -3, 1))),
                 "ERROR: Intersections with parallel ray and not included in plane does not work correctly");
 
         // TC11: parallel to the plane and included in the plane (0 points)
@@ -105,18 +105,17 @@ class PlaneTests {
 
         // **** Group: Ray's line crosses the plane. orthogonal.
         // TC12:  orthogonal to the plane and P0 is before the plane (1 point).
-        result = plane.findIntersections(new Ray(new Point(-5, -5, -5), new Vector(0.1306288015575493, 0.676894698980028, 0.7243960813645914)));
-        assertEquals(List.of(new Point(-4.189961001793738,9.78359763463453,10.49089177887511)), result,
+        result = plane.findIntersections(new Ray(new Point(-5, -5, -5), new Vector(11,57,61)));
+        assertEquals(List.of(new Point(-3.724862501762798,1.6075306726836844,2.0712170356790303)), result,
                 "ERROR: Intersections with orthogonal ray and point P0 before plane does not work correctly");
 
         // TC13:  orthogonal to the plane and P0 is in the plane (1 point).
-        result = plane.findIntersections(new Ray(new Point(-5, 3, 1), new Vector(0.1306288015575493, 0.676894698980028, 0.7243960813645914)));
-        assertEquals(List.of(new Point(-3.329266237570245,11.65223933561668,11.46475223325447)), result,
+        assertNull(plane.findIntersections(new Ray(new Point(2, 7, -4), new Vector(11,57,61))),
                 "ERROR: Intersections with orthogonal ray and point P0 in plane does not work correctly");
 
         // TC14:  orthogonal to the plane and P0 is after the plane (1 point).
-        result = plane.findIntersections(new Ray(new Point(4, 6, 3), new Vector(-0.1306288015575493, -0.676894698980028, -0.7243960813645914)));
-        assertEquals(List.of(new Point(4.436598600689267,5.925535576930924,5.992556172523736)), result,
+        result = plane.findIntersections(new Ray(new Point(4, 6, 3), new Vector(-11,-57,-61)));
+        assertEquals(List.of(new Point(3.3919052319842056,2.8489634748272454,-0.3721618953603163)), result,
                 "ERROR: Intersections with orthogonal ray and point P0 after plane does not work correctly");
 
         // **** Group: Ray's point included in the plane.
@@ -128,5 +127,4 @@ class PlaneTests {
         assertNull(plane.findIntersections(new Ray(new Point(-5, 3, 1), new Vector(1, 0, 0))),
                 "ERROR: Intersections with ray. Head point equals to the plane's point (q) - Intersections does not work correctly");
     }
-    //#############################################################################
 }

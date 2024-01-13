@@ -102,9 +102,9 @@ class SphereTests {
                 "ERROR: When Ray starts before the sphere and Ray's line goes through the center, findIntersections() does not work correctly\n");
 
         // TC14: Ray starts at sphere and goes inside (1 points)
-        result2 = sphere.findIntersections(new Ray(Point.ZERO, v100));
+        result2 = sphere.findIntersections(new Ray(new Point(1, 0, -1), v001));
         assertEquals(1, result2.size(), "Wrong number of points");
-        assertEquals(List.of(p200), result2,
+        assertEquals(List.of(new Point(1, 0, 1)), result2,
                 "ERROR: When Ray starts at sphere and goes inside and Ray's line goes through the center, findIntersections() does not work correctly\n");
 
         // TC15: Ray starts inside (1 points)
