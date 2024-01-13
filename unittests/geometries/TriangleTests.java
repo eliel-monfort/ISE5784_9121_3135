@@ -42,7 +42,13 @@ class TriangleTests {
      */
     @Test
     void testfindIntsersections() {
-        
+        Triangle triangle = new Triangle(new Point(3, -1, 7), new Point(1, -2, 2), new Point(5, 0, 0));
+
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: Ray's line is outside the sphere (1 point)
+
+
+        // =============== Boundary Values Tests ==================
     }
     //###########################################################################
 }
