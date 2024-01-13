@@ -58,4 +58,11 @@ public class Ray {
     public Point getHead() {
         return head;
     }
+    public Point getPoint(double t)
+    {
+        if(iszero(t))
+            return head;
+        Vector scaledDirection = getDirection().scale(t);
+        return getHead().add(scaledDirection);
+    }
 }
