@@ -58,4 +58,8 @@ public class Ray {
     public Point getHead() {
         return head;
     }
+    public Point getPoint(double t)
+    {
+
+    }
 }
