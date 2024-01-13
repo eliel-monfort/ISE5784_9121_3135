@@ -63,7 +63,6 @@ public class Plane implements Geometry{
         return this.normal;
     }
 
-    //#############################################################################
     @Override
     public List<Point> findIntersections(Ray ray) {
         double nv = this.normal.dotProduct(ray.getDirection());
@@ -77,5 +76,4 @@ public class Plane implements Geometry{
         }
         return null;
     }
-    //#############################################################################
 }
