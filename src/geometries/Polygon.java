@@ -86,7 +86,6 @@ public class Polygon implements Geometry {
    //###########################################################################
    @Override
    public List<Point> findIntersections(Ray ray) {
-      //TODO: write the func
       return null;
    }
    //###########################################################################

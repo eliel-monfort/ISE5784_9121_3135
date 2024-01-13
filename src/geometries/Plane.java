@@ -6,6 +6,9 @@ import primitives.Vector;
 
 import java.util.List;
 
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
+
 /**
  * A class that represents a plane in three-dimensional space defined by a point on the plane (q) and a normal vector.
  * The class inherits from the Geometry class.
@@ -63,15 +66,16 @@ public class Plane implements Geometry{
     //#############################################################################
     @Override
     public List<Point> findIntersections(Ray ray) {
-        double t = (this.normal.dotProduct(this.q.subtract(ray.getHead())))/(this.normal.dotProduct(ray.getDirection()));
-
-
-
-        if (t <= 0){
+        double nv = this.normal.dotProduct(ray.getDirection());
+        if (isZero(nv) || this.q.equals(ray.getHead())){
             return null;
         }
-        Point P  = ray.getHead().add(ray.getDirection().scale(t));
-        return List.of(P);
+        double nQMinusP0 = this.normal.dotProduct(this.q.subtract(ray.getHead()));
+        double t = alignZero(nQMinusP0 / nv);
+        if (t > 0){
+            return List.of(ray.getHead().add(ray.getDirection().scale(t)));
+        }
+        return null;
     }
     //#############################################################################
 }

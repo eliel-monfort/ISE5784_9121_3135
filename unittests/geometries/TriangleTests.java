@@ -2,6 +2,7 @@ package geometries;
 
 import org.junit.jupiter.api.Test;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 import static org.junit.jupiter.api.Assertions.*;
 import static primitives.Util.isZero;
@@ -37,11 +38,11 @@ class TriangleTests {
     //###########################################################################
     /**
      * Test case for the
-     * {@link geometries.Triangle#findIntsersections (geometries.Triangle)}.
+     * {@link geometries.Triangle#findIntersections (geometries.Triangle)}.
      */
     @Test
     void testfindIntsersections() {
-
+        
     }
     //###########################################################################
 }
