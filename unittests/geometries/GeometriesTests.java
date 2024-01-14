@@ -8,7 +8,16 @@ import primitives.Vector;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+/**
+ * Unit tests for geometries.Geometries class
+ * @author Eliel Monfort
+ */
 public class GeometriesTests {
+
+    /**
+     * Test method for
+     * {@link geometries.Geometries#findIntersections (primitives.Geometries)}.
+     */
     @Test
     void testfindIntersections() {
         Point p060 = new Point(0, 6, 0);

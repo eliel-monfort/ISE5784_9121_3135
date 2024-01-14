@@ -1,5 +1,7 @@
 package primitives;
 
+import static primitives.Util.isZero;
+
 /**
  * A class that represents a ray in three-dimensional space,
  * defined by a starting point (head) and a direction vector.
@@ -58,11 +60,19 @@ public class Ray {
     public Point getHead() {
         return head;
     }
+
+    /**
+     * Calculates a point along the line defined by this vector with respect to the parameter t.
+     * If t is zero, the method returns the starting point of the line.
+     *
+     * @param t The parameter determining the position along the line (0 corresponds to the starting point).
+     * @return A Point representing the position along the line at the specified parameter t.
+     */
     public Point getPoint(double t)
     {
-        if(iszero(t))
+        if(isZero(t)){
             return head;
-        Vector scaledDirection = getDirection().scale(t);
-        return getHead().add(scaledDirection);
+        }
+        return this.head.add(this.direction.scale(t));
     }
 }

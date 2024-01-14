@@ -52,14 +52,13 @@ public class Sphere extends RadialGeometry{
         double t1 = alignZero(Tm + Th);
         double t2 = alignZero(Tm - Th);
         if (t1 > 0 && t2 > 0){
-            return List.of(ray.getHead().add(ray.getDirection().scale(t1)),
-                    ray.getHead().add(ray.getDirection().scale(t2)));
+            return List.of(ray.getPoint(t1), ray.getPoint(t2));
         }
         else if (t1 > 0 && t2 <= 0) {
-            return List.of(ray.getHead().add(ray.getDirection().scale(t1)));
+            return List.of(ray.getPoint(t1));
         }
         else if(t1 <= 0 && t2 > 0){
-            return List.of(ray.getHead().add(ray.getDirection().scale(t2)));
+            return List.of(ray.getPoint(t2));
         }
         else {
             return null;

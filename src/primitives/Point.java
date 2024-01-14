@@ -88,4 +88,31 @@ public class Point {
     public double distance(Point other){
         return Math.sqrt(distanceSquared(other));
     }
+
+    /**
+     * Gets the X-coordinate of the point.
+     *
+     * @return The X-coordinate of the point.
+     */
+    public double getX() {
+        return this.xyz.d1;
+    }
+
+    /**
+     * Gets the Y-coordinate of the point.
+     *
+     * @return The Y-coordinate of the point.
+     */
+    public double getY() {
+        return this.xyz.d2;
+    }
+
+    /**
+     * Gets the Z-coordinate of the point.
+     *
+     * @return The Z-coordinate of the point.
+     */
+    public double getZ() {
+        return this.xyz.d3;
+    }
 }

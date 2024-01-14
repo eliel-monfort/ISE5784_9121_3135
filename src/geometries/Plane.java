@@ -72,7 +72,7 @@ public class Plane implements Geometry{
         double nQMinusP0 = this.normal.dotProduct(this.q.subtract(ray.getHead()));
         double t = alignZero(nQMinusP0 / nv);
         if (t > 0){
-            return List.of(ray.getHead().add(ray.getDirection().scale(t)));
+            return List.of(ray.getPoint(t));
         }
         return null;
     }
