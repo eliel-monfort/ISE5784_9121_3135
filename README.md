@@ -1,4 +1,7 @@
 things we need to do:
+  - Finish all the exercise
+  - Add comments for all classes and functions (go over the good code)
+  - start completing bonuses
 
 Eliel Monfort
 328269121
