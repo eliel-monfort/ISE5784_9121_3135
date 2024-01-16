@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * Unit tests for geometries.Sphere class
  * @author Ariel Atias
  */
-class SphereTests {
+public class SphereTests {
     /**
      * Delta value for accuracy when comparing the numbers of type 'double' in
      * assertEquals

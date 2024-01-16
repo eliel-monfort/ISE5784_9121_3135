@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit tests for geometries.Tube class
  * @author Eliel Monfort
  */
-class TubeTests {
+public class TubeTests {
     /**
      * Delta value for accuracy when comparing the numbers of type 'double' in
      * assertEquals

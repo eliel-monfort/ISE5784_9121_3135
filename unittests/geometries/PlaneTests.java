@@ -14,7 +14,7 @@ import static primitives.Util.isZero;
  * Unit tests for geometries.Plane class
  * @author Ariel Atias
  */
-class PlaneTests {
+public class PlaneTests {
     /**
      * Delta value for accuracy when comparing the numbers of type 'double' in
      * assertEquals

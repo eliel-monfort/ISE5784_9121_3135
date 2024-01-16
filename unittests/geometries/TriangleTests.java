@@ -14,7 +14,7 @@ import static primitives.Util.isZero;
  * Unit tests for geometries.Triangle class
  * @author Ariel Atias
  */
-class TriangleTests {
+public class TriangleTests {
 
     /**
      * Test case for the
