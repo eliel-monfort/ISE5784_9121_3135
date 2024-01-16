@@ -44,10 +44,8 @@ public class Tube extends RadialGeometry{
         return point_on_body.subtract(O).normalize();
     }
 
-    //###########################################################################
     @Override
     public List<Point> findIntersections(Ray ray) {
         return null;
     }
-    //###########################################################################
 }
