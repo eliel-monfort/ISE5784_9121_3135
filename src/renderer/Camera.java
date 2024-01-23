@@ -1,9 +1,11 @@
 package renderer;
 
+import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
 import java.util.MissingResourceException;
 
 import static primitives.Util.isZero;
@@ -24,6 +26,8 @@ public class Camera implements Cloneable {
     private double width = 0.0;
     private double height = 0.0;
     private double distance = 0.0;
+    private ImageWriter imageWriter;
+    private RayTracerBase rayTracer;
 
     private Camera(){}
 
@@ -136,6 +140,28 @@ public class Camera implements Cloneable {
         final private Camera camera = new Camera();
 
         /**
+         * Sets the image writer for the associated camera.
+         *
+         * @param _imageWriter The ImageWriter to be set for the camera.
+         * @return This Builder object for method chaining.
+         */
+        public Builder setImageWriter(ImageWriter _imageWriter){
+            this.camera.imageWriter = _imageWriter;
+            return this;
+        }
+
+        /**
+         * Sets the ray tracer for the associated camera.
+         *
+         * @param _rayTracer The RayTracerBase to be set for the camera.
+         * @return This Builder object for method chaining.
+         */
+        public Builder setRayTracer(RayTracerBase _rayTracer){
+            this.camera.rayTracer = _rayTracer;
+            return this;
+        }
+
+        /**
          * Sets the location of the camera.
          *
          * @param _p0 The position of the camera.
@@ -216,6 +242,14 @@ public class Camera implements Cloneable {
                 throw new MissingResourceException(ERORR, "Camera", "vTo is not defined.");
             }
 
+            if (this.camera.imageWriter == null){
+                throw new MissingResourceException(ERORR, "Camera", "imageWriter is not defined.");
+            }
+
+            if (this.camera.rayTracer == null){
+                throw new MissingResourceException(ERORR, "Camera", "rayTracer is not defined.");
+            }
+
             if (isZero(this.camera.width)){
                 throw new MissingResourceException(ERORR, "Camera", "The width of the screen is zero.");
             }
@@ -236,5 +270,33 @@ public class Camera implements Cloneable {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public void renderImage(){
+        for (int i = 0; i < this.imageWriter.getNy(); i++) {
+            for (int j = 0; j < this.imageWriter.getNx(); j++) {
+                this.castRay(this.imageWriter.getNx(), this.imageWriter.getNy(), j, i);
+            }
+        }
+    }
+
+    private void castRay(int nX, int nY, int j, int i){
+        Ray ray = this.constructRay(nX, nY, j, i);
+        Color color = this.rayTracer.traceRay(ray);
+        this.imageWriter.writePixel(j, i, color);
+    }
+
+    public void printGrid(int interval, Color color){
+        for (int i = 0; i < this.imageWriter.getNy(); i++) {
+            for (int j = 0; j < this.imageWriter.getNx(); j++) {
+                if (i % interval == 0 || j % interval == 0){
+                    this.imageWriter.writePixel(j, i, color);
+                }
+            }
+        }
+    }
+
+    public void writeToImage(){
+        this.imageWriter.writeToImage();
     }
 }

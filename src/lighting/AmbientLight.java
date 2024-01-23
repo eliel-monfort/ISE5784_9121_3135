@@ -3,18 +3,39 @@ package lighting;
 import primitives.Color;
 import primitives.Double3;
 
+/**
+ * The AmbientLight class represents ambient light in a 3D environment.
+ * Ambient light is a uniform and constant light that illuminates all objects in the scene.
+ */
 public class AmbientLight {
     private final Color intensity;
     public final static AmbientLight NONE = new AmbientLight(Color.BLACK, 0);
 
+    /**
+     * Constructs an AmbientLight object with a specified intensity and scaling factor.
+     *
+     * @param IA The color representing the intensity of the ambient light.
+     * @param KA The scaling factor applied to the ambient light intensity.
+     */
     public AmbientLight(Color IA, Double3 KA){
         this.intensity = IA.scale(KA);
     }
 
+    /**
+     * Constructs an AmbientLight object with a specified intensity and scaling factor.
+     *
+     * @param IA The color representing the intensity of the ambient light.
+     * @param KA The scaling factor applied to the ambient light intensity.
+     */
     public AmbientLight(Color IA, double KA){
         this.intensity = IA.scale(KA);
     }
 
+    /**
+     * Gets the intensity of the ambient light.
+     *
+     * @return The color representing the intensity of the ambient light.
+     */
     public Color getIntensity() {
         return intensity;
     }
