@@ -5,7 +5,6 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import java.util.List;
 import java.util.MissingResourceException;
 
 import static primitives.Util.isZero;
@@ -272,21 +271,39 @@ public class Camera implements Cloneable {
         }
     }
 
-    public void renderImage(){
+    /**
+     * Renders the image by casting rays for each pixel and tracing them to determine the color.
+     * @return The camera object after rendering the image.
+     */
+    public Camera renderImage(){
         for (int i = 0; i < this.imageWriter.getNy(); i++) {
             for (int j = 0; j < this.imageWriter.getNx(); j++) {
                 this.castRay(this.imageWriter.getNx(), this.imageWriter.getNy(), j, i);
             }
         }
+        return this;
     }
 
+    /**
+     * Casts a ray for a specific pixel and traces it to determine the color, then writes the color to the image.
+     * @param nX The width of the image.
+     * @param nY The height of the image.
+     * @param j The x-coordinate of the pixel.
+     * @param i The y-coordinate of the pixel.
+     */
     private void castRay(int nX, int nY, int j, int i){
         Ray ray = this.constructRay(nX, nY, j, i);
         Color color = this.rayTracer.traceRay(ray);
         this.imageWriter.writePixel(j, i, color);
     }
 
-    public void printGrid(int interval, Color color){
+    /**
+     * Prints a grid on the image with a specified interval and color.
+     * @param interval The interval for the grid lines.
+     * @param color The color of the grid lines.
+     * @return The camera object after printing the grid.
+     */
+    public Camera printGrid(int interval, Color color){
         for (int i = 0; i < this.imageWriter.getNy(); i++) {
             for (int j = 0; j < this.imageWriter.getNx(); j++) {
                 if (i % interval == 0 || j % interval == 0){
@@ -294,8 +311,12 @@ public class Camera implements Cloneable {
                 }
             }
         }
+        return this;
     }
 
+    /**
+     * Writes the rendered image to a file or display.
+     */
     public void writeToImage(){
         this.imageWriter.writeToImage();
     }

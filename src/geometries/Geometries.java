@@ -13,13 +13,13 @@ import java.util.List;
 public class Geometries implements Intersectable {
 
     // The list of geometric objects in this collection.
-    private List<Intersectable> geometries = null;
+    private List<Intersectable> geometries = new LinkedList<>();
 
     /**
      * Default constructor for Geometries.
      * Initializes an empty list of geometries.
      */
-    public Geometries() { }
+    public Geometries() {}
 
     /**
      * Parameterized constructor for Geometries, allowing initialization with an array of Intersectable objects.
@@ -27,7 +27,6 @@ public class Geometries implements Intersectable {
      * @param geometries The array of geometric objects to be added to the collection.
      */
     public Geometries(Intersectable... geometries) {
-        this.geometries = new LinkedList<>();
         this.add(geometries);
     }
 

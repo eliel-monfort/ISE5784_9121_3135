@@ -12,7 +12,7 @@ public class Scene {
     public String name;
     public Color background;
     public AmbientLight ambientLight;
-    public Geometries geometries;
+    public Geometries geometries = new Geometries();
 
     /**
      * Constructs a Scene object with a specified name.
