@@ -141,22 +141,22 @@ public class Camera implements Cloneable {
         /**
          * Sets the image writer for the associated camera.
          *
-         * @param _imageWriter The ImageWriter to be set for the camera.
+         * @param imageWriter The ImageWriter to be set for the camera.
          * @return This Builder object for method chaining.
          */
-        public Builder setImageWriter(ImageWriter _imageWriter){
-            this.camera.imageWriter = _imageWriter;
+        public Builder setImageWriter(ImageWriter imageWriter){
+            this.camera.imageWriter = imageWriter;
             return this;
         }
 
         /**
          * Sets the ray tracer for the associated camera.
          *
-         * @param _rayTracer The RayTracerBase to be set for the camera.
+         * @param rayTracer The RayTracerBase to be set for the camera.
          * @return This Builder object for method chaining.
          */
-        public Builder setRayTracer(RayTracerBase _rayTracer){
-            this.camera.rayTracer = _rayTracer;
+        public Builder setRayTracer(RayTracerBase rayTracer){
+            this.camera.rayTracer = rayTracer;
             return this;
         }
 

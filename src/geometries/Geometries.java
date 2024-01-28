@@ -48,11 +48,12 @@ public class Geometries implements Intersectable {
         }
         List<Point> intersectables = null;
         for (Intersectable geometry : this.geometries){
-            if (geometry.findIntersections(ray) != null){
+            List<Point> points = geometry.findIntersections(ray);
+            if (points != null){
                 if (intersectables == null){
                     intersectables = new LinkedList<>();
                 }
-                intersectables.addAll(geometry.findIntersections(ray));
+                intersectables.addAll(points);
             }
         }
         return intersectables;
