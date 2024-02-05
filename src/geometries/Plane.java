@@ -13,7 +13,7 @@ import static primitives.Util.isZero;
  * A class that represents a plane in three-dimensional space defined by a point on the plane (q) and a normal vector.
  * The class inherits from the Geometry class.
  */
-public class Plane implements Geometry{
+public class Plane extends Geometry{
     /**
      * A point on the plane.
      */

@@ -10,7 +10,7 @@ import java.util.List;
  * The Geometries class represents a collection of geometric objects that implement the Intersectable interface.
  * It allows combining multiple geometric objects and finding intersections with a given Ray.
  */
-public class Geometries implements Intersectable {
+public class Geometries extends Intersectable {
 
     // The list of geometric objects in this collection.
     private List<Intersectable> geometries = new LinkedList<>();
