@@ -28,5 +28,5 @@ public abstract class RayTracerBase {
      * @param ray The Ray object representing the ray to be traced.
      * @return The Color representing the result of tracing the given ray.
      */
-    public abstract Color traceRay(Ray ray);
+    abstract public Color traceRay(Ray ray);
 }

@@ -16,7 +16,7 @@ abstract public class Geometry extends Intersectable {
      * @return The emission color.
      */
     public Color getEmission() {
-        return emission;
+        return this.emission;
     }
 
     /**

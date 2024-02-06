@@ -23,8 +23,8 @@ public class Triangle extends Polygon{
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
-        var result = this.plane.findIntersections(ray);
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        var result = this.plane.findGeoIntersections(ray);
         if (result == null){
             return null;
         }
@@ -36,7 +36,7 @@ public class Triangle extends Polygon{
         Vector n3 = v3.crossProduct(v1).normalize();
         if ((ray.getDirection().dotProduct(n1) > 0 && ray.getDirection().dotProduct(n2) > 0 && ray.getDirection().dotProduct(n3) > 0)
                 || (ray.getDirection().dotProduct(n1) < 0 && ray.getDirection().dotProduct(n2) < 0 && ray.getDirection().dotProduct(n3) < 0)){
-                    return result;
+            return result;
         }
         return null;
     }
