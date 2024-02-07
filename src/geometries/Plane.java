@@ -49,6 +49,10 @@ public class Plane extends Geometry{
         this.normal = _normal.normalize();
     }
 
+    public Point getq() {
+        return this.q;
+    }
+
     /**
      * Gets the normal vector of the plane.
      *
