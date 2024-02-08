@@ -18,17 +18,38 @@ import static primitives.Util.isZero;
  * This class implements the `Cloneable` interface to support creating a deep copy of the camera.
  */
 public class Camera implements Cloneable {
+
+    /** The position of the camera. */
     private Point p0;
+
+    /** The up vector of the camera. */
     private Vector vUp;
+
+    /** The direction vector the camera is looking at. */
     private Vector vTo;
+
+    /** The right vector of the camera. */
     private Vector vRight;
+
+    /** The width of the view plane. */
     private double width = 0.0;
+
+    /** The height of the view plane. */
     private double height = 0.0;
+
+    /** The distance between the camera and the view plane. */
     private double distance = 0.0;
+
+    /** The ImageWriter used for rendering. */
     private ImageWriter imageWriter;
+
+    /** The RayTracerBase used for rendering. */
     private RayTracerBase rayTracer;
 
-    private Camera(){}
+    /**
+     * Constructs a new Camera instance.
+     */
+    private Camera() {}
 
     /**
      * Gets the position of the camera.

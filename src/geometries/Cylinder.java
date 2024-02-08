@@ -26,8 +26,14 @@ public class Cylinder extends Tube{
         height = _height;
     }
 
+    /**
+     * Retrieves the normal vector to the geometry at the specified point.
+     *
+     * @param point The point at which the normal vector is being queried.
+     * @return The normal vector to the geometry at the specified point.
+     */
     @Override
-    public Vector getNormal(Point point_on_body) {
-        return super.getNormal(point_on_body);
+    public Vector getNormal(Point point) {
+        return super.getNormal(point);
     }
 }

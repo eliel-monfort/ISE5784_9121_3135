@@ -10,6 +10,7 @@ import primitives.Vector;
  */
 public class DirectionalLight extends Light implements LightSource {
 
+    /** The direction of the light. */
     private Vector direction;
 
     /**
@@ -24,11 +25,23 @@ public class DirectionalLight extends Light implements LightSource {
         this.direction = direction.normalize();
     }
 
+    /**
+     * Retrieves the intensity of the light at the specified point.
+     *
+     * @param p The point at which the intensity of the light is being queried.
+     * @return The intensity of the light.
+     */
     @Override
     public Color getIntensity(Point p) {
         return this.intensity;
     }
 
+    /**
+     * Computes the direction vector from the light source to the specified point.
+     *
+     * @param p The point at which the direction vector is being calculated.
+     * @return The direction vector from the light source to the specified point.
+     */
     @Override
     public Vector getL(Point p) {
         return direction;

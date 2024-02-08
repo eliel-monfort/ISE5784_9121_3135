@@ -6,10 +6,14 @@ import primitives.Point;
 import primitives.Vector;
 
 /**
- *  The Geometry interface representing a generic geometry in three-dimensional space.
+ * The Geometry interface represents a generic geometry in three-dimensional space.
  */
 abstract public class Geometry extends Intersectable {
+
+    /** The color of emission from the geometry. */
     protected Color emission = Color.BLACK;
+
+    /** The material properties of the geometry. */
     private Material material = new Material();
 
     /**
@@ -59,5 +63,5 @@ abstract public class Geometry extends Intersectable {
      * @param point_on_body The point on the surface of the geometry for which to find the normal vector.
      * @return The normal vector to the geometry at the specified point.
      */
-    abstract public Vector getNormal(Point point_on_body);
+    abstract public Vector getNormal(Point point);
 }

@@ -10,6 +10,8 @@ import scene.Scene;
  * specific logic for tracing rays.
  */
 public abstract class RayTracerBase {
+
+    /** The scene associated with this ray tracer. */
     protected Scene scene;
 
     /**

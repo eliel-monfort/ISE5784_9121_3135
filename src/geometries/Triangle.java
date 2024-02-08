@@ -14,6 +14,7 @@ import static primitives.Util.isZero;
  * The class inherits from the Polygon class.
  */
 public class Triangle extends Polygon{
+
     /**
      * Constructs a new Triangle with three specified vertices.
      *
@@ -25,6 +26,13 @@ public class Triangle extends Polygon{
         super(point1, point2, point3);
     }
 
+    /**
+     * Finds the geometric intersections between the triangle and a given ray.
+     *
+     * @param ray The ray for which geometric intersections need to be found.
+     * @return A list of GeoPoint objects representing the geometric intersections between the ray and the triangle,
+     *         or null if there are no intersections.
+     */
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         Vector v1 = this.vertices.get(0).subtract(ray.getHead());

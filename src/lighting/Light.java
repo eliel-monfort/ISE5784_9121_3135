@@ -7,6 +7,8 @@ import primitives.Color;
  * Lights contribute to the illumination of objects in the scene by emitting light.
  */
 abstract class Light {
+
+    /** The intensity of the light emitted by the source. */
     protected Color intensity;
 
     /**

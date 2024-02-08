@@ -8,6 +8,10 @@ import primitives.Double3;
  * Ambient light is a uniform and constant light that illuminates all objects in the scene.
  */
 public class AmbientLight extends Light {
+
+    /**
+     * A constant representing no ambient light, indicated by a black color and zero intensity.
+     */
     public final static AmbientLight NONE = new AmbientLight(Color.BLACK, 0);
 
     /**

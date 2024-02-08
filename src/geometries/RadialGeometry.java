@@ -6,6 +6,7 @@ package geometries;
  * The class inherits from Geometry class.
  */
 abstract public class RadialGeometry extends Geometry {
+
     /**
      * The radius of the radial geometry.
      */

@@ -15,7 +15,11 @@ abstract public class Intersectable {
      * A nested class representing a geometric with a point of this geometry.
      */
     public static class GeoPoint {
+
+        /** The Geometry object associated with this GeoPoint. */
         public Geometry geometry;
+
+        /** The Point object representing the geometric point. */
         public Point point;
 
         /**

@@ -11,6 +11,7 @@ import primitives.Vector;
  */
 public class SpotLight extends PointLight {
 
+    /** The direction in which the light is emitted. */
     private Vector direction;
 
     /**
@@ -25,21 +26,45 @@ public class SpotLight extends PointLight {
         this.direction = direction.normalize();
     }
 
+    /**
+     * Sets the constant attenuation coefficient \( k_c \) for the spot light.
+     *
+     * @param kC The new value for the constant attenuation coefficient.
+     * @return The spot light with the updated constant attenuation coefficient.
+     */
     @Override
     public SpotLight setKc(double kC) {
         return (SpotLight) super.setKc(kC);
     }
 
+    /**
+     * Sets the linear attenuation coefficient \( k_l \) for the spot light.
+     *
+     * @param kL The new value for the linear attenuation coefficient.
+     * @return The spot light with the updated linear attenuation coefficient.
+     */
     @Override
     public SpotLight setKl(double kL) {
         return (SpotLight) super.setKl(kL);
     }
 
+    /**
+     * Sets the quadratic attenuation coefficient \( k_q \) for the spot light.
+     *
+     * @param kQ The new value for the quadratic attenuation coefficient.
+     * @return The spot light with the updated quadratic attenuation coefficient.
+     */
     @Override
     public SpotLight setKq(double kQ) {
         return (SpotLight) super.setKq(kQ);
     }
 
+    /**
+     * Retrieves the intensity of the light at the specified point, taking the spotlight effect into account.
+     *
+     * @param p The point at which the intensity of the light is being queried.
+     * @return The intensity of the light at the specified point, considering the spotlight effect.
+     */
     @Override
     public Color getIntensity(Point p) {
         Color intensity = super.getIntensity(p);

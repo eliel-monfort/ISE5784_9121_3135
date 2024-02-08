@@ -41,6 +41,13 @@ public class Geometries extends Intersectable {
         }
     }
 
+    /**
+     * Finds intersection points between the given ray and the geometric objects in this collection.
+     *
+     * @param ray The ray for which intersections are to be found.
+     * @return A list of intersection points between the ray and the geometric objects,
+     *         or null if there are no intersections.
+     */
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         if (this.geometries == null){
