@@ -49,6 +49,11 @@ public class Plane extends Geometry{
         this.normal = _normal.normalize();
     }
 
+    /**
+     * Gets the q point of the plane.
+     *
+     * @return The q point of the plane.
+     */
     public Point getq() {
         return this.q;
     }

@@ -18,6 +18,12 @@ abstract public class Intersectable {
         public Geometry geometry;
         public Point point;
 
+        /**
+         * Constructs a GeoPoint with the specified geometry and point.
+         *
+         * @param geometry The Geometry object associated with this GeoPoint.
+         * @param point    The Point object representing the geometric point.
+         */
         public GeoPoint(Geometry geometry, Point point) {
             this.geometry = geometry;
             this.point = point;
@@ -48,9 +54,21 @@ abstract public class Intersectable {
         return geoList == null ? null : geoList.stream().map(gp -> gp.point).toList();
     }
 
+    /**
+     * Finds the geometric intersections between the current object and a given ray.
+     *
+     * @param ray The ray for which geometric intersections need to be found.
+     * @return A list of GeoPoint objects representing the geometric intersections between the ray and the object.
+     */
     public List<GeoPoint> findGeoIntersections(Ray ray){
         return this.findGeoIntersectionsHelper(ray);
     }
 
+    /**
+     * A helper method to be implemented by subclasses for finding geometric intersections.
+     *
+     * @param ray The ray for which geometric intersections need to be found.
+     * @return A list of GeoPoint objects representing the geometric intersections between the ray and the object.
+     */
     abstract protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
 }
