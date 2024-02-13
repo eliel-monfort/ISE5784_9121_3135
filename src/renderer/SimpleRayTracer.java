@@ -1,5 +1,6 @@
 package renderer;
 
+import geometries.Triangle;
 import lighting.LightSource;
 import primitives.*;
 import scene.Scene;
@@ -14,6 +15,9 @@ import static primitives.Util.alignZero;
  * providing a simple template for ray tracing in a 3D scene.
  */
 public class SimpleRayTracer extends RayTracerBase {
+
+
+    private static final double DELTA = 0.1;
 
     /**
      * Constructs a SimpleRayTracer object with the specified scene.
@@ -70,7 +74,7 @@ public class SimpleRayTracer extends RayTracerBase {
         for (LightSource lightSource : scene.lights) {
             Vector l = lightSource.getL(gp.point);
             double nl = alignZero(n.dotProduct(l));
-            if (nl * nv > 0) { // sign(nl) == sign(nv)
+            if (nl * nv > 0 && unshaded(gp, l, n)) { // sign(nl) == sign(nv)
                 Color iL = lightSource.getIntensity(gp.point);
                 color = color.add(iL.scale(calcDiffusive(material, nl).add(calcSpecular(material, n, l, nl, v))));
             }
@@ -102,5 +106,21 @@ public class SimpleRayTracer extends RayTracerBase {
     private Double3 calcSpecular(Material material, Vector n, Vector l, double nl, Vector v) {
         Vector r = l.subtract(n.scale(2 * nl));
         return material.kS.scale(Math.pow(Math.max(0, -v.dotProduct(r)), material.nShininess));
+    }
+
+    private boolean unshaded(GeoPoint gp, Vector l, Vector n){
+        Vector lightDirection= l.scale(-1); // from point to light source
+
+        Vector epsVector= n.scale(DELTA);
+        Point point = gp.point.add(epsVector);
+
+        Ray ray = new Ray(point, lightDirection);
+        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray);
+
+        // Flat geometry can't self-intersect
+        if (gp.geometry instanceof Triangle){
+            intersections.remove(gp);
+        }
+        return intersections.isEmpty();
     }
 }
