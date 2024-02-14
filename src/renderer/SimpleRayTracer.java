@@ -74,7 +74,7 @@ public class SimpleRayTracer extends RayTracerBase {
         for (LightSource lightSource : scene.lights) {
             Vector l = lightSource.getL(gp.point);
             double nl = alignZero(n.dotProduct(l));
-            if (nl * nv > 0 && unshaded(gp, l, n)) { // sign(nl) == sign(nv)
+            if ((nl * nv > 0) && unshaded(gp, lightSource, l, n)) { // sign(nl) == sign(nv)
                 Color iL = lightSource.getIntensity(gp.point);
                 color = color.add(iL.scale(calcDiffusive(material, nl).add(calcSpecular(material, n, l, nl, v))));
             }
@@ -108,19 +108,31 @@ public class SimpleRayTracer extends RayTracerBase {
         return material.kS.scale(Math.pow(Math.max(0, -v.dotProduct(r)), material.nShininess));
     }
 
-    private boolean unshaded(GeoPoint gp, Vector l, Vector n){
+    /**
+     * Checks if the given point is unshaded by the specified light source.
+     * A point is considered unshaded if there are no objects between it and the light source.
+     *
+     * @param gp          The GeoPoint representing the point to be checked.
+     * @param lightSource The LightSource object representing the light source.
+     * @param l           The direction vector from the point to the light source.
+     * @param n           The normal vector at the point.
+     * @return True if the point is unshaded by the light source, false otherwise.
+     */
+    private boolean unshaded(GeoPoint gp, LightSource lightSource, Vector l, Vector n){
         Vector lightDirection= l.scale(-1); // from point to light source
 
-        Vector epsVector= n.scale(DELTA);
+        Vector epsVector = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA);
         Point point = gp.point.add(epsVector);
 
         Ray ray = new Ray(point, lightDirection);
         List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray);
 
-        // Flat geometry can't self-intersect
-        if (gp.geometry instanceof Triangle){
-            intersections.remove(gp);
+        if (intersections != null) {
+            GeoPoint p = ray.findClosestGeoPoint(intersections);
+            if (lightSource.getDistance(p.point) < lightSource.getDistance(gp.point)){
+                return false;
+            }
         }
-        return intersections.isEmpty();
+        return true;
     }
 }

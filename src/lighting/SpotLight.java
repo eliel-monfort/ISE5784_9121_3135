@@ -18,7 +18,7 @@ public class SpotLight extends PointLight {
      * Constructs a SpotLight with the specified intensity, position, and direction.
      *
      * @param intensity The Color representing the intensity of the spot light.
-     * @param position  The Point representing the position of the spot light in 3D space.
+     * @param positon  The Point representing the position of the spot light in 3D space.
      * @param direction The Vector representing the direction in which the spot light emits light.
      */
     public SpotLight(Color intensity, Point positon, Vector direction) {
