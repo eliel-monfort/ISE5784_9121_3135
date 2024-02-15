@@ -16,7 +16,9 @@ import static primitives.Util.alignZero;
  */
 public class SimpleRayTracer extends RayTracerBase {
 
-
+    /**
+     * A small value used to prevent self-shadowing artifacts.
+     */
     private static final double DELTA = 0.1;
 
     /**
@@ -124,12 +126,15 @@ public class SimpleRayTracer extends RayTracerBase {
         Vector epsVector = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA);
         Point point = gp.point.add(epsVector);
 
-        Ray ray = new Ray(point, lightDirection);
-        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray);
+        Ray lightray = new Ray(point, lightDirection);
+        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightray);
 
-        if (intersections != null) {
-            GeoPoint p = ray.findClosestGeoPoint(intersections);
-            if (lightSource.getDistance(p.point) < lightSource.getDistance(gp.point)){
+        if (intersections == null){
+            return true;
+        }
+        double lightDistance = lightSource.getDistance(gp.point);
+        for (GeoPoint p : intersections){
+            if (alignZero(p.point.distance(gp.point) - lightDistance) <= 0){
                 return false;
             }
         }
