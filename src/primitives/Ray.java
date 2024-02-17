@@ -99,7 +99,7 @@ public class Ray {
      * @return The closest GeoPoint to the specified point, or null if the list is empty.
      */
     public GeoPoint findClosestGeoPoint(List<GeoPoint> ls) {
-        if (!ls.isEmpty()) {
+        if (ls != null) {
             GeoPoint result = ls.get(0);
             for (GeoPoint point : ls) {
                 if (point.point.distance(this.head) < result.point.distance(this.head)) {
