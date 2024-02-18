@@ -38,8 +38,8 @@ public class Plane extends Geometry {
     /**
      * Constructs a plane through a point and with a specified normal vector.
      *
-     * @param _point  A point on the plane.
-     * @param _normal The normal vector to the plane.
+     * @param point  A point on the plane.
+     * @param normal The normal vector to the plane.
      */
     public Plane(Point point, Vector normal) {
         this.q = point;
@@ -76,20 +76,41 @@ public class Plane extends Geometry {
     }
 
     /**
-     * Finds the geometric intersections between the plane and a given ray.
+     * Finds the intersection points between the plane and a given ray.
      *
-     * @param ray The ray for which geometric intersections need to be found.
-     * @return A list of GeoPoint objects representing the geometric intersections between the ray and the plane.
+     * @param ray The ray for which intersections need to be found.
+     * @return A list of intersection points, or null if no intersections are found.
      */
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    public List<Point> findIntersections(Ray ray) {
+        double nv = alignZero(this.normal.dotProduct(ray.getDirection()));
+        if (isZero(nv))
+            return null;
+        if (this.q.equals(ray.getHead()))
+            return null;
+        double t = alignZero(this.normal.dotProduct(q.subtract(ray.getHead()))) / nv;
+        if (t <= 0)
+            return null;
+        return List.of(ray.getPoint(t));
+    }
+
+    /**
+     * Helper method to find geometric intersections between the ray and the plane, considering a specified maximum distance.
+     *
+     * @param ray The ray for which to find geometric intersections.
+     * @param maxDistance The maximum distance for intersection detection.
+     * @return A list of GeoPoint objects representing the geometric intersections between the ray and the plane,
+     *         or null if no intersections are found.
+     */
+    @Override
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         double nv = this.normal.dotProduct(ray.getDirection());
         if (isZero(nv) || this.q.equals(ray.getHead())) {
             return null;
         }
         double nQMinusP0 = this.normal.dotProduct(this.q.subtract(ray.getHead()));
         double t = alignZero(nQMinusP0 / nv);
-        if (t > 0) {
+        if (t > 0 && alignZero(t - maxDistance) <= 0) {
             return List.of(new GeoPoint(this, ray.getPoint(t)));
         }
         return null;

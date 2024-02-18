@@ -4,6 +4,8 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 
+import static primitives.Util.alignZero;
+
 /**
  * Represents a spot light source in a 3D scene.
  * A spot light emits light in a specific direction from a point in space,
@@ -13,6 +15,9 @@ public class SpotLight extends PointLight {
 
     /** The direction in which the light is emitted. */
     private Vector direction;
+
+    /** The parameter controlling the narrowness of the light beam. */
+    private double narrowBeam = 1;
 
     /**
      * Constructs a SpotLight with the specified intensity, position, and direction.
@@ -60,6 +65,26 @@ public class SpotLight extends PointLight {
     }
 
     /**
+     * Sets the parameter controlling the narrowness of the light beam.
+     *
+     * @param narrowBeam The narrowness parameter to set for the light beam.
+     * @return The SpotLight instance with the updated narrowness parameter.
+     */
+    public SpotLight setNarrowBeam(double narrowBeam) {
+        this.narrowBeam = narrowBeam;
+        return this;
+    }
+
+    /**
+     * Gets the parameter controlling the narrowness of the light beam.
+     *
+     * @return The narrowness parameter of the light beam.
+     */
+    public double getNarrowBeam() {
+        return this.narrowBeam;
+    }
+
+    /**
      * Retrieves the intensity of the light at the specified point, taking the spotlight effect into account.
      *
      * @param p The point at which the intensity of the light is being queried.
@@ -67,7 +92,10 @@ public class SpotLight extends PointLight {
      */
     @Override
     public Color getIntensity(Point p) {
-        Color intensity = super.getIntensity(p);
-        return intensity.scale(Math.max(0, this.direction.dotProduct(getL(p))));
+        double LDirection = direction.dotProduct(getL(p));
+        if (alignZero(LDirection) <= 0){
+            return Color.BLACK;
+        }
+        return super.getIntensity(p).scale(Math.pow(LDirection, narrowBeam));
     }
 }

@@ -27,14 +27,18 @@ public class Triangle extends Polygon{
     }
 
     /**
-     * Finds the geometric intersections between the triangle and a given ray.
+     * Helper method to find geometric intersections between the ray and the triangle, considering a specified maximum distance.
      *
-     * @param ray The ray for which geometric intersections need to be found.
+     * @param ray The ray for which to find geometric intersections.
+     * @param maxDistance The maximum distance for intersection detection.
      * @return A list of GeoPoint objects representing the geometric intersections between the ray and the triangle,
-     *         or null if there are no intersections.
+     *         or null if no intersections are found.
+     * @throws IllegalArgumentException if the denominator in the intersection calculation is zero.
      */
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+        if (plane.findGeoIntersections(ray, maxDistance) == null)
+            return null;
         Vector v1 = this.vertices.get(0).subtract(ray.getHead());
         Vector v2 = this.vertices.get(1).subtract(ray.getHead());
         Vector v3 = this.vertices.get(2).subtract(ray.getHead());

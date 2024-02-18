@@ -42,20 +42,21 @@ public class Geometries extends Intersectable {
     }
 
     /**
-     * Finds intersection points between the given ray and the geometric objects in this collection.
+     * Helper method to find intersections between the ray and geometries within this group,
+     * considering a specified maximum distance for intersection detection.
      *
-     * @param ray The ray for which intersections are to be found.
-     * @return A list of intersection points between the ray and the geometric objects,
-     *         or null if there are no intersections.
+     * @param ray The ray for which to find intersections.
+     * @param maxDistance The maximum distance for intersection detection.
+     * @return A list of GeoPoints representing the intersections, or null if no intersections are found.
      */
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         if (this.geometries == null){
             return null;
         }
         List<GeoPoint> intersectables = null;
         for (Intersectable geometry : this.geometries){
-            List<GeoPoint> points = geometry.findGeoIntersections(ray);
+            List<GeoPoint> points = geometry.findGeoIntersections(ray, maxDistance);
             if (points != null){
                 if (intersectables == null){
                     intersectables = new LinkedList<>();

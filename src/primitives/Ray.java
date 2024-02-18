@@ -4,6 +4,7 @@ import geometries.Intersectable;
 
 import java.util.List;
 
+import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 import geometries.Intersectable.GeoPoint;
 
@@ -23,16 +24,41 @@ public class Ray {
      */
     private final Vector direction;
 
+    private static final double DELTA = 0.1;
+
+
     /**
      * Constructs a new Ray with the specified head (starting point) and direction vector.
      * The direction vector is normalized to have unit length.
      *
-     * @param _head      The starting point of the ray.
-     * @param _direction The direction vector of the ray.
+     * @param head      The starting point of the ray.
+     * @param direction The direction vector of the ray.
      */
-    public Ray(Point _head, Vector _direction){
-        this.head = new Point(_head.xyz);
-        this.direction = new Vector(_direction.normalize().xyz);
+    public Ray(Point head, Vector direction){
+        this.head = new Point(head.xyz);
+        this.direction = new Vector(direction.normalize().xyz);
+    }
+
+    /**
+     * Constructs a ray with a specified head (starting point), direction, and surface normal.
+     * Adjusts the head slightly to avoid self-intersections due to numerical precision.
+     *
+     * @param head The starting point of the ray.
+     * @param direction The direction vector of the ray.
+     * @param normal The surface normal vector at the starting point.
+     */
+    public Ray(Point head, Vector direction, Vector normal){
+        double nv = alignZero(direction.dotProduct(normal));
+        if (nv > 0) {
+            this.head = head.add(normal.scale(DELTA));
+        }
+        else if (nv < 0) {
+            this.head = head.add((normal.scale(-DELTA)));
+        }
+        else{
+            this.head = head;
+        }
+        this.direction = direction.normalize();
     }
 
     @Override
@@ -78,7 +104,7 @@ public class Ray {
         if(isZero(t)){
             return head;
         }
-        return this.head.add(this.direction.scale(t));
+        return this.getHead().add(this.getDirection().scale(t));
     }
 
     /**

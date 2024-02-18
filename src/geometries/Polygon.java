@@ -80,11 +80,25 @@ public class Polygon extends Geometry {
       }
    }
 
+   /**
+    * Computes the normal vector to the plane at the specified point (which is on the plane).
+    *
+    * @param point The point on the plane.
+    * @return The normal vector to the plane at the specified point.
+    */
    @Override
    public Vector getNormal(Point point) { return plane.getNormal(); }
 
+   /**
+    * Helper method to find geometric intersections between the ray and the geometry, considering a specified maximum distance.
+    *
+    * @param ray The ray for which to find geometric intersections.
+    * @param maxDistance The maximum distance for intersection detection.
+    * @return A list of GeoPoint objects representing the geometric intersections between the ray and the geometry,
+    *         or null if no intersections are found.
+    */
    @Override
-   protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+   protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
       return null;
    }
 }
