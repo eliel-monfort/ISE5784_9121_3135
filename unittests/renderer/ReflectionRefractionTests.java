@@ -104,93 +104,120 @@ public class ReflectionRefractionTests {
          .writeToImage();
    }
 
-   /*
-   *
-   * */
+   /**
+   * The picture we created + BONUS!!!
+    *
+    * @author Eliel monfort & Ariel Atias*/
    @Test
    public void impressivePicture(){
       scene.geometries.add(
+
+              // The part for the house
               new Triangle(new Point(0, 40, 0), new Point(-20, 50, 0), new Point(0, 40, 20))
-                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)
-                      .setKt(new Double3(0, 0, 0))).setEmission(new Color(128,128,128)),
+                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(5))
+                      .setEmission(new Color(128,128,128)),
 
               new Triangle(new Point(-20, 50, 20), new Point(-20, 50, 0), new Point(0, 40, 20))
-                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)
-                              .setKt(new Double3(0, 0, 0))).setEmission(new Color(128,128,128)),
+                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(5))
+                      .setEmission(new Color(128,128,128)),
 
               new Triangle(new Point(0, 40, 0), new Point(-10, 20, 0), new Point(0, 40, 20))
-                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)
-                              .setKt(new Double3(0, 0, 0))).setEmission(new Color(128,128,128)),
+                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(5))
+                      .setEmission(new Color(128,128,128)),
 
               new Triangle(new Point(-10, 20, 0), new Point(-10, 20, 20), new Point(0, 40, 20))
-                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)
-                              .setKt(new Double3(0, 0, 0))).setEmission(new Color(128,128,128)),
+                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(5))
+                      .setEmission(new Color(128,128,128)),
 
               new Triangle(new Point(-10, 20, 0), new Point(-30, 30, 0), new Point(-10, 20, 20))
-                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)
-                              .setKt(new Double3(0, 0, 0))).setEmission(new Color(128,128,128)),
+                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(5))
+                      .setEmission(new Color(128,128,128)),
 
               new Triangle(new Point(-30, 30, 0), new Point(-10, 20, 20), new Point(-30, 30, 20))
-                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)
-                              .setKt(new Double3(0, 0, 0))).setEmission(new Color(128,128,128)),
+                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(5))
+                      .setEmission(new Color(128,128,128)),
 
               new Triangle(new Point(-20, 50, 0), new Point(-30, 30, 0), new Point(-30, 30, 20))
-                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)
-                              .setKt(new Double3(0, 0, 0))).setEmission(new Color(128,128,128)),
+                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(5))
+                      .setEmission(new Color(128,128,128)),
 
               new Triangle(new Point(-20, 50, 20), new Point(-30, 30, 20), new Point(-20, 50, 0))
-                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)
-                              .setKt(new Double3(0, 0, 0))).setEmission(new Color(128,128,128)),
+                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(5))
+                      .setEmission(new Color(128,128,128)),
 
               new Triangle(new Point(-20, 50, 20), new Point(-15, 35, 35), new Point(0, 40, 20))
-                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(10)
-                              .setKt(new Double3(0, 0, 0))).setEmission(new Color(255,0,0)),
+                      .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(10))
+                      .setEmission(new Color(255,0,0)),
 
               new Triangle(new Point(0, 40, 20), new Point(-15, 35, 35), new Point(-10, 20, 20))
-                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(10)
-                              .setKt(new Double3(0, 0, 0))).setEmission(new Color(255,0,0)),
+                      .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(10))
+                      .setEmission(new Color(255,0,0)),
 
               new Triangle(new Point(-10, 20, 20), new Point(-30, 30, 20), new Point(-15, 35, 35))
-                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(10)
-                              .setKt(new Double3(0, 0, 0))).setEmission(new Color(255,0,0)),
+                      .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(10))
+                      .setEmission(new Color(255,0,0)),
 
               new Triangle(new Point(-30, 30, 20), new Point(-15, 35, 35), new Point(-20, 50, 20))
-                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(10)
-                              .setKt(new Double3(0, 0, 0))).setEmission(new Color(255,0,0)),
+                      .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(10))
+                      .setEmission(new Color(255,0,0)),
 
-              new Sphere(10d, new Point(-15, 35, 45))
+              new Sphere(8d, new Point(-15, 35, 43))
                       .setEmission(new Color(0, 50, 100))
-                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)
-                              .setKt(new Double3(0, 0, 0))),
+                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
 
-              new Triangle(new Point(-25, 65, 0.1), new Point(-5, 5, 0.1), new Point(15, 45, 0.1))
-                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)
-                              .setKt(new Double3(0, 0, 0))).setEmission(new Color(1, 54, 32)),
+              // The two triangular to the ground
+              new Triangle(new Point(-50, 80, 0.1), new Point(-5, -15, 0.1), new Point(20, 60, 0.1))
+                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20))
+                      .setEmission(new Color(1, 54, 32)),
 
-              new Triangle(new Point(-5, 5, 0.1), new Point(-45, 25, 0.1), new Point(-25, 65, 0.1))
-                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)
-                              .setKt(new Double3(0, 0, 0))).setEmission(new Color(1, 54, 32)),
+              new Triangle(new Point(-5, -15, 0.1), new Point(-75, 5, 0.1), new Point(-50, 80, 0.1))
+                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20))
+                      .setEmission(new Color(1, 54, 32)),
 
+              // the plain for the sea
               new Plane(new Point(1, 1, 0), new Point(1, 0, 0), new Point(0, 0, 0))
                       .setMaterial(new Material().setKd(0).setKs(0).setShininess(10)
-                              .setKt(new Double3(0.5, 0, 0))).setEmission(new Color(6,66,115))
-                      .setMaterial(new Material().setKr(0.2)),
+                              .setKt(new Double3(0.5, 0, 0))).setEmission(new Color(1, 67, 104))
+                      .setMaterial(new Material().setKr(0.02)),
 
-              new Triangle(new Point(0, -50, 0), new Point(-80, 0, 0), new Point(-60, 50, 100))
+              // The parts for the man behind the house
+              new Sphere(8d, new Point(-50, 20, 7.9))
+                      .setEmission(new Color(135, 103, 90))
+                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
+
+              new Sphere(5d, new Point(-50, 20, 20.8))
+                      .setEmission(new Color(135, 103, 90))
+                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
+
+              new Sphere(4d, new Point(-55, 10, 12))
+                      .setEmission(new Color(135, 103, 90))
+                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
+
+              new Sphere(4d, new Point(-45, 30, 10))
+                      .setEmission(new Color(135, 103, 90))
+                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
+
+              // The sun - The point light source
+              new Sphere(12d, new Point(-15, 75, 143))
+                      .setEmission(new Color(253, 184, 19))
+                      .setMaterial(new Material().setKd(0.2).setKs(0.2).setShininess(30).setKt(0.7)),
+
+              // The mirror triangle that shows the back of the house
+              new Triangle(new Point(-100, 50, 20), new Point(0, -100, 20), new Point(0, 0, 120))
                       .setEmission(new Color(20, 20, 20))
                       .setMaterial(new Material().setKr(1))
       );
 
-      scene.setAmbientLight(new AmbientLight(new Color(BLACK), 0.15));
+      scene.setAmbientLight(new AmbientLight(new Color(BLACK), 0.5)).setBackground(new Color(135, 206, 235));
 
       scene.lights.add(
-              new PointLight(new Color(253, 184, 19), new Point(60, 80, 80))
+              new PointLight(new Color(253, 184, 19), new Point(-15, 75, 143))
                       .setKl(4E-5).setKq(2E-7));
 
       cameraBuilder.setLocation(new Point(600, 10, 40)).setVpDistance(1000)
               .setDirection(new Vector(-1, 0, 0), new Vector(0, 0, 1))
-              .setVpSize(300, 300)
-              .setImageWriter(new ImageWriter("MyPictue", 1000, 1000))
+              .setVpSize(400, 400)
+              .setImageWriter(new ImageWriter("ThePictureWeCreated", 1000, 1000))
               .build()
               .renderImage()
               .writeToImage();
