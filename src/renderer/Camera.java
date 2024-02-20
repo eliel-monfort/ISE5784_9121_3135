@@ -5,6 +5,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.MissingResourceException;
 
 import static primitives.Util.isZero;
@@ -39,6 +41,10 @@ public class Camera implements Cloneable {
 
     /** The distance between the camera and the view plane. */
     private double distance = 0.0;
+
+    //##############################################################
+    Blackboard blackboard = new Blackboard();
+    //##############################################################
 
     /** The ImageWriter used for rendering. */
     private ImageWriter imageWriter;
@@ -124,40 +130,16 @@ public class Camera implements Cloneable {
     }
 
     /**
-     * Constructs a ray for the specified pixel coordinates on the virtual screen.
-     *
-     * @param nX The number of pixels in the horizontal direction.
-     * @param nY The number of pixels in the vertical direction.
-     * @param j The horizontal pixel index.
-     * @param i The vertical pixel index.
-     * @return A ray corresponding to the specified pixel coordinates.
-     */
-    public Ray constructRay(int nX, int nY, int j, int i){
-        Point PC = p0.add(vTo.scale(distance));
-
-        double Rx = width/nX;
-        double Ry = height/nX;
-
-        double Xj = (j - (nX - 1) / 2d) * Rx;
-        double Yi = -(i - (nY - 1) / 2d) * Ry;
-
-        Point Pij = PC;
-        if (Xj != 0){
-            Pij = Pij.add(vRight.scale(Xj));
-        }
-        if (Yi != 0){
-            Pij = Pij.add(vUp.scale(Yi));
-        }
-
-        return new Ray(p0, Pij.subtract(p0));
-    }
-
-    /**
      * The `Builder` class facilitates the construction of a `Camera` instance with specified parameters.
      * It ensures that necessary rendering data is provided and performs validations on input values.
      */
     public static class Builder{
         final private Camera camera = new Camera();
+
+        public Builder setBlackboard(int rays){
+            this.camera.blackboard.ENABLE(rays);
+            return this;
+        }
 
         /**
          * Sets the image writer for the associated camera.
@@ -299,11 +281,30 @@ public class Camera implements Cloneable {
     public Camera renderImage(){
         for (int i = 0; i < this.imageWriter.getNy(); i++) {
             for (int j = 0; j < this.imageWriter.getNx(); j++) {
-                this.castRay(this.imageWriter.getNx(), this.imageWriter.getNy(), j, i);
+                if (!this.blackboard.isAntiAliasing()){
+                    this.castRay(this.imageWriter.getNx(), this.imageWriter.getNy(), j, i);
+                }
+                else {
+                    this.castRays(this.imageWriter.getNx(), this.imageWriter.getNy(), j, i);
+                }
             }
         }
         return this;
     }
+
+    //#########################################################################################################
+    public void castRays(int nX, int nY, int j, int i){
+        double temp = 1d / this.blackboard.getRays();
+        List<Color> colors = new ArrayList<>();
+        for (double k = i; k < (i + 1); k += temp) {
+            for (double l = j; l < (j + 1); l += temp) {
+                colors.add(this.rayTracer.traceRay(this.constructRay(nX, nY, l, k)));
+            }
+        }
+        Color color = this.blackboard.AverageColors(colors);
+        this.imageWriter.writePixel(j, i, color);
+    }
+    //#########################################################################################################
 
     /**
      * Casts a ray for a specific pixel and traces it to determine the color, then writes the color to the image.
@@ -313,9 +314,38 @@ public class Camera implements Cloneable {
      * @param i The y-coordinate of the pixel.
      */
     private void castRay(int nX, int nY, int j, int i){
-        Ray ray = this.constructRay(nX, nY, j, i);
-        Color color = this.rayTracer.traceRay(ray);
-        this.imageWriter.writePixel(j, i, color);
+            Ray ray = this.constructRay(nX, nY, j, i);
+            Color color = this.rayTracer.traceRay(ray);
+            this.imageWriter.writePixel(j, i, color);
+    }
+
+    /**
+     * Constructs a ray for the specified pixel coordinates on the virtual screen.
+     *
+     * @param nX The number of pixels in the horizontal direction.
+     * @param nY The number of pixels in the vertical direction.
+     * @param j The horizontal pixel index.
+     * @param i The vertical pixel index.
+     * @return A ray corresponding to the specified pixel coordinates.
+     */
+    public Ray constructRay(int nX, int nY, double j, double i){
+        Point PC = p0.add(vTo.scale(distance));
+
+        double Rx = width/nX;
+        double Ry = height/nX;
+
+        double Xj = (j - (nX - 1) / 2d) * Rx;
+        double Yi = -(i - (nY - 1) / 2d) * Ry;
+
+        Point Pij = PC;
+        if (Xj != 0){
+            Pij = Pij.add(vRight.scale(Xj));
+        }
+        if (Yi != 0){
+            Pij = Pij.add(vUp.scale(Yi));
+        }
+
+        return new Ray(p0, Pij.subtract(p0));
     }
 
     /**
