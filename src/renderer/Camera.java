@@ -136,10 +136,12 @@ public class Camera implements Cloneable {
     public static class Builder{
         final private Camera camera = new Camera();
 
+        //#########################################################################################################
         public Builder setBlackboard(int rays){
-            this.camera.blackboard.ENABLE(rays);
+            this.camera.blackboard.setRays(rays);
             return this;
         }
+        //#########################################################################################################
 
         /**
          * Sets the image writer for the associated camera.
@@ -274,36 +276,36 @@ public class Camera implements Cloneable {
         }
     }
 
-    /**
-     * Renders the image by casting rays for each pixel and tracing them to determine the color.
-     * @return The camera object after rendering the image.
-     */
+    //#########################################################################################################
+
     public Camera renderImage(){
         for (int i = 0; i < this.imageWriter.getNy(); i++) {
             for (int j = 0; j < this.imageWriter.getNx(); j++) {
-                if (!this.blackboard.isAntiAliasing()){
-                    this.castRay(this.imageWriter.getNx(), this.imageWriter.getNy(), j, i);
+                if (this.blackboard.isAntiAliasing()){
+
                 }
                 else {
-                    this.castRays(this.imageWriter.getNx(), this.imageWriter.getNy(), j, i);
+                    this.castRay(this.imageWriter.getNx(), this.imageWriter.getNy(), j, i);
                 }
             }
         }
         return this;
     }
 
-    //#########################################################################################################
-    public void castRays(int nX, int nY, int j, int i){
-        double temp = 1d / this.blackboard.getRays();
-        List<Color> colors = new ArrayList<>();
-        for (double k = i; k < (i + 1); k += temp) {
-            for (double l = j; l < (j + 1); l += temp) {
-                colors.add(this.rayTracer.traceRay(this.constructRay(nX, nY, l, k)));
-            }
-        }
-        Color color = this.blackboard.AverageColors(colors);
-        this.imageWriter.writePixel(j, i, color);
-    }
+//    public Camera renderBetterImage(){
+//        Point centerPij;
+//        List<Color> colors = new ArrayList<>();
+//        for (int i = 0; i < this.blackboard.getrXc(); i++) {
+//            for (int j = 0; j < this.blackboard.getrXc(); j++) {
+//                centerPij = this.blackboard.findCenter(this.imageWriter.getNx(), this.imageWriter.getNy(), j, i, this);
+//                colors.add(this.rayTracer.traceRay(this.constructRay(this.imageWriter.getNx() * this.blackboard.getrXc(),
+//                        this.imageWriter.getNy() * this.blackboard.getrXc(), j, i, centerPij)));
+//            }
+//            Color result = this.blackboard.AverageColors(colors);
+//        }
+//        return this;
+//    }
+
     //#########################################################################################################
 
     /**
@@ -328,11 +330,11 @@ public class Camera implements Cloneable {
      * @param i The vertical pixel index.
      * @return A ray corresponding to the specified pixel coordinates.
      */
-    public Ray constructRay(int nX, int nY, double j, double i){
+    public Ray constructRay(int nX, int nY, int j, int i){
         Point PC = p0.add(vTo.scale(distance));
 
         double Rx = width/nX;
-        double Ry = height/nX;
+        double Ry = height/nY;
 
         double Xj = (j - (nX - 1) / 2d) * Rx;
         double Yi = -(i - (nY - 1) / 2d) * Ry;
