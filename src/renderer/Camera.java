@@ -43,7 +43,7 @@ public class Camera implements Cloneable {
     private double distance = 0.0;
 
     //##############################################################
-    Blackboard blackboard = new Blackboard();
+    private Blackboard blackboard;
     //##############################################################
 
     /** The ImageWriter used for rendering. */
@@ -51,6 +51,12 @@ public class Camera implements Cloneable {
 
     /** The RayTracerBase used for rendering. */
     private RayTracerBase rayTracer;
+
+    //##############################################################
+    private Point centerPixel;
+    private int nXpixel = 1;
+    private int nYpixel = 1;
+    //##############################################################
 
     /**
      * Constructs a new Camera instance.
@@ -120,6 +126,33 @@ public class Camera implements Cloneable {
         return distance;
     }
 
+    //##############################################################
+    public Blackboard getBlackboard() {
+        return blackboard;
+    }
+
+    public ImageWriter getImageWriter() {
+        return imageWriter;
+    }
+
+    public RayTracerBase getRayTracer() {
+        return rayTracer;
+    }
+
+    public Point getCenterPixel() {
+        return centerPixel;
+    }
+
+    public int getnXpixel() {
+        return nXpixel;
+    }
+
+    public int getnYpixel() {
+        return nYpixel;
+    }
+
+    //##############################################################
+
     /**
      * Returns a new instance of the `Builder` class for constructing a `Camera`.
      *
@@ -137,8 +170,9 @@ public class Camera implements Cloneable {
         final private Camera camera = new Camera();
 
         //#########################################################################################################
-        public Builder setBlackboard(int rays){
-            this.camera.blackboard.setRays(rays);
+        public Builder setBlackboard(int nXpixel, int nYpixel){
+            this.camera.nXpixel = nXpixel;
+            this.camera.nYpixel = nYpixel;
             return this;
         }
         //#########################################################################################################
@@ -232,41 +266,52 @@ public class Camera implements Cloneable {
          * @throws MissingResourceException if any essential rendering data is missing or equals to zero.
          */
         public Camera build(){
-            String ERORR = "Missing rendering data";
+            String ERORR = "Missing rendering data:";
 
             if (this.camera.p0 == null){
-                throw new MissingResourceException(ERORR, "Camera", "p0 is not defined.");
+                throw new MissingResourceException(ERORR, "Camera:", "p0 is not defined.");
             }
 
             if (this.camera.vUp == null){
-                throw new MissingResourceException(ERORR, "Camera", "vUp is not defined.");
+                throw new MissingResourceException(ERORR, "Camera:", "vUp is not defined.");
             }
 
             if (this.camera.vTo == null){
-                throw new MissingResourceException(ERORR, "Camera", "vTo is not defined.");
+                throw new MissingResourceException(ERORR, "Camera:", "vTo is not defined.");
             }
 
             if (this.camera.imageWriter == null){
-                throw new MissingResourceException(ERORR, "Camera", "imageWriter is not defined.");
+                throw new MissingResourceException(ERORR, "Camera:", "imageWriter is not defined.");
             }
 
             if (this.camera.rayTracer == null){
-                throw new MissingResourceException(ERORR, "Camera", "rayTracer is not defined.");
+                throw new MissingResourceException(ERORR, "Camera:", "rayTracer is not defined.");
             }
 
             if (isZero(this.camera.width)){
-                throw new MissingResourceException(ERORR, "Camera", "The width of the screen is zero.");
+                throw new MissingResourceException(ERORR, "Camera:", "The width of the screen is zero.");
             }
 
             if (isZero(this.camera.height)){
-                throw new MissingResourceException(ERORR, "Camera", "The height of the screen is zero.");
+                throw new MissingResourceException(ERORR, "Camera:", "The height of the screen is zero.");
             }
 
             if (isZero(this.camera.distance)){
-                throw new MissingResourceException(ERORR, "Camera", "The distance of the screen is zero.");
+                throw new MissingResourceException(ERORR, "Camera:", "The distance of the screen is zero.");
             }
 
             this.camera.vRight = this.camera.vTo.crossProduct(this.camera.vUp).normalize();
+
+            if (this.camera.nXpixel != 1 && this.camera.nYpixel != 1){
+                this.camera.blackboard = new Blackboard(
+                        this.camera.getWidth() / this.camera.getImageWriter().getNx(),
+                        this.camera.getHeight() / this.camera.getImageWriter().getNy(),
+                        this.camera.nXpixel,
+                        this.camera.nYpixel,
+                        this.camera.vRight,
+                        this.camera.getvUp(),
+                        this.camera.getP0());
+            }
 
             try {
                 return (Camera) camera.clone();
@@ -277,49 +322,32 @@ public class Camera implements Cloneable {
     }
 
     //#########################################################################################################
-
     public Camera renderImage(){
         for (int i = 0; i < this.imageWriter.getNy(); i++) {
             for (int j = 0; j < this.imageWriter.getNx(); j++) {
-                if (this.blackboard.isAntiAliasing()){
-
-                }
-                else {
-                    this.castRay(this.imageWriter.getNx(), this.imageWriter.getNy(), j, i);
-                }
+                this.castRay(this.imageWriter.getNx(), this.imageWriter.getNy(), j, i);
             }
         }
         return this;
     }
 
-//    public Camera renderBetterImage(){
-//        Point centerPij;
-//        List<Color> colors = new ArrayList<>();
-//        for (int i = 0; i < this.blackboard.getrXc(); i++) {
-//            for (int j = 0; j < this.blackboard.getrXc(); j++) {
-//                centerPij = this.blackboard.findCenter(this.imageWriter.getNx(), this.imageWriter.getNy(), j, i, this);
-//                colors.add(this.rayTracer.traceRay(this.constructRay(this.imageWriter.getNx() * this.blackboard.getrXc(),
-//                        this.imageWriter.getNy() * this.blackboard.getrXc(), j, i, centerPij)));
-//            }
-//            Color result = this.blackboard.AverageColors(colors);
-//        }
-//        return this;
-//    }
-
-    //#########################################################################################################
-
-    /**
-     * Casts a ray for a specific pixel and traces it to determine the color, then writes the color to the image.
-     * @param nX The width of the image.
-     * @param nY The height of the image.
-     * @param j The x-coordinate of the pixel.
-     * @param i The y-coordinate of the pixel.
-     */
-    private void castRay(int nX, int nY, int j, int i){
-            Ray ray = this.constructRay(nX, nY, j, i);
-            Color color = this.rayTracer.traceRay(ray);
-            this.imageWriter.writePixel(j, i, color);
+    private void castRay(int nX, int nY, int j, int i) {
+        Color color = Color.BLACK;
+        Ray ray = this.constructRay(nX, nY, j, i);
+        if (nXpixel != 1 && nYpixel != 1) {
+            this.blackboard.setCenterPoint(centerPixel);
+            var rays = this.blackboard.jittered();
+            for (Ray rayi : rays){
+                color = color.add(this.rayTracer.traceRay(rayi));
+            }
+            color = color.reduce(this.nXpixel * this.nYpixel);
+        }
+        else {
+            color = this.rayTracer.traceRay(ray);
+        }
+        this.imageWriter.writePixel(j, i, color);
     }
+    //#########################################################################################################
 
     /**
      * Constructs a ray for the specified pixel coordinates on the virtual screen.
@@ -346,7 +374,7 @@ public class Camera implements Cloneable {
         if (Yi != 0){
             Pij = Pij.add(vUp.scale(Yi));
         }
-
+        this.centerPixel = Pij;
         return new Ray(p0, Pij.subtract(p0));
     }
 
