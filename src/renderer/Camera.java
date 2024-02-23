@@ -42,10 +42,6 @@ public class Camera implements Cloneable {
     /** The distance between the camera and the view plane. */
     private double distance = 0.0;
 
-    //##############################################################
-    private Blackboard blackboard;
-    //##############################################################
-
     /** The ImageWriter used for rendering. */
     private ImageWriter imageWriter;
 
@@ -53,6 +49,7 @@ public class Camera implements Cloneable {
     private RayTracerBase rayTracer;
 
     //##############################################################
+    private Blackboard blackboard;
     private Point centerPixel;
     private int nXpixel = 1;
     private int nYpixel = 1;
@@ -127,16 +124,16 @@ public class Camera implements Cloneable {
     }
 
     //##############################################################
-    public Blackboard getBlackboard() {
-        return blackboard;
-    }
-
     public ImageWriter getImageWriter() {
         return imageWriter;
     }
 
     public RayTracerBase getRayTracer() {
         return rayTracer;
+    }
+
+    public Blackboard getBlackboard() {
+        return blackboard;
     }
 
     public Point getCenterPixel() {
@@ -168,14 +165,6 @@ public class Camera implements Cloneable {
      */
     public static class Builder{
         final private Camera camera = new Camera();
-
-        //#########################################################################################################
-        public Builder setBlackboard(int nXpixel, int nYpixel){
-            this.camera.nXpixel = nXpixel;
-            this.camera.nYpixel = nYpixel;
-            return this;
-        }
-        //#########################################################################################################
 
         /**
          * Sets the image writer for the associated camera.
@@ -259,6 +248,17 @@ public class Camera implements Cloneable {
             return this;
         }
 
+        //#########################################################################################################
+        public Builder setBlackboard(int nXpixel, int nYpixel){
+            if (nXpixel < 1 || nYpixel < 1){
+                throw new IllegalArgumentException("Pixel division given is Illegal.");
+            }
+            this.camera.nXpixel = nXpixel;
+            this.camera.nYpixel = nYpixel;
+            return this;
+        }
+        //#########################################################################################################
+
         /**
          * Builds and returns the configured `Camera` instance.
          *
@@ -302,7 +302,7 @@ public class Camera implements Cloneable {
 
             this.camera.vRight = this.camera.vTo.crossProduct(this.camera.vUp).normalize();
 
-            if (this.camera.nXpixel != 1 && this.camera.nYpixel != 1){
+            if (this.camera.nXpixel > 1 && this.camera.nYpixel > 1){
                 this.camera.blackboard = new Blackboard(
                         this.camera.getWidth() / this.camera.getImageWriter().getNx(),
                         this.camera.getHeight() / this.camera.getImageWriter().getNy(),
@@ -311,6 +311,9 @@ public class Camera implements Cloneable {
                         this.camera.vRight,
                         this.camera.getvUp(),
                         this.camera.getP0());
+            }
+            else {
+                this.camera.blackboard = new Blackboard();
             }
 
             try {
@@ -334,7 +337,7 @@ public class Camera implements Cloneable {
     private void castRay(int nX, int nY, int j, int i) {
         Color color = Color.BLACK;
         Ray ray = this.constructRay(nX, nY, j, i);
-        if (nXpixel != 1 && nYpixel != 1) {
+        if (this.blackboard.isAntiAliasing()) {
             this.blackboard.setCenterPoint(centerPixel);
             var rays = this.blackboard.jittered();
             for (Ray rayi : rays){
