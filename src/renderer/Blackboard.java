@@ -62,17 +62,17 @@ public class Blackboard {
     }
 
     public Point findCenter(int j, int i){
-        double Rx = (this.width - 1) / this.Nx;
-        double Ry = (this.height - 1) / this.Ny;
+        double Rx = (this.width) / this.Nx;
+        double Ry = (this.height) / this.Ny;
 
         double Xj = ((j * Rx) - ((this.width - 1) / 2)) + (Rx / 2);
         double Yi = ((-i * Ry) + ((this.height - 1) / 2d)) - (Ry / 2);
 
         Point Pij = this.centerPoint;
-        if (isZero(Xj)){
+        if (Xj != 0){
             Pij = Pij.add(this.vectorX.scale(Xj));
         }
-        if (isZero(Yi)){
+        if (Yi != 0){
             Pij = Pij.add(this.vectorY.scale(Yi));
         }
         return Pij;
