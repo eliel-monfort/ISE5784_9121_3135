@@ -104,12 +104,11 @@ public class Plane extends Geometry {
      */
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
-        double nv = this.normal.dotProduct(ray.getDirection());
+        double nv = alignZero(this.normal.dotProduct(ray.getDirection()));
         if (isZero(nv) || this.q.equals(ray.getHead())) {
             return null;
         }
-        double nQMinusP0 = this.normal.dotProduct(this.q.subtract(ray.getHead()));
-        double t = alignZero(nQMinusP0 / nv);
+        double t = alignZero(this.normal.dotProduct(q.subtract(ray.getHead()))) / nv;
         if (t > 0 && alignZero(t - maxDistance) <= 0) {
             return List.of(new GeoPoint(this, ray.getPoint(t)));
         }
