@@ -21,7 +21,7 @@ public class BlackboardTests {
             .setVpSize(300, 300)
             .setImageWriter(new ImageWriter("softShadowsTestImage", 1000,1000))
             .setRayTracer(new SimpleRayTracer(scene))
-            .setLocation(new Point(15, 0, 200))
+            .setLocation(new Point(10, -5, 100))
             .setDirection(new Vector(0, 0, -1), new Vector(1, 0, 0))
             .setVpDistance(1000)
             .setBlackboard(4,4);

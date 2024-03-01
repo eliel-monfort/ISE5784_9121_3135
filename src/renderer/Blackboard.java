@@ -1,6 +1,5 @@
 package renderer;
 
-import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -11,19 +10,52 @@ import static primitives.Util.random;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * The `Blackboard` class represents a virtual blackboard used for rendering optimization.
+ * It provides methods for generating jittered rays to improve Anti-Aliasing effects.
+ */
 public class Blackboard {
+
+    /** The width of the blackboard. */
     private double width;
+
+    /** The height of the blackboard. */
     private double height;
+
+    /** The number of divisions in the horizontal direction. */
     private int Nx = 1;
+
+    /** The number of divisions in the vertical direction. */
     private int Ny = 1;
+
+    /** The center point of the blackboard. */
     private Point centerPoint;
+
+    /** The X-axis vector of the blackboard. */
     private Vector vectorX;
+
+    /** The Y-axis vector of the blackboard. */
     private Vector vectorY;
+
+    /** The location of the camera for helping create rays. */
     private Point p0;
 
+    /**
+     * Constructs a new Blackboard instance with default values.
+     */
     public Blackboard(){}
 
+    /**
+     * Constructs a new Blackboard instance with specified parameters.
+     *
+     * @param width The width of the blackboard.
+     * @param height The height of the blackboard.
+     * @param row The number of divisions in the horizontal direction.
+     * @param column The number of divisions in the vertical direction.
+     * @param vectorX The X-axis vector of the blackboard.
+     * @param vectorY The Y-axis vector of the blackboard.
+     * @param p0 The reference point of the blackboard.
+     */
     public Blackboard(double width, double height, int row, int column, Vector vectorX, Vector vectorY, Point p0) {
         this.width = width;
         this.height = height;
@@ -34,15 +66,31 @@ public class Blackboard {
         this.p0 = p0;
     }
 
+    /**
+     * Sets the center point of the blackboard.
+     *
+     * @param centerPoint The center point to be set.
+     * @return This Blackboard instance for method chaining.
+     */
     public Blackboard setCenterPoint(Point centerPoint) {
         this.centerPoint = centerPoint;
         return this;
     }
 
+    /**
+     * Checks if anti-aliasing is enabled based on the blackboard configuration.
+     *
+     * @return True if anti-aliasing is enabled, false otherwise.
+     */
     public boolean isAntiAliasing(){
         return (this.Nx > 1) && (this.Ny > 1);
     }
 
+    /**
+     * Generates jittered rays for anti-aliasing.
+     *
+     * @return A list of jittered rays.
+     */
     public List<Ray> jittered(){
         List<Ray> rays = new ArrayList<>();
         for (int i = 0; i < this.Ny; i++){
@@ -53,6 +101,13 @@ public class Blackboard {
         return rays;
     }
 
+    /**
+     * Helper method to generate a single jittered ray.
+     *
+     * @param j The horizontal division index.
+     * @param i The vertical division index.
+     * @return The jittered ray.
+     */
     private Ray jitteredHelper(int j, int i){
         Point centerArea = findCenter(j, i);
         double randomX = random(-((this.width - 1) / this.Nx) / 2, ((this.width - 1) / this.Nx) / 2);
@@ -66,6 +121,13 @@ public class Blackboard {
         return new Ray(this.p0, centerArea.subtract(this.p0));
     }
 
+    /**
+     * Calculates the center point of a given division.
+     *
+     * @param j The horizontal division index.
+     * @param i The vertical division index.
+     * @return The center point of the specified division.
+     */
     public Point findCenter(int j, int i){
         double Rx = (this.width) / this.Nx;
         double Ry = (this.height) / this.Ny;
@@ -80,6 +142,4 @@ public class Blackboard {
         }
         return Pij;
     }
-
-
 }
