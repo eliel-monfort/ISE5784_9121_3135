@@ -37,7 +37,7 @@ public class Blackboard {
     /** The Y-axis vector of the blackboard. */
     private Vector vectorY;
 
-    /** The location of the camera for helping create rays. */
+    /** The point for helping create rays. */
     private Point p0;
 
     /**
