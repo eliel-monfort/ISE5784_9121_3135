@@ -33,4 +33,8 @@ public interface LightSource {
      * @return The distance between this light source and the specified point.
      */
     double getDistance(Point point);
+
+    //##################################################################################################################
+    boolean isSoftShadowed();
+    //##################################################################################################################
 }

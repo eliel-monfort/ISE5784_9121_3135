@@ -13,6 +13,13 @@ public class PointLight extends Light implements LightSource {
     /** The position of the light source. */
     protected Point position;
 
+    //##################################################################################################################
+    protected double lightSizeX = 0;
+
+    protected double lightSizeY = 0;
+
+    //##################################################################################################################
+
     /** The constant attenuation coefficient. */
     private double kC = 1;
 
@@ -99,4 +106,14 @@ public class PointLight extends Light implements LightSource {
     public double getDistance(Point point) {
         return point.distance(this.position);
     }
+
+    //##################################################################################################################
+    @Override
+    public boolean isSoftShadowed() {
+        if (this.lightSizeX > 0 && this.lightSizeY > 0){
+            return false;
+        }
+        return true;
+    }
+    //##################################################################################################################
 }
