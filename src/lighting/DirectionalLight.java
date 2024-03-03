@@ -61,7 +61,7 @@ public class DirectionalLight extends Light implements LightSource {
     //##################################################################################################################
     @Override
     public boolean isSoftShadowed() {
-        return true;
+        return false;
     }
     //##################################################################################################################
 }
