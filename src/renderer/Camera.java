@@ -178,60 +178,60 @@ public class Camera implements Cloneable {
         /**
          * Sets the location of the camera.
          *
-         * @param _p0 The position of the camera.
+         * @param p0 The position of the camera.
          * @return This `Builder` instance for method chaining.
          */
-        public Builder setLocation(Point _p0){
-            this.camera.p0 = _p0;
+        public Builder setLocation(Point p0){
+            this.camera.p0 = p0;
             return this;
         }
 
         /**
          * Sets the viewing direction and up vector of the camera.
          *
-         * @param _vTo The viewing direction vector.
-         * @param _vUp The up vector.
+         * @param vTo The viewing direction vector.
+         * @param vUp The up vector.
          * @return This `Builder` instance for method chaining.
          * @throws IllegalArgumentException if the provided vectors are not orthogonal.
          */
-        public Builder setDirection(Vector _vTo, Vector _vUp){
-            if (!isZero(_vTo.dotProduct(_vUp))){
+        public Builder setDirection(Vector vTo, Vector vUp){
+            if (!isZero(vTo.dotProduct(vUp))){
                 throw new IllegalArgumentException("The two vectors (parameters) are not orthogonal.");
             }
-            this.camera.vTo = _vTo.normalize();
-            this.camera.vUp = _vUp.normalize();
+            this.camera.vTo = vTo.normalize();
+            this.camera.vUp = vUp.normalize();
             return this;
         }
 
         /**
          * Sets the size of the virtual screen.
          *
-         * @param _width The width of the virtual screen.
-         * @param _height The height of the virtual screen.
+         * @param width The width of the virtual screen.
+         * @param height The height of the virtual screen.
          * @return This `Builder` instance for method chaining.
          * @throws IllegalArgumentException if either width or height is negative.
          */
-        public Builder setVpSize(double _width, double _height){
-            if (_width < 0 || _height < 0){
+        public Builder setVpSize(double width, double height){
+            if (width < 0 || height < 0){
                 throw new IllegalArgumentException("One of the parameters is Illegal. Negative width or Negative height.");
             }
-            this.camera.width = _width;
-            this.camera.height = _height;
+            this.camera.width = width;
+            this.camera.height = height;
             return this;
         }
 
         /**
          * Sets the distance from the camera to the virtual screen.
          *
-         * @param _distance The distance from the camera to the virtual screen.
+         * @param distance The distance from the camera to the virtual screen.
          * @return This `Builder` instance for method chaining.
          * @throws IllegalArgumentException if the distance is negative.
          */
-        public Builder setVpDistance(double _distance){
-            if (_distance < 0){
+        public Builder setVpDistance(double distance){
+            if (distance < 0){
                 throw new IllegalArgumentException("The distance given is Illegal. Negative distance.");
             }
-            this.camera.distance = _distance;
+            this.camera.distance = distance;
             return this;
         }
 
@@ -375,10 +375,10 @@ public class Camera implements Cloneable {
         double Yi = -(i - (nY - 1) / 2d) * Ry;
 
         Point Pij = PC;
-        if (Xj != 0){
+        if (!isZero(Xj)){
             Pij = Pij.add(vRight.scale(Xj));
         }
-        if (Yi != 0){
+        if (!isZero(Yi)){
             Pij = Pij.add(vUp.scale(Yi));
         }
         this.centerPixel = Pij;
