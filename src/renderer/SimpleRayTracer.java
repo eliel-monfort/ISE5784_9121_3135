@@ -2,6 +2,7 @@ package renderer;
 
 import geometries.Triangle;
 import lighting.LightSource;
+import lighting.PointLight;
 import primitives.*;
 import scene.Scene;
 import geometries.Intersectable.GeoPoint;
@@ -237,8 +238,44 @@ public class SimpleRayTracer extends RayTracerBase {
         return ktr;
     }
 
+    //##################################################################################################################
     private Double3 softShadow(GeoPoint gp, LightSource light, Vector l, Vector n){
-        //Blackboard lightBlackboard = new Blackboard(light)
-        return null;
+
+        //1) Find the vectors by finding the plane whose normal is the vector L.
+        //2) move the point so that it does not consider itself a cutting point.
+        //3) Calculating the average KTR and sending it.
+
+        Vector Vx = l.crossProduct(new Vector(l.getX() + 3, l.getY() * (l.getX() + 5), l.getZ() + 1)).normalize();
+        Vector Vy = l.crossProduct(Vx).normalize();
+
+        Point p0;
+        Vector lightDirection = l.scale(-1); // from point to light source
+        double nl = alignZero(lightDirection.dotProduct(n));
+        if (nl > 0) {
+            p0 = gp.point.add(n.scale(0.1));
+        }
+        else if (nl < 0) {
+            p0 = gp.point.add((n.scale(-0.1)));
+        }
+        else{
+            p0 = gp.point;
+        }
+
+        Blackboard lightBlackboard = new Blackboard(2 * light.getLightRadius(), 2 * light.getLightRadius(), 2, 2, Vx, Vy, p0);
+        lightBlackboard.setCenterPoint(light.getPosition());
+        var rays = lightBlackboard.jittered();
+        Double3 totalKtr = Double3.ZERO;
+        for (Ray ray : rays){
+            Double3 ktr = Double3.ONE;
+            List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray, light.getDistance(gp.point));
+            if (intersections != null) {
+                for (GeoPoint intersection : intersections) {
+                    ktr = ktr.product(intersection.geometry.getMaterial().kT);
+                }
+            }
+            totalKtr.add(ktr);
+        }
+        return totalKtr.reduce(rays.size());
     }
+    //##################################################################################################################
 }

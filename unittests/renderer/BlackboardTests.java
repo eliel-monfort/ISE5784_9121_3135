@@ -24,7 +24,7 @@ public class BlackboardTests {
             .setLocation(new Point(10, -5, 100))
             .setDirection(new Vector(0, 0, -1), new Vector(1, 0, 0))
             .setVpDistance(1000)
-            .setBlackboard(4,4);
+            .setAntiAliasing(4,4);
 
     @Test
     void softShadowsTest() {
@@ -40,13 +40,7 @@ public class BlackboardTests {
         scene.setAmbientLight(new AmbientLight(new Color(BLACK), 0));
 
         scene.lights.add(
-                new SpotLight(new Color(255,230,89), new Point(15, 5, 15), new Vector(-1, 0.1, 0)).setKl(0.1).setKq(0.002)
-                );
-        scene.lights.add(
-                new SpotLight(new Color(255,230,89), new Point(15, 5, -15), new Vector(-1, 0.1, 0)).setKl(0.1).setKq(0.002)
-        );
-        scene.lights.add(
-                new SpotLight(new Color(255,230,89), new Point(15, 5, 0), new Vector(-1, 0.1, 0)).setKl(0.1).setKq(0.002)
+                new SpotLight(new Color(255,230,89), new Point(15, 5, 0), new Vector(-1, 0.1, 0)).setKl(0.1).setKq(0.002)//.setLightRadius(2)
         );
 
         camera.build()

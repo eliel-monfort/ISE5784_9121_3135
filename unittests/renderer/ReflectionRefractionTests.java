@@ -217,7 +217,7 @@ public class ReflectionRefractionTests {
       cameraBuilder.setLocation(new Point(600, 10, 40)).setVpDistance(1000)
               .setDirection(new Vector(-1, 0, 0), new Vector(0, 0, 1))
               .setVpSize(400, 400)
-              .setImageWriter(new ImageWriter("ThePictureWeCreated", 1000, 1000)).setBlackboard(8, 8)
+              .setImageWriter(new ImageWriter("ThePictureWeCreated", 1000, 1000)).setAntiAliasing(8, 8)
               .build()
               .renderImage()
               .writeToImage();

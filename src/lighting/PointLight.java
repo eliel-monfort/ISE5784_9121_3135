@@ -22,6 +22,9 @@ public class PointLight extends Light implements LightSource {
     /** The quadratic attenuation coefficient. */
     private double kQ = 0;
 
+    /** The radius of light. */
+    double lightRadius = 0;
+
     /**
      * Sets the constant attenuation factor for the point light.
      *
@@ -56,6 +59,17 @@ public class PointLight extends Light implements LightSource {
     }
 
     /**
+     * Sets the radius of soft light.
+     *
+     * @param lightRadius The radius of soft light to set.
+     * @return The updated PointLight instance.
+     */
+    public PointLight setLightRadius(double lightRadius) {
+        this.lightRadius = lightRadius;
+        return this;
+    }
+
+    /**
      * Constructs a PointLight with the specified intensity and position.
      *
      * @param intensity The Color representing the intensity of the point light.
@@ -64,6 +78,26 @@ public class PointLight extends Light implements LightSource {
     public PointLight(Color intensity, Point position) {
         super(intensity);
         this.position = position;
+    }
+
+    /**
+     * Returns the radius of soft light.
+     *
+     * @return The radius of soft light.
+     */
+    @Override
+    public double getLightRadius() {
+        return this.lightRadius;
+    }
+
+    /**
+     * Retrieves the position of the light source.
+     *
+     * @return The position of the light source.
+     */
+    @Override
+    public Point getPosition() {
+        return this.position;
     }
 
     /**
@@ -100,13 +134,16 @@ public class PointLight extends Light implements LightSource {
         return point.distance(this.position);
     }
 
-    //##################################################################################################################
+    /**
+     * Determines if the light source casts soft shadows.
+     *
+     * @return True if the light source casts soft shadows, false otherwise.
+     */
     @Override
     public boolean isSoftShadowed() {
-        if (this.lightWidth > 0 && this.lightHeight > 0){
+        if (this.lightRadius > 0){
             return true;
         }
         return false;
     }
-    //##################################################################################################################
 }

@@ -32,9 +32,26 @@ public interface LightSource {
      * @param point The Point to which the distance is measured.
      * @return The distance between this light source and the specified point.
      */
-    double getDistance(Point point);
+    public double getDistance(Point point);
 
-    //##################################################################################################################
+    /**
+     * Gets the radius of the light source.
+     *
+     * @return The radius of the light source.
+     */
+    public double getLightRadius();
+
+    /**
+     * Gets the position of the light source.
+     *
+     * @return The position of the light source.
+     */
+    public Point getPosition();
+
+    /**
+     * Determines if the light source casts soft shadows.
+     *
+     * @return True if the light source casts soft shadows, false otherwise.
+     */
     boolean isSoftShadowed();
-    //##################################################################################################################
 }

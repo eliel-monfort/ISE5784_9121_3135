@@ -58,10 +58,33 @@ public class DirectionalLight extends Light implements LightSource {
         return Double.POSITIVE_INFINITY;
     }
 
-    //##################################################################################################################
+    /**
+     * Returns the radius of soft light.
+     *
+     * @return The radius of soft light.
+     */
+    @Override
+    public double getLightRadius() {
+        return 0;
+    }
+
+    /**
+     * Retrieves the position of the light source.
+     *
+     * @return The position of the light source.
+     */
+    @Override
+    public Point getPosition() {
+        return null;
+    }
+
+    /**
+     * Determines if the light source casts soft shadows.
+     *
+     * @return True if the light source casts soft shadows, false otherwise.
+     */
     @Override
     public boolean isSoftShadowed() {
         return false;
     }
-    //##################################################################################################################
 }

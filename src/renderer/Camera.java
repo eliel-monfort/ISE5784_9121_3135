@@ -243,7 +243,7 @@ public class Camera implements Cloneable {
          * @return This `Builder` instance for method chaining.
          * @throws IllegalArgumentException if either nXpixel or nYpixel is less than 1.
          */
-        public Builder setBlackboard(int nXpixel, int nYpixel){
+        public Builder setAntiAliasing(int nXpixel, int nYpixel){
             if (nXpixel < 1 || nYpixel < 1){
                 throw new IllegalArgumentException("Pixel division given is Illegal.");
             }
