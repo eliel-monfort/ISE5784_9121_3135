@@ -4,11 +4,7 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.MissingResourceException;
-
 import static primitives.Util.isZero;
 
 /**
@@ -300,10 +296,7 @@ public class Camera implements Cloneable {
                         this.camera.getWidth() / this.camera.getImageWriter().getNx(),
                         this.camera.getHeight() / this.camera.getImageWriter().getNy(),
                         this.camera.nXpixel,
-                        this.camera.nYpixel,
-                        this.camera.vRight,
-                        this.camera.getvUp(),
-                        this.camera.getP0());
+                        this.camera.nYpixel);
             }
             else {
                 this.camera.blackboard = new Blackboard();
@@ -342,13 +335,13 @@ public class Camera implements Cloneable {
     private void castRay(int nX, int nY, int j, int i) {
         Color color = Color.BLACK;
         Ray ray = this.constructRay(nX, nY, j, i);
-        if (this.blackboard.isAntiAliasing()) {
+        if (this.blackboard.useBlackboard()) {
             this.blackboard.setCenterPoint(centerPixel);
-            var rays = this.blackboard.jittered();
+            var rays = this.blackboard.jittered(this.p0, this.vRight, this.vUp);
             for (Ray rayI : rays){
                 color = color.add(this.rayTracer.traceRay(rayI));
             }
-            color = color.reduce(this.nXpixel * this.nYpixel);
+            color = color.reduce(this.blackboard.raysInBean());
         }
         else {
             color = this.rayTracer.traceRay(ray);

@@ -35,13 +35,6 @@ public interface LightSource {
     public double getDistance(Point point);
 
     /**
-     * Gets the radius of the light source.
-     *
-     * @return The radius of the light source.
-     */
-    public double getLightRadius();
-
-    /**
      * Gets the position of the light source.
      *
      * @return The position of the light source.

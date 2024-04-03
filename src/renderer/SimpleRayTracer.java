@@ -1,6 +1,7 @@
 package renderer;
 
 import geometries.Triangle;
+import lighting.DirectionalLight;
 import lighting.LightSource;
 import lighting.PointLight;
 import primitives.*;
@@ -222,10 +223,10 @@ public class SimpleRayTracer extends RayTracerBase {
      * @return The transparency factor along the path from the intersection point to the light source.
      */
     private Double3 transparency(GeoPoint gp, LightSource light, Vector l, Vector n) {
-        if(light.isSoftShadowed()){
-            return this.softShadow(gp, light, l, n);
-        }
         Vector lightDirection = l.scale(-1); // from point to light source
+        if(light.isSoftShadowed()){
+            return this.softShadow(gp, light, lightDirection, n);
+        }
         Ray ray = new Ray(gp.point, lightDirection, n);
         List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray, light.getDistance(gp.point));
         if (intersections == null) {
@@ -239,43 +240,40 @@ public class SimpleRayTracer extends RayTracerBase {
     }
 
     //##################################################################################################################
-    private Double3 softShadow(GeoPoint gp, LightSource light, Vector l, Vector n){
-
-        //1) Find the vectors by finding the plane whose normal is the vector L.
-        //2) move the point so that it does not consider itself a cutting point.
-        //3) Calculating the average KTR and sending it.
-
-        Vector Vx = l.crossProduct(new Vector(l.getX() + 3, l.getY() * (l.getX() + 5), l.getZ() + 1)).normalize();
-        Vector Vy = l.crossProduct(Vx).normalize();
-
-        Point p0;
-        Vector lightDirection = l.scale(-1); // from point to light source
-        double nl = alignZero(lightDirection.dotProduct(n));
-        if (nl > 0) {
-            p0 = gp.point.add(n.scale(0.1));
+    private Double3 softShadow(GeoPoint gp, LightSource light, Vector lightDirection, Vector n){
+        Vector vectorX;
+        Vector vectorY;
+        if (lightDirection.equals(new Vector(1,0,0)) || lightDirection.equals(new Vector(-1,0,0))) {
+            vectorY = lightDirection.crossProduct(new Vector(0,0,1));
         }
-        else if (nl < 0) {
-            p0 = gp.point.add((n.scale(-0.1)));
+        else {
+            vectorY = lightDirection.crossProduct(new Vector(1,0,0));
         }
-        else{
-            p0 = gp.point;
-        }
+        vectorX = lightDirection.crossProduct(vectorY);
 
-        Blackboard lightBlackboard = new Blackboard(2 * light.getLightRadius(), 2 * light.getLightRadius(), 2, 2, Vx, Vy, p0);
-        lightBlackboard.setCenterPoint(light.getPosition());
-        var rays = lightBlackboard.jittered();
-        Double3 totalKtr = Double3.ZERO;
-        for (Ray ray : rays){
-            Double3 ktr = Double3.ONE;
+        Double3 ktr = Double3.ZERO;
+
+        PointLight PosLight = (PointLight) light;
+
+        var rays = PosLight.blackboard.jittered(PosLight.getPosition(), vectorX, vectorY);
+
+        for(Ray ray : rays){
+
             List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray, light.getDistance(gp.point));
-            if (intersections != null) {
-                for (GeoPoint intersection : intersections) {
-                    ktr = ktr.product(intersection.geometry.getMaterial().kT);
-                }
+
+            if (intersections == null) {
+                ktr = ktr.add(Double3.ONE);
             }
-            totalKtr.add(ktr);
+            else {
+                Double3 ktr_temp = Double3.ONE;
+
+                for (GeoPoint point : intersections) {
+                    ktr_temp = ktr_temp.product(point.geometry.getMaterial().kT);
+                }
+                ktr = ktr.add(ktr_temp);
+            }
         }
-        return totalKtr.reduce(rays.size());
+        return ktr.scale(1d/(PosLight.blackboard.raysInBean()));
     }
     //##################################################################################################################
 }

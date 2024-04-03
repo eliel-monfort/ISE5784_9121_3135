@@ -59,16 +59,6 @@ public class DirectionalLight extends Light implements LightSource {
     }
 
     /**
-     * Returns the radius of soft light.
-     *
-     * @return The radius of soft light.
-     */
-    @Override
-    public double getLightRadius() {
-        return 0;
-    }
-
-    /**
      * Retrieves the position of the light source.
      *
      * @return The position of the light source.

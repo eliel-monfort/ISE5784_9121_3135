@@ -31,6 +31,13 @@ public class SpotLight extends PointLight {
         this.direction = direction.normalize();
     }
 
+    //##################################################################################################################
+    public SpotLight(Color intensity, Point positon, Vector direction, double width, double height, int Nx, int Ny) {
+        super(intensity, positon, width, height, Nx, Ny);
+        this.direction = direction.normalize();
+    }
+    //##################################################################################################################
+
     /**
      * Sets the constant attenuation coefficient \( k_c \) for the spot light.
      *

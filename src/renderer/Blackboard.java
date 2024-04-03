@@ -17,10 +17,10 @@ import java.util.List;
 public class Blackboard {
 
     /** The width of the blackboard. */
-    private double width;
+    private double width = 0;
 
     /** The height of the blackboard. */
-    private double height;
+    private double height = 0;
 
     /** The number of divisions in the horizontal direction. */
     private int Nx = 1;
@@ -30,15 +30,6 @@ public class Blackboard {
 
     /** The center point of the blackboard. */
     private Point centerPoint;
-
-    /** The X-axis vector of the blackboard. */
-    private Vector vectorX;
-
-    /** The Y-axis vector of the blackboard. */
-    private Vector vectorY;
-
-    /** The point for helping create rays. */
-    private Point p0;
 
     /**
      * Constructs a new Blackboard instance with default values.
@@ -52,18 +43,12 @@ public class Blackboard {
      * @param height The height of the blackboard.
      * @param row The number of divisions in the horizontal direction.
      * @param column The number of divisions in the vertical direction.
-     * @param vectorX The X-axis vector of the blackboard.
-     * @param vectorY The Y-axis vector of the blackboard.
-     * @param p0 The reference point of the blackboard.
      */
-    public Blackboard(double width, double height, int row, int column, Vector vectorX, Vector vectorY, Point p0) {
+    public Blackboard(double width, double height, int row, int column) {
         this.width = width;
         this.height = height;
         this.Nx = row;
         this.Ny = column;
-        this.vectorX = vectorX;
-        this.vectorY = vectorY;
-        this.p0 = p0;
     }
 
     /**
@@ -78,24 +63,30 @@ public class Blackboard {
     }
 
     /**
-     * Checks if anti-aliasing is enabled based on the blackboard configuration.
+     * Checks if Anti-Aliasing is enabled based on the blackboard configuration.
      *
-     * @return True if anti-aliasing is enabled, false otherwise.
+     * @return True if Anti-Aliasing is enabled, false otherwise.
      */
-    public boolean isAntiAliasing(){
+    public boolean useBlackboard(){
         return (this.Nx > 1) && (this.Ny > 1);
     }
 
+    //##################################################################################################################
+    int raysInBean(){
+        return this.Nx * this.Ny;
+    }
+    //##################################################################################################################
+
     /**
-     * Generates jittered rays for anti-aliasing.
+     * Generates jittered rays for Anti-Aliasing.
      *
      * @return A list of jittered rays.
      */
-    public List<Ray> jittered(){
+    public List<Ray> jittered(Point p0, Vector vectorX, Vector vectorY){
         List<Ray> rays = new ArrayList<>();
         for (int i = 0; i < this.Ny; i++){
             for (int j = 0; j < this.Nx; j++){
-                rays.add(this.jitteredHelper(j, i));
+                rays.add(this.jitteredHelper(p0, vectorX, vectorY, j, i));
             }
         }
         return rays;
@@ -108,17 +99,17 @@ public class Blackboard {
      * @param i The vertical division index.
      * @return The jittered ray.
      */
-    private Ray jitteredHelper(int j, int i){
-        Point centerArea = findCenter(j, i);
+    private Ray jitteredHelper(Point p0, Vector vectorX, Vector vectorY, int j, int i){
+        Point centerArea = findCenter(vectorX, vectorY, j, i);
         double randomX = random(-((this.width - 1) / this.Nx) / 2, ((this.width - 1) / this.Nx) / 2);
         double randomY = random(-((this.height - 1) / this.Ny) / 2, ((this.height - 1) / this.Ny) / 2);
         if (!isZero(randomX)){
-            centerArea = centerArea.add(this.vectorX.scale(randomX));
+            centerArea = centerArea.add(vectorX.scale(randomX));
         }
         if (!isZero(randomY)){
-            centerArea = centerArea.add(this.vectorY.scale(randomY));
+            centerArea = centerArea.add(vectorY.scale(randomY));
         }
-        return new Ray(this.p0, centerArea.subtract(this.p0));
+        return new Ray(p0, centerArea.subtract(p0));
     }
 
     /**
@@ -128,17 +119,17 @@ public class Blackboard {
      * @param i The vertical division index.
      * @return The center point of the specified division.
      */
-    public Point findCenter(int j, int i){
+    private Point findCenter(Vector vectorX, Vector vectorY, int j, int i){
         double Rx = (this.width) / this.Nx;
         double Ry = (this.height) / this.Ny;
         double Xj = ((j * Rx) - ((this.width - 1) / 2)) + (Rx / 2);
         double Yi = ((-i * Ry) + ((this.height - 1) / 2d)) - (Ry / 2);
         Point Pij = this.centerPoint;
         if (Xj != 0){
-            Pij = Pij.add(this.vectorX.scale(Xj));
+            Pij = Pij.add(vectorX.scale(Xj));
         }
         if (Yi != 0){
-            Pij = Pij.add(this.vectorY.scale(Yi));
+            Pij = Pij.add(vectorY.scale(Yi));
         }
         return Pij;
     }

@@ -3,6 +3,7 @@ package lighting;
 import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
+import renderer.Blackboard;
 
 /**
  * Represents a point light source in a 3D scene.
@@ -22,8 +23,9 @@ public class PointLight extends Light implements LightSource {
     /** The quadratic attenuation coefficient. */
     private double kQ = 0;
 
-    /** The radius of light. */
-    double lightRadius = 0;
+    //##################################################################################################################
+    public Blackboard blackboard;
+    //##################################################################################################################
 
     /**
      * Sets the constant attenuation factor for the point light.
@@ -59,17 +61,6 @@ public class PointLight extends Light implements LightSource {
     }
 
     /**
-     * Sets the radius of soft light.
-     *
-     * @param lightRadius The radius of soft light to set.
-     * @return The updated PointLight instance.
-     */
-    public PointLight setLightRadius(double lightRadius) {
-        this.lightRadius = lightRadius;
-        return this;
-    }
-
-    /**
      * Constructs a PointLight with the specified intensity and position.
      *
      * @param intensity The Color representing the intensity of the point light.
@@ -78,17 +69,16 @@ public class PointLight extends Light implements LightSource {
     public PointLight(Color intensity, Point position) {
         super(intensity);
         this.position = position;
+        this.blackboard = new Blackboard();
     }
 
-    /**
-     * Returns the radius of soft light.
-     *
-     * @return The radius of soft light.
-     */
-    @Override
-    public double getLightRadius() {
-        return this.lightRadius;
+    //##################################################################################################################
+    public PointLight(Color intensity, Point position, double width,double height, int Nx, int Ny) {
+        super(intensity);
+        this.position = position;
+        this.blackboard = new Blackboard(width, height, Nx, Ny).setCenterPoint(position);
     }
+    //##################################################################################################################
 
     /**
      * Retrieves the position of the light source.
@@ -141,7 +131,7 @@ public class PointLight extends Light implements LightSource {
      */
     @Override
     public boolean isSoftShadowed() {
-        if (this.lightRadius > 0){
+        if (this.blackboard.useBlackboard()){
             return true;
         }
         return false;
