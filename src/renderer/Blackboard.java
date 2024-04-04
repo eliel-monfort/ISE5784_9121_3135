@@ -67,7 +67,7 @@ public class Blackboard {
      *
      * @return True if Anti-Aliasing is enabled, false otherwise.
      */
-    public boolean useBlackboard(){
+    public boolean isUseBlackboard(){
         return (this.Nx > 1) && (this.Ny > 1);
     }
 
@@ -82,11 +82,11 @@ public class Blackboard {
      *
      * @return A list of jittered rays.
      */
-    public List<Ray> jittered(Point p0, Vector vectorX, Vector vectorY){
+    public List<Ray> jittered(Point p0, Vector vectorX, Vector vectorY, Vector normal){
         List<Ray> rays = new ArrayList<>();
         for (int i = 0; i < this.Ny; i++){
             for (int j = 0; j < this.Nx; j++){
-                rays.add(this.jitteredHelper(p0, vectorX, vectorY, j, i));
+                rays.add(this.jitteredHelper(p0, vectorX, vectorY, normal, j, i));
             }
         }
         return rays;
@@ -99,7 +99,7 @@ public class Blackboard {
      * @param i The vertical division index.
      * @return The jittered ray.
      */
-    private Ray jitteredHelper(Point p0, Vector vectorX, Vector vectorY, int j, int i){
+    private Ray jitteredHelper(Point p0, Vector vectorX, Vector vectorY, Vector normal, int j, int i){
         Point centerArea = findCenter(vectorX, vectorY, j, i);
         double randomX = random(-((this.width - 1) / this.Nx) / 2, ((this.width - 1) / this.Nx) / 2);
         double randomY = random(-((this.height - 1) / this.Ny) / 2, ((this.height - 1) / this.Ny) / 2);
@@ -109,7 +109,10 @@ public class Blackboard {
         if (!isZero(randomY)){
             centerArea = centerArea.add(vectorY.scale(randomY));
         }
-        return new Ray(p0, centerArea.subtract(p0));
+        if (normal == null) {
+            return new Ray(p0, centerArea.subtract(p0));
+        }
+        return new Ray(p0, centerArea.subtract(p0), normal);
     }
 
     /**

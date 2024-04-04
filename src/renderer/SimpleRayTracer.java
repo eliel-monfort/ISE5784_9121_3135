@@ -241,8 +241,7 @@ public class SimpleRayTracer extends RayTracerBase {
 
     //##################################################################################################################
     private Double3 softShadow(GeoPoint gp, LightSource light, Vector lightDirection, Vector n){
-        Vector vectorX;
-        Vector vectorY;
+        Vector vectorX, vectorY;
         if (lightDirection.equals(new Vector(1,0,0)) || lightDirection.equals(new Vector(-1,0,0))) {
             vectorY = lightDirection.crossProduct(new Vector(0,0,1));
         }
@@ -250,23 +249,16 @@ public class SimpleRayTracer extends RayTracerBase {
             vectorY = lightDirection.crossProduct(new Vector(1,0,0));
         }
         vectorX = lightDirection.crossProduct(vectorY);
-
         Double3 ktr = Double3.ZERO;
-
         PointLight PosLight = (PointLight) light;
-
-        var rays = PosLight.blackboard.jittered(PosLight.getPosition(), vectorX, vectorY);
-
+        var rays = PosLight.blackboard.jittered(gp.point, vectorX, vectorY, n);
         for(Ray ray : rays){
-
             List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray, light.getDistance(gp.point));
-
             if (intersections == null) {
                 ktr = ktr.add(Double3.ONE);
             }
             else {
                 Double3 ktr_temp = Double3.ONE;
-
                 for (GeoPoint point : intersections) {
                     ktr_temp = ktr_temp.product(point.geometry.getMaterial().kT);
                 }

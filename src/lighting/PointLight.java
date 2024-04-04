@@ -131,7 +131,7 @@ public class PointLight extends Light implements LightSource {
      */
     @Override
     public boolean isSoftShadowed() {
-        if (this.blackboard.useBlackboard()){
+        if (this.blackboard.isUseBlackboard()){
             return true;
         }
         return false;

@@ -335,9 +335,9 @@ public class Camera implements Cloneable {
     private void castRay(int nX, int nY, int j, int i) {
         Color color = Color.BLACK;
         Ray ray = this.constructRay(nX, nY, j, i);
-        if (this.blackboard.useBlackboard()) {
+        if (this.blackboard.isUseBlackboard()) {
             this.blackboard.setCenterPoint(centerPixel);
-            var rays = this.blackboard.jittered(this.p0, this.vRight, this.vUp);
+            var rays = this.blackboard.jittered(this.p0, this.vRight, this.vUp, null);
             for (Ray rayI : rays){
                 color = color.add(this.rayTracer.traceRay(rayI));
             }
