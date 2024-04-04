@@ -239,7 +239,14 @@ public class SimpleRayTracer extends RayTracerBase {
         return ktr;
     }
 
-    //##################################################################################################################
+    /**
+     * Calculates soft shadow for a point light source.
+     * @param gp The GeoPoint representing the intersection point.
+     * @param light The LightSource to calculate soft shadow for.
+     * @param lightDirection The direction vector from the intersection point to the light source.
+     * @param n The surface normal vector at the intersection point.
+     * @return The transparency factor along the path from the intersection point to the light source.
+     */
     private Double3 softShadow(GeoPoint gp, LightSource light, Vector lightDirection, Vector n){
         Vector vectorX, vectorY;
         if (lightDirection.equals(new Vector(1,0,0)) || lightDirection.equals(new Vector(-1,0,0))) {
@@ -267,5 +274,4 @@ public class SimpleRayTracer extends RayTracerBase {
         }
         return ktr.scale(1d/(PosLight.blackboard.raysInBean()));
     }
-    //##################################################################################################################
 }

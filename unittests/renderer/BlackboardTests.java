@@ -16,18 +16,31 @@ import static java.awt.Color.WHITE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BlackboardTests {
-    private final Scene scene = new Scene("Test scene");
-    private final Camera.Builder camera = Camera.getBuilder()
-            .setVpSize(300, 300)
-            .setImageWriter(new ImageWriter("softShadowsTestImage", 1000,1000))
-            .setRayTracer(new SimpleRayTracer(scene))
-            .setLocation(new Point(10, -5, 100))
-            .setDirection(new Vector(0, 0, -1), new Vector(1, 0, 0))
-            .setVpDistance(1000)
-            .setAntiAliasing(4,4);
+
+    @Test
+    void jitteredTest() {
+        // TODO: TEST
+    }
+
+    @Test
+    void AntiAliasingTest() {
+        // TODO: TEST
+    }
 
     @Test
     void softShadowsTest() {
+        // TODO: TO CONTINUE
+        final Scene scene = new Scene("Test scene");
+
+        final Camera.Builder camera = Camera.getBuilder()
+                .setVpSize(300, 300)
+                .setImageWriter(new ImageWriter("softShadowsTestImage", 1000,1000))
+                .setRayTracer(new SimpleRayTracer(scene))
+                .setLocation(new Point(10, -5, 100))
+                .setDirection(new Vector(0, 0, -1), new Vector(1, 0, 0))
+                .setVpDistance(1000)
+                .setAntiAliasing(4,4);
+
         scene.geometries.add(
                 new Plane(Point.ZERO, new Point(0, 0, 1), new Point(0, 1, 0))
                         .setEmission(new Color(129, 133, 137))
@@ -46,5 +59,10 @@ public class BlackboardTests {
         camera.build()
                 .renderImage()
                 .writeToImage();
+    }
+
+    @Test
+    void AntiAliasing_And_SoftShadowTest() {
+        // TODO: TEST
     }
 }

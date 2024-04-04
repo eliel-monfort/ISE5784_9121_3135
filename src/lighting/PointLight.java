@@ -23,9 +23,8 @@ public class PointLight extends Light implements LightSource {
     /** The quadratic attenuation coefficient. */
     private double kQ = 0;
 
-    //##################################################################################################################
+    /** The blackboard of the light (for non-point light) to which we will send all the light beams. */
     public Blackboard blackboard;
-    //##################################################################################################################
 
     /**
      * Sets the constant attenuation factor for the point light.
@@ -62,6 +61,7 @@ public class PointLight extends Light implements LightSource {
 
     /**
      * Constructs a PointLight with the specified intensity and position.
+     * He sets the Blackboard's default (without soft shadow).
      *
      * @param intensity The Color representing the intensity of the point light.
      * @param position  The Point representing the position of the point light in 3D space.
@@ -72,13 +72,22 @@ public class PointLight extends Light implements LightSource {
         this.blackboard = new Blackboard();
     }
 
-    //##################################################################################################################
+    /**
+     * Constructs a PointLight object with the specified intensity, position, width, height, and grid dimensions.
+     * He sets the Blackboard (with soft shadow).
+     *
+     * @param intensity The color intensity of the light.
+     * @param position The position of the light source.
+     * @param width The width of the blackboard area.
+     * @param height The height of the blackboard area.
+     * @param Nx The number of subdivisions along the width of the blackboard.
+     * @param Ny The number of subdivisions along the height of the blackboard.
+     */
     public PointLight(Color intensity, Point position, double width,double height, int Nx, int Ny) {
         super(intensity);
         this.position = position;
         this.blackboard = new Blackboard(width, height, Nx, Ny).setCenterPoint(position);
     }
-    //##################################################################################################################
 
     /**
      * Retrieves the position of the light source.

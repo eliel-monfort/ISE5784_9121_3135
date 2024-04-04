@@ -3,16 +3,14 @@ package renderer;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-
 import static primitives.Util.isZero;
 import static primitives.Util.random;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * The `Blackboard` class represents a virtual blackboard used for rendering optimization.
- * It provides methods for generating jittered rays to improve Anti-Aliasing effects.
+ * It provides methods for generating jittered rays to improve Anti-Aliasing and Soft-Shadows effects.
  */
 public class Blackboard {
 
@@ -63,23 +61,30 @@ public class Blackboard {
     }
 
     /**
-     * Checks if Anti-Aliasing is enabled based on the blackboard configuration.
+     * Checks if the blackboard is enabled based on the configuration.
      *
-     * @return True if Anti-Aliasing is enabled, false otherwise.
+     * @return True if blackboard is enabled, false otherwise.
      */
     public boolean isUseBlackboard(){
         return (this.Nx > 1) && (this.Ny > 1);
     }
 
-    //##################################################################################################################
-    int raysInBean(){
+    /**
+     * Calculates the total number of rays generated in the blackboard.
+     *
+     * @return The total number of rays.
+     */
+    public int raysInBean(){
         return this.Nx * this.Ny;
     }
-    //##################################################################################################################
 
     /**
-     * Generates jittered rays for Anti-Aliasing.
+     * Generates jittered rays towards the blackboard.
      *
+     * @param p0 The starting point of the rays.
+     * @param vectorX The X direction vector.
+     * @param vectorY The Y direction vector.
+     * @param normal The normal vector.
      * @return A list of jittered rays.
      */
     public List<Ray> jittered(Point p0, Vector vectorX, Vector vectorY, Vector normal){
@@ -95,6 +100,10 @@ public class Blackboard {
     /**
      * Helper method to generate a single jittered ray.
      *
+     * @param p0 The starting point of the rays.
+     * @param vectorX The X direction vector.
+     * @param vectorY The Y direction vector.
+     * @param normal The normal vector.
      * @param j The horizontal division index.
      * @param i The vertical division index.
      * @return The jittered ray.
@@ -118,6 +127,8 @@ public class Blackboard {
     /**
      * Calculates the center point of a given division.
      *
+     * @param vectorX The X direction vector.
+     * @param vectorY The Y direction vector.
      * @param j The horizontal division index.
      * @param i The vertical division index.
      * @return The center point of the specified division.

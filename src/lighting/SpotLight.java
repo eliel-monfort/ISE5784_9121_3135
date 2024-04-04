@@ -21,6 +21,7 @@ public class SpotLight extends PointLight {
 
     /**
      * Constructs a SpotLight with the specified intensity, position, and direction.
+     * He sets the Blackboard's default (without soft shadow).
      *
      * @param intensity The Color representing the intensity of the spot light.
      * @param positon  The Point representing the position of the spot light in 3D space.
@@ -31,12 +32,22 @@ public class SpotLight extends PointLight {
         this.direction = direction.normalize();
     }
 
-    //##################################################################################################################
-    public SpotLight(Color intensity, Point positon, Vector direction, double width, double height, int Nx, int Ny) {
-        super(intensity, positon, width, height, Nx, Ny);
+    /**
+     * Constructs a SpotLight object with the specified intensity, position, direction, width, height, and grid dimensions.
+     * He sets the Blackboard (with soft shadow).
+     *
+     * @param intensity The color intensity of the light.
+     * @param position The position of the light source.
+     * @param direction The direction of the light beam.
+     * @param width The width of the blackboard area.
+     * @param height The height of the blackboard area.
+     * @param Nx The number of subdivisions along the width of the blackboard.
+     * @param Ny The number of subdivisions along the height of the blackboard.
+     */
+    public SpotLight(Color intensity, Point position, Vector direction, double width, double height, int Nx, int Ny) {
+        super(intensity, position, width, height, Nx, Ny);
         this.direction = direction.normalize();
     }
-    //##################################################################################################################
 
     /**
      * Sets the constant attenuation coefficient \( k_c \) for the spot light.
