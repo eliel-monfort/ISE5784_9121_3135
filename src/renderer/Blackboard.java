@@ -43,8 +43,14 @@ public class Blackboard {
      * @param column The number of divisions in the vertical direction.
      */
     public Blackboard(double width, double height, int row, int column) {
+        if (width < 0 || height < 0){
+            throw new IllegalArgumentException("The sizes of the blackboard, width and height, is invalid");
+        }
         this.width = width;
         this.height = height;
+        if (row < 1 || column < 1){
+            throw new IllegalArgumentException("The division of the blackboard into rows and columns is invalid");
+        }
         this.Nx = row;
         this.Ny = column;
     }
