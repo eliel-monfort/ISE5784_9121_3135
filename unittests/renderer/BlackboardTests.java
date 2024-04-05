@@ -26,6 +26,7 @@ public class BlackboardTests {
 
     @Test
     void jitteredTest() {
+
         Blackboard blackboard1 = new Blackboard(1, 1, 2, 2).setCenterPoint(new Point(10, 0, 5));
         Blackboard blackboard2 = new Blackboard(1, 1, 3, 5).setCenterPoint(new Point(10, 0, 5));
         Blackboard blackboard3 = new Blackboard(4, 4, 17, 17).setCenterPoint(new Point(10, 0, 5));
@@ -80,9 +81,10 @@ public class BlackboardTests {
 
     @Test
     void softShadowsTest() {
-        final Scene scene = new Scene("Test Soft-Shadows");
 
-        scene.geometries.add(
+        final Scene scene1 = new Scene("Test Soft-Shadows");
+        final Scene scene2 = new Scene("Test Soft-Shadows");
+        scene1.geometries.add(
                 new Plane(Point.ZERO, new Point(0, 0, 1), new Point(0, 1, 0))
                         .setEmission(new Color(129, 133, 137))
                         .setMaterial(new Material().setKd(0.5)),
@@ -90,19 +92,18 @@ public class BlackboardTests {
                 new Sphere(5.001d, new Point(0, 0, 5)).setEmission(new Color(137, 148, 153))
                         .setMaterial(new Material().setKs(0.4).setShininess(70))
         );
-
-        //scene.setAmbientLight(new AmbientLight(new Color(BLACK), 0));
-
-        scene.lights.add(
+        scene1.lights.add(
                 new SpotLight(new Color(255,230,89), new Point(15, 0, -10), new Vector(-1, 0, 1), 1, 1, 2, 2).setKl(0.1).setKq(0.002)
         );
 
         camera
-                .setImageWriter(new ImageWriter("softShadowsTestImage", 1000,1000))
-                .setRayTracer(new SimpleRayTracer(scene))
+                .setImageWriter(new ImageWriter("SoftShadowsTestImage2X2", 1000,1000))
+                .setRayTracer(new SimpleRayTracer(scene1))
                 .build()
                 .renderImage()
                 .writeToImage();
+
+        // TODO: Adding soft shadow at 9X9
     }
 
     @Test
