@@ -11,10 +11,7 @@ import org.junit.jupiter.api.Test;
 import primitives.*;
 import scene.Scene;
 
-import java.util.List;
-
 import static java.awt.Color.BLACK;
-import static java.awt.Color.WHITE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BlackboardTests {
@@ -126,42 +123,130 @@ public class BlackboardTests {
     @Test
     void AntiAliasing_And_SoftShadowTest() {
         final Scene scene = new Scene("Test Anti-Aliasing and Soft-Shadows");
-        scene.setBackground(new Color(135, 206, 235));
         scene.geometries.add(
-                new Plane(Point.ZERO, new Point(1, 0, 0), new Point(0, 1, 0))
-                        .setEmission(new Color(55, 127, 3))
-                        .setMaterial(new Material().setKd(0.5)),
 
-                new Sphere(2d, new Point(0, -4, 2.1)).setEmission(new Color(255, 0, 0))
-                        .setMaterial(new Material().setKs(0.4).setShininess(70)),
+                // The part for the house
+                new Triangle(new Point(0, 40, 0), new Point(-20, 50, 0), new Point(0, 40, 20))
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(5))
+                        .setEmission(new Color(128,128,128)),
 
-                new Triangle(new Point(6, -10, 0), new Point(-6, -10, 0), new Point(6, -5, 10))
-                        .setEmission(new Color(0, 0, 255)),
+                new Triangle(new Point(-20, 50, 20), new Point(-20, 50, 0), new Point(0, 40, 20))
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(5))
+                        .setEmission(new Color(128,128,128)),
 
-                new Triangle(new Point(-6, -5, 10), new Point(-6, -10, 0), new Point(6, -5, 10))
-                        .setEmission(new Color(0, 0, 255)),
+                new Triangle(new Point(-10, 20, 0), new Point(-30, 30, 0), new Point(-10, 20, 20))
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(5))
+                        .setEmission(new Color(128,128,128)),
 
-                new Triangle(new Point(6, -10, 0), new Point(8, -5, 0), new Point(6, -5, 10))
-                        .setEmission(new Color(0, 0, 255)),
+                new Triangle(new Point(-30, 30, 0), new Point(-10, 20, 20), new Point(-30, 30, 20))
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(5))
+                        .setEmission(new Color(128,128,128)),
 
-                new Triangle(new Point(-6, -10, 0), new Point(-6, -5, 10), new Point(-8, -5, 0))
-                        .setEmission(new Color(0, 0, 255))
+                new Triangle(new Point(-20, 50, 0), new Point(-30, 30, 0), new Point(-30, 30, 20))
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(5))
+                        .setEmission(new Color(128,128,128)),
+
+                new Triangle(new Point(-20, 50, 20), new Point(-30, 30, 20), new Point(-20, 50, 0))
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(5))
+                        .setEmission(new Color(128,128,128)),
+
+                new Triangle(new Point(-20, 50, 20), new Point(-15, 35, 35), new Point(0, 40, 20))
+                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(10))
+                        .setEmission(new Color(255,0,0)),
+
+                new Triangle(new Point(0, 40, 20), new Point(-15, 35, 35), new Point(-10, 20, 20))
+                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(10))
+                        .setEmission(new Color(255,0,0)),
+
+                new Triangle(new Point(-10, 20, 20), new Point(-30, 30, 20), new Point(-15, 35, 35))
+                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(10))
+                        .setEmission(new Color(255,0,0)),
+
+                new Triangle(new Point(-30, 30, 20), new Point(-15, 35, 35), new Point(-20, 50, 20))
+                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(10))
+                        .setEmission(new Color(255,0,0)),
+
+                new Sphere(8d, new Point(-15, 35, 43))
+                        .setEmission(new Color(0, 50, 100))
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
+
+                // The two triangular to the ground
+                new Triangle(new Point(-30, 110, 0.1), new Point(12, -40, 0.1), new Point(77, 55, 0.1))
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20))
+                        .setEmission(new Color(1, 54, 32)),
+
+                new Triangle(new Point(-30, 110, 0.1), new Point(12, -40, 0.1), new Point(-90, 0, 0.1))
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20))
+                        .setEmission(new Color(1, 54, 32)),
+
+                // the plain for the sea
+                new Plane(new Point(1, 1, 0), new Point(1, 0, 0), new Point(0, 0, 0))
+                        .setMaterial(new Material().setKd(0).setKs(0).setShininess(10)
+                                .setKt(new Double3(0.5, 0, 0))).setEmission(new Color(1, 67, 104))
+                        .setMaterial(new Material().setKr(0.02)),
+
+                // The parts for the man behind the house
+                new Sphere(8d, new Point(-50, 20, 7.9))
+                        .setEmission(new Color(135, 103, 90))
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
+
+                new Sphere(5d, new Point(-50, 20, 20))
+                        .setEmission(new Color(135, 103, 90))
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
+
+                new Sphere(4d, new Point(-55, 10, 12))
+                        .setEmission(new Color(135, 103, 90))
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
+
+                new Sphere(4d, new Point(-45, 30, 10))
+                        .setEmission(new Color(135, 103, 90))
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
+
+                // The parts for the second man next to the house
+                new Sphere(8d, new Point(15, 60, 7.9))
+                        .setEmission(new Color(135, 103, 90))
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
+
+                new Sphere(5d, new Point(15, 60, 20))
+                        .setEmission(new Color(135, 103, 90))
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
+
+                new Sphere(4d, new Point(18, 69, 11))
+                        .setEmission(new Color(135, 103, 90))
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
+
+                new Sphere(4d, new Point(18, 52, 15))
+                        .setEmission(new Color(135, 103, 90))
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
+
+                // The ball in the house
+                new Sphere(5d, new Point(-2, 30, 4.9))
+                        .setEmission(new Color(135, 103, 90))
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20))
         );
+
+        scene.setAmbientLight(new AmbientLight(new Color(BLACK), 0.5)).setBackground(new Color(135, 206, 235));
+
         scene.lights.add(
-                new SpotLight(new Color(255,230,89), new Point(4, -5, 6), new Vector(-1, 0, -1)).setKl(0.1).setKq(0.002)
+                new DirectionalLight(new Color(253, 184, 19), new Vector(0.5, -1, -0.9)));
+
+        scene.lights.add(
+                new PointLight(new Color(253, 184, 19), new Point(-15, 35, 30), 4, 4, 9, 9)
+                        .setKl(8E-10).setKq(4E-14)
         );
 
         scene.lights.add(
-                new PointLight(new Color(255,230,89), new Point(-4, -5, 6)).setKl(0.1).setKq(0.002)
+                new SpotLight(new Color(253, 184, 19), new Point(-10, 60, 50), new Vector(1, 0, -1), 10, 10, 9, 9)
+                        .setKl(8E-10).setKq(4E-14)
         );
 
-        scene.lights.add(new DirectionalLight(new Color(80, 50, 0), new Vector(0, 1, -1))
-        );
         camera
-                .setLocation(new Point(0, 55, 60))
-                .setDirection(new Vector(0, -1, -1), new Vector(0, -1, 1))
-                .setImageWriter(new ImageWriter("AntiAliasing+SoftShadowsTestImage", 1000,1000))
+                .setLocation(new Point(210, 28, 55)).setVpDistance(1000)
+                .setDirection(new Vector(-1, 0, -0.2), new Vector(-0.2, 0, 1))
+                .setVpSize(600, 300)
+                .setImageWriter(new ImageWriter("AntiAliasing+SoftShadowsTestImage", 1200, 600))
                 .setRayTracer(new SimpleRayTracer(scene))
+                .setAntiAliasing(9, 9)
                 .build()
                 .renderImage()
                 .writeToImage();
