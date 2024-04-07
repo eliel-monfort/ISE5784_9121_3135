@@ -228,7 +228,8 @@ public class BlackboardTests {
         scene.setAmbientLight(new AmbientLight(new Color(BLACK), 0.5)).setBackground(new Color(135, 206, 235));
 
         scene.lights.add(
-                new DirectionalLight(new Color(253, 184, 19), new Vector(0.5, -1, -0.9)));
+                new DirectionalLight(new Color(253, 184, 19), new Vector(0.5, -1, -0.9))
+        );
 
         scene.lights.add(
                 new PointLight(new Color(253, 184, 19), new Point(-15, 35, 30), 4, 4, 9, 9)
@@ -241,10 +242,10 @@ public class BlackboardTests {
         );
 
         camera
-                .setLocation(new Point(210, 28, 55)).setVpDistance(1000)
+                .setLocation(new Point(300, 30, 75))
                 .setDirection(new Vector(-1, 0, -0.2), new Vector(-0.2, 0, 1))
-                .setVpSize(600, 300)
-                .setImageWriter(new ImageWriter("AntiAliasing+SoftShadowsTestImage", 1200, 600))
+                .setVpSize(400, 400)
+                .setImageWriter(new ImageWriter("AntiAliasing+SoftShadowsTestImage", 1000, 1000))
                 .setRayTracer(new SimpleRayTracer(scene))
                 .setAntiAliasing(9, 9)
                 .build()
