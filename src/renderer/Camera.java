@@ -67,10 +67,10 @@ public class Camera implements Cloneable {
     private PixelManager pixelManager;
 
     /** Represents the count of threads in the program. */
-    int threadsCount = 0;
+    private int threadsCount = 0;
 
     /** The interval for debug print of progress percentage in Console window/tab. */
-    double printInterval = 0;
+    private double printInterval = 0;
 
     /**
      * Constructs a new Camera instance.
