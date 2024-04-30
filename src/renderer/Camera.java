@@ -4,6 +4,8 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+
+import java.util.LinkedList;
 import java.util.MissingResourceException;
 import static primitives.Util.isZero;
 
@@ -55,6 +57,20 @@ public class Camera implements Cloneable {
 
     /**The division of the pixel on the Y axis*/
     private int nYpixel = 1;
+
+    /** Pixel manager for supporting:
+     * <ul>
+     * <li>multi-threading</li>
+     * <li>debug print of progress percentage in Console window/tab</li>
+     * <ul>
+     */
+    private PixelManager pixelManager;
+
+    /** Represents the count of threads in the program. */
+    int threadsCount = 0;
+
+    /** The interval for debug print of progress percentage in Console window/tab. */
+    double printInterval = 0;
 
     /**
      * Constructs a new Camera instance.
@@ -249,6 +265,28 @@ public class Camera implements Cloneable {
         }
 
         /**
+         * Sets the number of threads for multithreading in the camera.
+         *
+         * @param threadsCount The number of threads to be set for multithreading.
+         * @return The updated Builder instance.
+         */
+        public Builder setMultithreading(int threadsCount) {
+            this.camera.threadsCount = threadsCount;
+            return this;
+        }
+
+        /**
+         * Sets the print interval for debug information in the camera.
+         *
+         * @param printInterval The print interval to be set for debug information.
+         * @return The updated Builder instance.
+         */
+        public Builder setDebugPrint(double printInterval) {
+            this.camera.printInterval = printInterval;
+            return this;
+        }
+
+        /**
          * Builds and returns the configured `Camera` instance.
          *
          * @return The configured `Camera` instance.
@@ -311,15 +349,38 @@ public class Camera implements Cloneable {
     }
 
     /**
-     * Renders the image using the configured camera parameters.
+     * This function renders image's pixel color map from the scene
+     * included in the ray tracer object
      *
-     * @return The Camera object after rendering the image.
+     * @return the camera object itself
      */
     public Camera renderImage(){
-        for (int i = 0; i < this.imageWriter.getNy(); i++) {
-            for (int j = 0; j < this.imageWriter.getNx(); j++) {
-                this.castRay(this.imageWriter.getNx(), this.imageWriter.getNy(), j, i);
+        final int nX = imageWriter.getNx();
+        final int nY = imageWriter.getNy();
+        pixelManager = new PixelManager(nY, nX, this.printInterval);
+
+        if (this.threadsCount == 0) {
+            for (int i = 0; i < this.imageWriter.getNy(); i++) {
+                for (int j = 0; j < this.imageWriter.getNx(); j++) {
+                    this.castRay(this.imageWriter.getNx(), this.imageWriter.getNy(), j, i);
+                }
             }
+        }
+        else { // see further... option 2
+            var threads = new LinkedList<Thread>(); // list of threads
+            while (this.threadsCount-- > 0) // add appropriate number of threads
+                threads.add(new Thread(() -> { // add a thread with its code
+                    PixelManager.Pixel pixel; // current pixel(row,col)
+                    // allocate pixel(row,col) in loop until there are no more pixels
+                    while ((pixel = pixelManager.nextPixel()) != null)
+                        // cast ray through pixel (and color it – inside castRay)
+                        castRay(nX, nY, pixel.col(), pixel.row());
+                }));
+            // start all the threads
+            for (var thread : threads) thread.start();
+            // wait until all the threads have finished
+            try { for (var thread : threads) thread.join(); }
+            catch (InterruptedException ignore) {}
         }
         return this;
     }
@@ -347,6 +408,7 @@ public class Camera implements Cloneable {
             color = this.rayTracer.traceRay(ray);
         }
         this.imageWriter.writePixel(j, i, color);
+        pixelManager.pixelDone();
     }
 
     /**
