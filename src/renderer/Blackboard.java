@@ -6,6 +6,7 @@ import primitives.Vector;
 import static primitives.Util.isZero;
 import static primitives.Util.random;
 import java.util.ArrayList;
+import java.util.IllegalFormatCodePointException;
 import java.util.List;
 
 /**
@@ -66,6 +67,20 @@ public class Blackboard {
         return this;
     }
 
+    //##################################################################################################################
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public Point getCenterPoint() {
+        return centerPoint;
+    }
+    //##################################################################################################################
+
     /**
      * Checks if the blackboard is enabled based on the configuration.
      *
@@ -87,34 +102,55 @@ public class Blackboard {
     /**
      * Generates jittered rays towards the blackboard.
      *
-     * @param p0 The starting point of the rays.
      * @param vectorX The X direction vector.
      * @param vectorY The Y direction vector.
-     * @param normal The normal vector.
-     * @return A list of jittered rays.
+     * @return A list of jittered points.
      */
-    public List<Ray> jittered(Point p0, Vector vectorX, Vector vectorY, Vector normal){
-        List<Ray> rays = new ArrayList<>();
+    public List<Point> jittered(Vector vectorX, Vector vectorY){
+        List<Point> points = new ArrayList<>();
         for (int i = 0; i < this.Ny; i++){
             for (int j = 0; j < this.Nx; j++){
-                rays.add(this.jitteredHelper(p0, vectorX, vectorY, normal, j, i));
+                points.add(this.jitteredHelper(vectorX, vectorY, j, i));
             }
         }
-        return rays;
+        return points;
     }
+
+    //##################################################################################################################
+    public List<Point> grid(Vector vectorX, Vector vectorY){
+        List<Point> points = new ArrayList<>();
+        for (int i = 0; i < this.Ny; i++){
+            for (int j = 0; j < this.Nx; j++){
+                points.add(this.gridHelper(vectorX, vectorY, j, i));
+            }
+        }
+        return points;
+    }
+
+    private Point gridHelper(Vector vectorX, Vector vectorY, int j, int i){
+        Point centerArea = findCenter(vectorX, vectorY, j, i);
+        double X = (j - (this.Nx - 1) / 2d) * (width/this.Nx);
+        double Y = -(i - (this.Ny - 1) / 2d) * (height/this.Ny);
+        if (!isZero(X)){
+            centerArea = centerArea.add(vectorX.scale(X));
+        }
+        if (!isZero(Y)){
+            centerArea = centerArea.add(vectorY.scale(Y));
+        }
+        return centerArea;
+    }
+    //##################################################################################################################
 
     /**
      * Helper method to generate a single jittered ray.
      *
-     * @param p0 The starting point of the rays.
      * @param vectorX The X direction vector.
      * @param vectorY The Y direction vector.
-     * @param normal The normal vector.
      * @param j The horizontal division index.
      * @param i The vertical division index.
      * @return The jittered ray.
      */
-    private Ray jitteredHelper(Point p0, Vector vectorX, Vector vectorY, Vector normal, int j, int i){
+    private Point jitteredHelper(Vector vectorX, Vector vectorY, int j, int i){
         Point centerArea = findCenter(vectorX, vectorY, j, i);
         double randomX = random(-((this.width - 1) / this.Nx) / 2, ((this.width - 1) / this.Nx) / 2);
         double randomY = random(-((this.height - 1) / this.Ny) / 2, ((this.height - 1) / this.Ny) / 2);
@@ -124,10 +160,7 @@ public class Blackboard {
         if (!isZero(randomY)){
             centerArea = centerArea.add(vectorY.scale(randomY));
         }
-        if (normal == null) {
-            return new Ray(p0, centerArea.subtract(p0));
-        }
-        return new Ray(p0, centerArea.subtract(p0), normal);
+        return centerArea;
     }
 
     /**

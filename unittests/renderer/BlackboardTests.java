@@ -31,20 +31,20 @@ public class BlackboardTests {
 
         // ============ Equivalence Partitions Tests ==============
         // A beam with an even number of rays
-        assertEquals(4, blackboard1.jittered(new Point(1, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, 1), null).size(),
+        assertEquals(4, blackboard1.jittered(new Vector(0, 1, 0), new Vector(0, 0, 1)).size(),
                 "ERROR: The number of rays in a beam is incorrect (for even number of rays)");
 
         // A beam with an odd number of rays
-        assertEquals(15, blackboard2.jittered(new Point(1, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, 1), null).size(),
+        assertEquals(15, blackboard2.jittered(new Vector(0, 1, 0), new Vector(0, 0, 1)).size(),
                 "ERROR: The number of rays in a beam is incorrect (for odd number of rays)");
 
         // A beam with a large number of rays
-        assertEquals(289, blackboard3.jittered(new Point(1, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, 1), null).size(),
+        assertEquals(289, blackboard3.jittered(new Vector(0, 1, 0), new Vector(0, 0, 1)).size(),
                 "ERROR: The number of rays in a beam is incorrect (for a large number of rays)");
 
         // =============== Boundary Values Tests ==================
         // A beam with one beam
-        assertEquals(1, blackboard4.jittered(new Point(1, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, 1), null).size(),
+        assertEquals(1, blackboard4.jittered(new Vector(0, 1, 0), new Vector(0, 0, 1)).size(),
                 "ERROR: The number of rays in a beam is incorrect (for a large number of rays)");
     }
 

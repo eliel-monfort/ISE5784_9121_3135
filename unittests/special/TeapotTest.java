@@ -1572,6 +1572,7 @@ public class TeapotTest {
         scene.lights.add(new PointLight(new Color(500, 500, 500), new Point(100, 0, -100)).setKq(0.000001));
 
         camera.setRayTracer(new SimpleRayTracer(scene))
+                .setAntiAliasing(1)
                 .build()
                 .renderImage()
                 .printGrid(50, new Color(YELLOW))

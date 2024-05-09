@@ -1,7 +1,5 @@
 package renderer;
 
-import geometries.Triangle;
-import lighting.DirectionalLight;
 import lighting.LightSource;
 import lighting.PointLight;
 import primitives.*;
@@ -258,16 +256,18 @@ public class SimpleRayTracer extends RayTracerBase {
         vectorX = lightDirection.crossProduct(vectorY);
         Double3 ktr = Double3.ZERO;
         PointLight PosLight = (PointLight) light;
-        var rays = PosLight.blackboard.jittered(gp.point, vectorX, vectorY, n);
-        for(Ray ray : rays){
-            List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray, light.getDistance(gp.point));
+        // TODO
+        List<Point> points = PosLight.blackboard.jittered(vectorX, vectorY);
+        for(Point point : points){
+            List<GeoPoint> intersections = scene.geometries.
+                    findGeoIntersections(new Ray(gp.point, point.subtract(gp.point),n), light.getDistance(gp.point));
             if (intersections == null) {
                 ktr = ktr.add(Double3.ONE);
             }
             else {
                 Double3 ktr_temp = Double3.ONE;
-                for (GeoPoint point : intersections) {
-                    ktr_temp = ktr_temp.product(point.geometry.getMaterial().kT);
+                for (GeoPoint geopoint : intersections) {
+                    ktr_temp = ktr_temp.product(geopoint.geometry.getMaterial().kT);
                 }
                 ktr = ktr.add(ktr_temp);
             }
