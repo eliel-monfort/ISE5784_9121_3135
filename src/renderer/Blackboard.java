@@ -121,13 +121,13 @@ public class Blackboard {
         for (int i = 0; i < this.Ny; i++){
             for (int j = 0; j < this.Nx; j++){
                 Point centerArea = findCenter(vectorX, vectorY, j, i);
-                double randomX = (j - (this.Nx - 1) / 2d) * (width/this.Nx);
-                double randomY = -(i - (this.Ny - 1) / 2d) * (height/this.Ny);
-                if (!isZero(randomX)){
-                    centerArea = centerArea.add(vectorX.scale(randomX));
+                double X = (j - (this.Nx - 1) / 2d) * (width/this.Nx);
+                double Y = -(i - (this.Ny - 1) / 2d) * (height/this.Ny);
+                if (!isZero(X)){
+                    centerArea = centerArea.add(vectorX.scale(X));
                 }
-                if (!isZero(randomY)){
-                    centerArea = centerArea.add(vectorY.scale(randomY));
+                if (!isZero(Y)){
+                    centerArea = centerArea.add(vectorY.scale(Y));
                 }
                 points.add(centerArea);
             }
