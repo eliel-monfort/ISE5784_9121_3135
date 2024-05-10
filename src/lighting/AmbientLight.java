@@ -9,9 +9,7 @@ import primitives.Double3;
  */
 public class AmbientLight extends Light {
 
-    /**
-     * A constant representing no ambient light, indicated by a black color and zero intensity.
-     */
+    /** A constant representing no ambient light, indicated by a black color and zero intensity. */
     public final static AmbientLight NONE = new AmbientLight(Color.BLACK, 0);
 
     /**

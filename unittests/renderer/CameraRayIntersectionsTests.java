@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Vector;
 import scene.Scene;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**

@@ -1,14 +1,11 @@
 package renderer;
 
 import static java.awt.Color.*;
-
 import org.junit.jupiter.api.Test;
-
 import geometries.Sphere;
 import geometries.Triangle;
 import lighting.AmbientLight;
 import primitives.*;
-import renderer.*;
 import scene.Scene;
 
 /**
@@ -17,7 +14,8 @@ import scene.Scene;
  */
 public class RenderTests {
    /** Scene of the tests */
-   private final Scene          scene  = new Scene("Test scene");
+   private final Scene scene = new Scene("Test scene");
+
    /** Camera builder of the tests */
    private final Camera.Builder camera = Camera.getBuilder()
       .setRayTracer(new SimpleRayTracer(scene))

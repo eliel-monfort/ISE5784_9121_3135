@@ -1,12 +1,10 @@
 package renderer;
 
 import primitives.Point;
-import primitives.Ray;
 import primitives.Vector;
 import static primitives.Util.isZero;
 import static primitives.Util.random;
 import java.util.ArrayList;
-import java.util.IllegalFormatCodePointException;
 import java.util.List;
 
 /**
@@ -28,7 +26,36 @@ public class Blackboard {
     private int Ny = 1;
 
     /** The center point of the blackboard. */
-    private Point centerPoint;
+    private Point centerBoard;
+
+    /**
+     * Gets the width of the blackboard.
+     *
+     * @return The width of the blackboard.
+     */
+    public double getWidth() {
+        return width;
+    }
+
+    /**
+     * Gets the height of the blackboard.
+     *
+     * @return The height of the blackboard.
+     */
+    public double getHeight() {
+        return height;
+    }
+
+    /**
+     * Sets the center point of the blackboard.
+     *
+     * @param centerBoard The center point to be set.
+     * @return This Blackboard instance for method chaining.
+     */
+    public Blackboard setCenterPoint(Point centerBoard) {
+        this.centerBoard = centerBoard;
+        return this;
+    }
 
     /**
      * Constructs a new Blackboard instance with default values.
@@ -57,50 +84,7 @@ public class Blackboard {
     }
 
     /**
-     * Sets the center point of the blackboard.
-     *
-     * @param centerPoint The center point to be set.
-     * @return This Blackboard instance for method chaining.
-     */
-    public Blackboard setCenterPoint(Point centerPoint) {
-        this.centerPoint = centerPoint;
-        return this;
-    }
-
-    //##################################################################################################################
-    public double getWidth() {
-        return width;
-    }
-
-    public double getHeight() {
-        return height;
-    }
-
-    public Point getCenterPoint() {
-        return centerPoint;
-    }
-    //##################################################################################################################
-
-    /**
-     * Checks if the blackboard is enabled based on the configuration.
-     *
-     * @return True if blackboard is enabled, false otherwise.
-     */
-    public boolean isUseBlackboard(){
-        return (this.Nx > 1) && (this.Ny > 1);
-    }
-
-    /**
-     * Calculates the total number of rays generated in the blackboard.
-     *
-     * @return The total number of rays.
-     */
-    public int raysInBean(){
-        return this.Nx * this.Ny;
-    }
-
-    /**
-     * Generates jittered rays towards the blackboard.
+     * Generates jittered points on the blackboard.
      *
      * @param vectorX The X direction vector.
      * @param vectorY The Y direction vector.
@@ -110,57 +94,45 @@ public class Blackboard {
         List<Point> points = new ArrayList<>();
         for (int i = 0; i < this.Ny; i++){
             for (int j = 0; j < this.Nx; j++){
-                points.add(this.jitteredHelper(vectorX, vectorY, j, i));
+                Point centerArea = findCenter(vectorX, vectorY, j, i);
+                double randomX = random(-((this.width - 1) / this.Nx) / 2, ((this.width - 1) / this.Nx) / 2);
+                double randomY = random(-((this.height - 1) / this.Ny) / 2, ((this.height - 1) / this.Ny) / 2);
+                if (!isZero(randomX)){
+                    centerArea = centerArea.add(vectorX.scale(randomX));
+                }
+                if (!isZero(randomY)){
+                    centerArea = centerArea.add(vectorY.scale(randomY));
+                }
+                points.add(centerArea);
             }
         }
         return points;
     }
 
-    //##################################################################################################################
+    /**
+     * Generates gride points on the blackboard.
+     *
+     * @param vectorX The X direction vector.
+     * @param vectorY The Y direction vector.
+     * @return A list of jittered points.
+     */
     public List<Point> grid(Vector vectorX, Vector vectorY){
         List<Point> points = new ArrayList<>();
         for (int i = 0; i < this.Ny; i++){
             for (int j = 0; j < this.Nx; j++){
-                points.add(this.gridHelper(vectorX, vectorY, j, i));
+                Point centerArea = findCenter(vectorX, vectorY, j, i);
+                double randomX = (j - (this.Nx - 1) / 2d) * (width/this.Nx);
+                double randomY = -(i - (this.Ny - 1) / 2d) * (height/this.Ny);
+                if (!isZero(randomX)){
+                    centerArea = centerArea.add(vectorX.scale(randomX));
+                }
+                if (!isZero(randomY)){
+                    centerArea = centerArea.add(vectorY.scale(randomY));
+                }
+                points.add(centerArea);
             }
         }
         return points;
-    }
-
-    private Point gridHelper(Vector vectorX, Vector vectorY, int j, int i){
-        Point centerArea = findCenter(vectorX, vectorY, j, i);
-        double X = (j - (this.Nx - 1) / 2d) * (width/this.Nx);
-        double Y = -(i - (this.Ny - 1) / 2d) * (height/this.Ny);
-        if (!isZero(X)){
-            centerArea = centerArea.add(vectorX.scale(X));
-        }
-        if (!isZero(Y)){
-            centerArea = centerArea.add(vectorY.scale(Y));
-        }
-        return centerArea;
-    }
-    //##################################################################################################################
-
-    /**
-     * Helper method to generate a single jittered ray.
-     *
-     * @param vectorX The X direction vector.
-     * @param vectorY The Y direction vector.
-     * @param j The horizontal division index.
-     * @param i The vertical division index.
-     * @return The jittered ray.
-     */
-    private Point jitteredHelper(Vector vectorX, Vector vectorY, int j, int i){
-        Point centerArea = findCenter(vectorX, vectorY, j, i);
-        double randomX = random(-((this.width - 1) / this.Nx) / 2, ((this.width - 1) / this.Nx) / 2);
-        double randomY = random(-((this.height - 1) / this.Ny) / 2, ((this.height - 1) / this.Ny) / 2);
-        if (!isZero(randomX)){
-            centerArea = centerArea.add(vectorX.scale(randomX));
-        }
-        if (!isZero(randomY)){
-            centerArea = centerArea.add(vectorY.scale(randomY));
-        }
-        return centerArea;
     }
 
     /**
@@ -177,7 +149,7 @@ public class Blackboard {
         double Ry = (this.height) / this.Ny;
         double Xj = ((j * Rx) - ((this.width - 1) / 2)) + (Rx / 2);
         double Yi = ((-i * Ry) + ((this.height - 1) / 2d)) - (Ry / 2);
-        Point Pij = this.centerPoint;
+        Point Pij = this.centerBoard;
         if (Xj != 0){
             Pij = Pij.add(vectorX.scale(Xj));
         }

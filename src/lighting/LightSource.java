@@ -46,5 +46,5 @@ public interface LightSource {
      *
      * @return True if the light source casts soft shadows, false otherwise.
      */
-    boolean isSoftShadowed();
+    boolean isSizedLight();
 }

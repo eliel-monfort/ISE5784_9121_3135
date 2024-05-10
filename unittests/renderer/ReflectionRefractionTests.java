@@ -1,20 +1,14 @@
-/**
- * 
- */
 package renderer;
 
 import static java.awt.Color.*;
-
 import geometries.Plane;
 import lighting.PointLight;
 import org.junit.jupiter.api.Test;
-
 import geometries.Sphere;
 import geometries.Triangle;
 import lighting.AmbientLight;
 import lighting.SpotLight;
 import primitives.*;
-import renderer.*;
 import scene.Scene;
 
 /** Tests for reflection and transparency functionality, test for partial
@@ -22,8 +16,10 @@ import scene.Scene;
  * (with transparency)
  * @author dzilb */
 public class ReflectionRefractionTests {
+
    /** Scene for the tests */
-   private final Scene          scene         = new Scene("Test scene");
+   private final Scene scene = new Scene("Test scene");
+
    /** Camera builder for the tests with triangles */
    private final Camera.Builder cameraBuilder = Camera.getBuilder()
       .setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
@@ -217,7 +213,7 @@ public class ReflectionRefractionTests {
       cameraBuilder.setLocation(new Point(600, 10, 40)).setVpDistance(1000)
               .setDirection(new Vector(-1, 0, 0), new Vector(0, 0, 1))
               .setVpSize(400, 400)
-              .setImageWriter(new ImageWriter("ThePictureWeCreated", 1000, 1000))
+              .setImageWriter(new ImageWriter("TheImpressivePicture", 1000, 1000))
               .build()
               .renderImage()
               .writeToImage();

@@ -10,11 +10,11 @@ import lighting.SpotLight;
 import org.junit.jupiter.api.Test;
 import primitives.*;
 import scene.Scene;
-
 import static java.awt.Color.BLACK;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BlackboardTests {
+
     final Camera.Builder camera = Camera.getBuilder()
             .setVpSize(300, 300)
             .setLocation(new Point(100, 0, 10))
@@ -23,7 +23,6 @@ public class BlackboardTests {
 
     @Test
     void jitteredTest() {
-
         Blackboard blackboard1 = new Blackboard(1, 1, 2, 2).setCenterPoint(new Point(10, 0, 5));
         Blackboard blackboard2 = new Blackboard(1, 1, 3, 5).setCenterPoint(new Point(10, 0, 5));
         Blackboard blackboard3 = new Blackboard(4, 4, 17, 17).setCenterPoint(new Point(10, 0, 5));

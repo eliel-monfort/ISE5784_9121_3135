@@ -5,9 +5,7 @@ import lighting.PointLight;
 import primitives.*;
 import scene.Scene;
 import geometries.Intersectable.GeoPoint;
-
 import java.util.List;
-
 import static primitives.Util.alignZero;
 
 /**
@@ -16,9 +14,7 @@ import static primitives.Util.alignZero;
  */
 public class SimpleRayTracer extends RayTracerBase {
 
-    /**
-     * The maximum recursion level for calculating color during ray tracing.
-     */
+    /** The maximum recursion level for calculating color during ray tracing. */
     private static final int MAX_CALC_COLOR_LEVEL = 10;
 
     /**
@@ -27,9 +23,7 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private static final double MIN_CALC_COLOR_K = 0.001;
 
-    /**
-     * The initial coefficient 'k' for color calculation, represented as a 3D vector.
-     */
+    /** The initial coefficient 'k' for color calculation, represented as a 3D vector. */
     private static final Double3 INITIAL_K = Double3.ONE;
 
     /**
@@ -50,8 +44,7 @@ public class SimpleRayTracer extends RayTracerBase {
     @Override
     public Color traceRay(Ray ray) {
         GeoPoint closestPoint = findClosestIntersection(ray);
-        return closestPoint == null ? scene.background
-                : calcColor(closestPoint, ray);
+        return closestPoint == null ? scene.background : calcColor(closestPoint, ray);
     }
 
     /**
@@ -63,8 +56,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * @return The final color at the intersection point, considering local and global effects, and ambient light.
      */
     private Color calcColor(GeoPoint closestPoint, Ray ray) {
-        return calcColor(closestPoint, ray, MAX_CALC_COLOR_LEVEL, INITIAL_K)
-                .add(scene.ambientLight.getIntensity());
+        return calcColor(closestPoint, ray, MAX_CALC_COLOR_LEVEL, INITIAL_K).add(scene.ambientLight.getIntensity());
     }
 
     /**
@@ -222,7 +214,7 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private Double3 transparency(GeoPoint gp, LightSource light, Vector l, Vector n) {
         Vector lightDirection = l.scale(-1); // from point to light source
-        if(light.isSoftShadowed()){
+        if(light.isSizedLight()){
             return this.softShadow(gp, light, lightDirection, n);
         }
         Ray ray = new Ray(gp.point, lightDirection, n);
@@ -256,7 +248,6 @@ public class SimpleRayTracer extends RayTracerBase {
         vectorX = lightDirection.crossProduct(vectorY);
         Double3 ktr = Double3.ZERO;
         PointLight PosLight = (PointLight) light;
-        // TODO
         List<Point> points = PosLight.blackboard.jittered(vectorX, vectorY);
         for(Point point : points){
             List<GeoPoint> intersections = scene.geometries.
@@ -272,6 +263,6 @@ public class SimpleRayTracer extends RayTracerBase {
                 ktr = ktr.add(ktr_temp);
             }
         }
-        return ktr.scale(1d/(PosLight.blackboard.raysInBean()));
+        return ktr.reduce(points.size());
     }
 }

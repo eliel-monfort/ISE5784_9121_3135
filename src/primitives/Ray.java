@@ -14,18 +14,15 @@ import geometries.Intersectable.GeoPoint;
  * The class use a Point object and a Vector object.
  */
 public class Ray {
-    /**
-     * The starting point of the ray.
-     */
+    /** The starting point of the ray. */
     private final Point head;
 
-    /**
-     * The direction vector of the ray, normalized to have unit length.
-     */
+    /** The direction vector of the ray, normalized to have unit length. */
     private final Vector direction;
 
+    /**
+     * A constant value to prevent self-intersections with a ray. */
     private static final double DELTA = 0.1;
-
 
     /**
      * Constructs a new Ray with the specified head (starting point) and direction vector.

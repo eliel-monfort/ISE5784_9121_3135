@@ -5,14 +5,11 @@ package primitives;
  * The class use a Double3 object.
  */
 public class Point {
-    /**
-     * The origin point with coordinates (0, 0, 0).
-     */
+
+    /** The origin point with coordinates (0, 0, 0). */
     public static final Point ZERO = new Point(0, 0, 0);
 
-    /**
-     * The three-dimensional coordinates of the point.
-     */
+    /** The three-dimensional coordinates of the point. */
     protected final Double3 xyz;
 
     /**
@@ -87,32 +84,5 @@ public class Point {
      */
     public double distance(Point other){
         return Math.sqrt(distanceSquared(other));
-    }
-
-    /**
-     * Gets the X-coordinate of the point.
-     *
-     * @return The X-coordinate of the point.
-     */
-    public double getX() {
-        return this.xyz.d1;
-    }
-
-    /**
-     * Gets the Y-coordinate of the point.
-     *
-     * @return The Y-coordinate of the point.
-     */
-    public double getY() {
-        return this.xyz.d2;
-    }
-
-    /**
-     * Gets the Z-coordinate of the point.
-     *
-     * @return The Z-coordinate of the point.
-     */
-    public double getZ() {
-        return this.xyz.d3;
     }
 }

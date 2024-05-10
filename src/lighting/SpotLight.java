@@ -3,7 +3,6 @@ package lighting;
 import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
-
 import static primitives.Util.alignZero;
 
 /**
@@ -14,7 +13,7 @@ import static primitives.Util.alignZero;
 public class SpotLight extends PointLight {
 
     /** The direction in which the light is emitted. */
-    private Vector direction;
+    private final Vector direction;
 
     /** The parameter controlling the narrowness of the light beam. */
     private double narrowBeam = 1;

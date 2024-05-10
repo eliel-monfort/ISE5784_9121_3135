@@ -3,9 +3,7 @@ package geometries;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-
 import java.util.List;
-
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 

@@ -6,29 +6,19 @@ package primitives;
  */
 public class Material {
 
-    /**
-     * The diffuse reflection coefficient of the material.
-     */
+    /** The diffuse reflection coefficient of the material. */
     public Double3 kD = Double3.ZERO;
 
-    /**
-     * The specular reflection coefficient of the material.
-     */
+    /** The specular reflection coefficient of the material. */
     public Double3 kS = Double3.ZERO;
 
-    /**
-     * The shininess factor of the material, affecting the size and sharpness of specular highlights.
-     */
+    /** The shininess factor of the material, affecting the size and sharpness of specular highlights. */
     public int nShininess = 0;
 
-    /**
-     * The transmission (refraction) coefficient of the material.
-     */
+    /** The transmission (refraction) coefficient of the material. */
     public Double3 kT = Double3.ZERO;
 
-    /**
-     * The reflection coefficient of the material.
-     */
+    /** The reflection coefficient of the material. */
     public Double3 kR = Double3.ZERO;
 
     /**

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package primitives;
 
 import static primitives.Util.isZero;
@@ -10,6 +7,7 @@ import static primitives.Util.isZero;
  * @author Dan Zilberstein
  */
 public class Double3 {
+
    /** First number */
    final double                d1;
    /** Second number */

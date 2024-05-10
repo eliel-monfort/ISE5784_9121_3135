@@ -1,23 +1,22 @@
 package renderer;
 
 import static java.awt.Color.*;
-
 import org.junit.jupiter.api.Test;
-
 import geometries.*;
 import lighting.AmbientLight;
 import lighting.SpotLight;
 import primitives.*;
-import renderer.*;
 import scene.Scene;
 
 /** Testing basic shadows
  * @author Dan */
 public class ShadowTests {
+
    /** Scene of the tests */
-   private final Scene          scene      = new Scene("Test scene");
+   private final Scene scene = new Scene("Test scene");
+
    /** Camera builder of the tests */
-   private final Camera.Builder camera     = Camera.getBuilder()
+   private final Camera.Builder camera = Camera.getBuilder()
       .setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
       .setLocation(new Point(0, 0, 1000)).setVpDistance(1000)
       .setVpSize(200, 200)
@@ -27,6 +26,7 @@ public class ShadowTests {
    private final Intersectable  sphere     = new Sphere(60d, new Point(0, 0, -200))
       .setEmission(new Color(BLUE))
       .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30));
+
    /** The material of the triangles in the tests */
    private final Material       trMaterial = new Material().setKd(0.5).setKs(0.5).setShininess(30);
 

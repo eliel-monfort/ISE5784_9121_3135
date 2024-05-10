@@ -4,7 +4,6 @@ import geometries.Geometries;
 import lighting.AmbientLight;
 import lighting.LightSource;
 import primitives.Color;
-
 import java.util.LinkedList;
 import java.util.List;
 

@@ -5,6 +5,7 @@ package primitives;
  * The class inherits from the Point class.
  */
 public class Vector extends Point {
+
     /**
      * Constructs a new Vector with the specified x, y, and z components.
      *

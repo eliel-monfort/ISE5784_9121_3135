@@ -74,7 +74,7 @@ public class DirectionalLight extends Light implements LightSource {
      * @return True if the light source casts soft shadows, false otherwise.
      */
     @Override
-    public boolean isSoftShadowed() {
+    public boolean isSizedLight() {
         return false;
     }
 }

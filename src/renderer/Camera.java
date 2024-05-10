@@ -4,7 +4,6 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,7 +15,6 @@ import static primitives.Util.isZero;
  * providing methods to construct rays for ray tracing.
  * The camera is defined by its position (`p0`), viewing direction (`vTo`),
  * up vector (`vUp`), right vector (`vRight`), screen width and height, and distance from the viewer to the screen.
- *
  * This class implements the `Cloneable` interface to support creating a deep copy of the camera.
  */
 public class Camera implements Cloneable {
@@ -74,50 +72,13 @@ public class Camera implements Cloneable {
     /** The interval for debug print of progress percentage in Console window/tab. */
     private double printInterval = 0;
 
-    //##################################################################################################################
+    /** The depth of the recursion of the recursive function for adaptive Anti-Aliasing. */
     private int AdaptiveDepth = 0;
-    //##################################################################################################################
 
     /**
      * Constructs a new Camera instance.
      */
     private Camera() {}
-
-    /**
-     * Gets the position of the camera.
-     *
-     * @return The position of the camera (`p0`).
-     */
-    public Point getP0() {
-        return p0;
-    }
-
-    /**
-     * Gets the up vector of the camera.
-     *
-     * @return The up vector of the camera (`vUp`).
-     */
-    public Vector getvUp() {
-        return vUp;
-    }
-
-    /**
-     * Gets the viewing direction vector of the camera.
-     *
-     * @return The viewing direction vector of the camera (`vTo`).
-     */
-    public Vector getvTo() {
-        return vTo;
-    }
-
-    /**
-     * Gets the right vector of the camera.
-     *
-     * @return The right vector of the camera (`vRight`).
-     */
-    public Vector getvRight() {
-        return vRight;
-    }
 
     /**
      * Gets the width of the camera's virtual screen.
@@ -270,12 +231,19 @@ public class Camera implements Cloneable {
             return this;
         }
 
-        //##############################################################################################################
+        /**
+         * Sets the depth of the adaptive Anti-Aliasing for the recursive function.
+         *
+         * @param AdaptiveDepth The depth of the adaptive Anti-Aliasing to be set for the recursive function.
+         * @return This Builder object for method chaining.
+         */
         public Builder setAntiAliasing(int AdaptiveDepth) {
+            if (AdaptiveDepth < 0){
+                throw new IllegalArgumentException("Adaptive depth given is Illegal.");
+            }
             this.camera.AdaptiveDepth = AdaptiveDepth;
             return this;
         }
-        //##############################################################################################################
 
         /**
          * Sets the number of threads for multithreading in the camera.
@@ -284,6 +252,9 @@ public class Camera implements Cloneable {
          * @return The updated Builder instance.
          */
         public Builder setMultithreading(int threadsCount) {
+            if (threadsCount < 0){
+                throw new IllegalArgumentException("Threads count given is Illegal.");
+            }
             this.camera.threadsCount = threadsCount;
             return this;
         }
@@ -349,14 +320,6 @@ public class Camera implements Cloneable {
                         this.camera.nXpixel,
                         this.camera.nYpixel);
             }
-            //##########################################################################################################
-            else if (this.camera.AdaptiveDepth > 0){
-                this.camera.blackboard = new Blackboard(
-                        this.camera.getWidth() / this.camera.getImageWriter().getNx(),
-                        this.camera.getHeight() / this.camera.getImageWriter().getNy(),
-                        2, 2);
-            }
-            //##########################################################################################################
             else {
                 this.camera.blackboard = new Blackboard();
             }
@@ -379,7 +342,6 @@ public class Camera implements Cloneable {
         final int nX = imageWriter.getNx();
         final int nY = imageWriter.getNy();
         pixelManager = new PixelManager(nY, nX, this.printInterval);
-
         if (this.threadsCount == 0) {
             for (int i = 0; i < this.imageWriter.getNy(); i++) {
                 for (int j = 0; j < this.imageWriter.getNx(); j++) {
@@ -419,22 +381,18 @@ public class Camera implements Cloneable {
         Ray ray = this.constructRay(nX, nY, j, i);
         this.blackboard.setCenterPoint(this.centerPixel);
         List<Point> points = new ArrayList<>();
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        if (this.AdaptiveDepth > 0){
-            points = this.AdaptiveAntiAliasing(this.centerPixel, this.blackboard.getWidth(), this.blackboard.getHeight(),
-                    points, this.AdaptiveDepth);
+        if (this.AdaptiveDepth > 0 || (this.nXpixel > 1 && this.nYpixel > 1)){
+            if (this.AdaptiveDepth > 0){
+                points = this.AdaptiveAntiAliasing(this.centerPixel, this.blackboard.getWidth(), this.blackboard.getHeight(),
+                        points, this.AdaptiveDepth);
+            }
+            else {
+                points = this.blackboard.jittered(this.vRight, this.vUp);
+            }
             for (Point point : points){
                 color = color.add(this.rayTracer.traceRay(new Ray(this.p0, point.subtract(this.p0))));
             }
             color = color.reduce(points.size());
-        }
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        else if (this.nXpixel > 1 && this.nYpixel > 1) {
-            points = this.blackboard.grid(this.vRight, this.vUp);
-            for (Point point : points){
-                color = color.add(this.rayTracer.traceRay(new Ray(this.p0, point.subtract(this.p0))));
-            }
-            color = color.reduce(this.blackboard.raysInBean());
         }
         else {
             color = this.rayTracer.traceRay(ray);
@@ -443,28 +401,36 @@ public class Camera implements Cloneable {
         pixelManager.pixelDone();
     }
 
-    //##################################################################################################################
-    private List<Point> AdaptiveAntiAliasing(Point centerPoint, double w, double h, List<Point> points, int AdaptiveDepth){
-        List<Point> Ps = new ArrayList<>();
-        Blackboard Bb = new Blackboard(w, h, 2, 2);
-        Bb.setCenterPoint(centerPoint);
+    /**
+     * Performs adaptive anti-aliasing for the camera.
+     *
+     * @param centerBoard   The center point for the anti-aliasing grid.
+     * @param w             The width of the anti-aliasing grid.
+     * @param h             The height of the anti-aliasing grid.
+     * @param points        The list of points to perform anti-aliasing on.
+     * @param AdaptiveDepth The depth of adaptive anti-aliasing.
+     * @return The list of points after performing adaptive anti-aliasing.
+     */
+    private List<Point> AdaptiveAntiAliasing(Point centerBoard, double w, double h, List<Point> points, int AdaptiveDepth){
+        List<Point> tempPoints = new ArrayList<>();
+        Blackboard tempBoard = new Blackboard(w, h, 2, 2);
+        tempBoard.setCenterPoint(centerBoard);
         for (int i = 0; i < 2; i++){
             for (int j = 0; j < 2; j++){
-                Ps = Bb.grid(this.vRight, this.vUp);
+                tempPoints = tempBoard.grid(this.vRight, this.vUp);
             }
         }
         if (AdaptiveDepth == 0){
-            return Ps;
+            return tempPoints;
         }
         for (int i = 0; i < 4; i++){
-            if (!this.rayTracer.traceRay(new Ray(this.p0, Ps.get(i).subtract(this.p0)))
-                    .equals(this.rayTracer.traceRay(new Ray(this.p0, centerPoint.subtract(this.p0))))){
-                points.addAll(this.AdaptiveAntiAliasing(Ps.get(i), w/2, h/2, points, AdaptiveDepth - 1));
+            if (!this.rayTracer.traceRay(new Ray(this.p0, tempPoints.get(i).subtract(this.p0)))
+                    .equals(this.rayTracer.traceRay(new Ray(this.p0, centerBoard.subtract(this.p0))))){
+                points.addAll(this.AdaptiveAntiAliasing(tempPoints.get(i), w/2, h/2, points, AdaptiveDepth - 1));
             }
         }
-        return Ps;
+        return tempPoints;
     }
-    //##################################################################################################################
 
     /**
      * Constructs a ray for the specified pixel coordinates on the virtual screen.
