@@ -412,22 +412,18 @@ public class Camera implements Cloneable {
      * @param AdaptiveDepth The depth of adaptive anti-aliasing.
      * @return The list of points after performing adaptive anti-aliasing.
      */
-    private List<Point> AdaptiveAntiAliasing(Point centerBoard, double w, double h, List<Point> points, int AdaptiveDepth){
+    private List<Point> AdaptiveAntiAliasing(Point centerBoard, double w, double h, List<Point> points, int AdaptiveDepth) {
         List<Point> tempPoints = new ArrayList<>();
         Blackboard tempBoard = new Blackboard(w, h, 2, 2);
         tempBoard.setCenterPoint(centerBoard);
-        for (int i = 0; i < 2; i++){
-            for (int j = 0; j < 2; j++){
-                tempPoints = tempBoard.grid(this.vRight, this.vUp);
-            }
-        }
-        if (AdaptiveDepth == 0){
+        tempPoints = tempBoard.grid(this.vRight, this.vUp);
+        if (AdaptiveDepth == 0) {
             return tempPoints;
         }
-        for (int i = 0; i < 4; i++){
-            if (!this.rayTracer.traceRay(new Ray(this.p0, tempPoints.get(i).subtract(this.p0)))
-                    .equals(this.rayTracer.traceRay(new Ray(this.p0, centerBoard.subtract(this.p0))))){
-                points.addAll(this.AdaptiveAntiAliasing(tempPoints.get(i), w/2, h/2, points, AdaptiveDepth - 1));
+        Color midColor = this.rayTracer.traceRay(new Ray(this.p0, centerBoard.subtract(this.p0)));
+        for (int i = 0; i < 4; i++) {
+            if (!this.rayTracer.traceRay(new Ray(this.p0, tempPoints.get(i).subtract(this.p0))).equals(midColor)) {
+                points.addAll(this.AdaptiveAntiAliasing(tempPoints.get(i), w / 2, h / 2, points, AdaptiveDepth - 1));
             }
         }
         return tempPoints;
