@@ -383,7 +383,8 @@ public class Camera implements Cloneable {
         List<Point> points = new ArrayList<>();
         if (this.AdaptiveDepth > 0 || (this.nXpixel > 1 && this.nYpixel > 1)){
             if (this.AdaptiveDepth > 0){
-                points = this.AdaptiveAntiAliasing(this.centerPixel, this.blackboard.getWidth(), this.blackboard.getHeight(),
+                points = this.AdaptiveAntiAliasing(this.centerPixel, this.width / this.getImageWriter().getNx(),
+                        this.height / this.getImageWriter().getNy(),
                         points, this.AdaptiveDepth);
             }
             else {
