@@ -402,7 +402,7 @@ public class Camera implements Cloneable {
     }
 
     /**
-     * Performs adaptive anti-aliasing for the camera.
+     * Performs adaptive Anti-Aliasing for the camera.
      *
      * @param centerBoard   The center point for the anti-aliasing grid.
      * @param w             The width of the anti-aliasing grid.
