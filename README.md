@@ -1,6 +1,3 @@
-things we need to do:
-  - start completing bonuses
-
 Eliel Monfort
 328269121
 elielmonf@gmail.com
